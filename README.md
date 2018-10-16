@@ -1,1 +1,1 @@
-# Snake vs Block Game (AP Project)
+# Snake vs Block Game (AP-Project)
