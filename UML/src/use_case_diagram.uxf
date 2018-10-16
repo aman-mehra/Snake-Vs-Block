@@ -28,8 +28,8 @@ fontfamily=SansSerif //possible: SansSerif,Serif,Monospaced
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>324</x>
-      <y>153</y>
+      <x>333</x>
+      <y>126</y>
       <w>108</w>
       <h>72</h>
     </coordinates>
@@ -39,8 +39,8 @@ fontfamily=SansSerif //possible: SansSerif,Serif,Monospaced
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>513</x>
-      <y>36</y>
+      <x>297</x>
+      <y>297</y>
       <w>126</w>
       <h>72</h>
     </coordinates>
@@ -51,7 +51,7 @@ fontfamily=SansSerif //possible: SansSerif,Serif,Monospaced
     <id>UMLUseCase</id>
     <coordinates>
       <x>315</x>
-      <y>36</y>
+      <y>18</y>
       <w>135</w>
       <h>81</h>
     </coordinates>
@@ -74,23 +74,23 @@ style=wordwrap</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>36</x>
-      <y>63</y>
+      <y>45</y>
       <w>297</w>
-      <h>396</h>
+      <h>414</h>
     </coordinates>
-    <panel_attributes>m1=1..*</panel_attributes>
-    <additional_attributes>10.0;420.0;310.0;10.0</additional_attributes>
+    <panel_attributes/>
+    <additional_attributes>10.0;440.0;310.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>54</x>
-      <y>171</y>
-      <w>288</w>
-      <h>306</h>
+      <y>144</y>
+      <w>297</w>
+      <h>333</h>
     </coordinates>
-    <panel_attributes>m1=1..*</panel_attributes>
-    <additional_attributes>10.0;320.0;300.0;17.0</additional_attributes>
+    <panel_attributes/>
+    <additional_attributes>10.0;350.0;310.0;17.0</additional_attributes>
   </element>
   <element>
     <id>UMLUseCase</id>
@@ -187,14 +187,14 @@ style=wordwrap</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>414</x>
-      <y>90</y>
-      <w>144</w>
-      <h>99</h>
+      <x>360</x>
+      <y>189</y>
+      <w>108</w>
+      <h>126</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
 &lt;&lt;extends&gt;&gt;</panel_attributes>
-    <additional_attributes>140.0;10.0;10.0;90.0</additional_attributes>
+    <additional_attributes>10.0;120.0;20.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -484,26 +484,26 @@ style=wordwrap</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>423</x>
-      <y>189</y>
-      <w>225</w>
-      <h>54</h>
+      <x>432</x>
+      <y>162</y>
+      <w>216</w>
+      <h>81</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
 &lt;&lt;includes&gt;&gt;</panel_attributes>
-    <additional_attributes>10.0;10.0;230.0;40.0</additional_attributes>
+    <additional_attributes>10.0;10.0;220.0;70.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>378</x>
-      <y>216</y>
-      <w>189</w>
-      <h>171</h>
+      <x>387</x>
+      <y>189</y>
+      <w>180</w>
+      <h>198</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
 &lt;&lt;includes&gt;&gt;</panel_attributes>
-    <additional_attributes>10.0;10.0;190.0;170.0</additional_attributes>
+    <additional_attributes>10.0;10.0;180.0;200.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -850,5 +850,16 @@ style=wordwrap</panel_attributes>
     <panel_attributes>lt=.&gt;
 &lt;&lt;includes&gt;&gt;</panel_attributes>
     <additional_attributes>10.0;20.0;130.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>54</x>
+      <y>324</y>
+      <w>261</w>
+      <h>153</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;150.0;270.0;10.0</additional_attributes>
   </element>
 </diagram>
