@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>400</x>
+      <y>160</y>
+      <w>250</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>MainPage
+--
+-leaderBoard:LeaderBoardPage
+-currentGame:Game
+--
+-resumeGame(game:Game):void
+-startGame(game:Game):void
+-checkLeaderBoard():void
+-getSavedGame():Game
++display():void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>620</x>
+      <y>400</y>
+      <w>250</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>LeaderBoardEntries
+--
+-SCORE:int
+-DATE:String
+--
++getScore():int
++getDate():String</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>130</x>
+      <y>400</y>
+      <w>250</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>LeaderBoardPage
+--
+-leaderBoardEntries:List
+-returnPage:MainPage
+--
+-getEntries():void
++display():void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>270</x>
+      <y>300</y>
+      <w>220</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>200.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>350</x>
+      <y>300</y>
+      <w>210</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>190.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>730</x>
+      <y>240</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>Serializable</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>770</x>
+      <y>260</y>
+      <w>30</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>370</x>
+      <y>450</y>
+      <w>270</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=0..10</panel_attributes>
+    <additional_attributes>250.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>
