@@ -1,16 +1,20 @@
 package GameObjects;
 
+import javafx.animation.PathTransition;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import javafx.util.Duration;
 
-public class Ball extends Circle
+public class Ball extends Circle implements Token
 {
 	private static int idGenerator = 0;
-	private final Paint COLOUR = Color.valueOf("00eeff");
-	private final double RADIUS = 3;
+	private final Paint COLOUR = Color.valueOf("#00EEFF");
+	private final double RADIUS = 15;
 	private final String ID;
 	private int value;
+	private PathTransition transition;
 
 	public Ball(int value, double center_x, double center_y)
 	{
@@ -37,4 +41,16 @@ public class Ball extends Circle
 		return ID;
 	}
 
+	public PathTransition getTransition()
+	{
+		return transition;
+	}
+
+	public void setTransition(PathTransition transition, Line path, Duration duration)
+	{
+		this.transition = transition;
+		this.transition.setNode(this);
+		this.transition.setPath(path);
+		this.transition.setDuration(duration);
+	}
 }
