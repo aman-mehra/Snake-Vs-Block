@@ -19,7 +19,7 @@ public class Main extends Application {
         primaryStage.setTitle("Snake vs Block");
 
         mainPageScene = FXMLLoader.load(getClass().getClassLoader().getResource("MainPage/MainScene.fxml"));
-        //leaderboardPageScene = FXMLLoader.load(getClass().getClassLoader().getResource("LeaderboardPage/LeaderboardPageScene.fxml"));
+        leaderboardPageScene = FXMLLoader.load(getClass().getClassLoader().getResource("LeaderboardPage/LeaderboardScene.fxml"));
 		gamePageScene = FXMLLoader.load(getClass().getClassLoader().getResource("GamePage/GameScene.fxml"));
 
 		primaryStage.setScene(new Scene(gamePageScene));
