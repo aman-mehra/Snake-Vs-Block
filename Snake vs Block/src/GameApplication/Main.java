@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    private Parent mainPageScene, leaderboardPageScene;
+    public static Parent mainPageScene, leaderboardPageScene, gamePageScene;
 
     public static void main(String[] args) {
         launch(args);
@@ -18,10 +18,11 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         primaryStage.setTitle("Snake vs Block");
 
-        mainPageScene = FXMLLoader.load(getClass().getClassLoader().getResource("MainPage/MainPageScene.fxml"));
-        leaderboardPageScene = FXMLLoader.load(getClass().getClassLoader().getResource("LeaderboardPagePage/LeaderboardPageScene.fxml"));
+        mainPageScene = FXMLLoader.load(getClass().getClassLoader().getResource("MainPage/MainScene.fxml"));
+        //leaderboardPageScene = FXMLLoader.load(getClass().getClassLoader().getResource("LeaderboardPage/LeaderboardPageScene.fxml"));
+		gamePageScene = FXMLLoader.load(getClass().getClassLoader().getResource("GamePage/GameScene.fxml"));
 
-        primaryStage.setScene(new Scene(mainPageScene, 500, 700));
+		primaryStage.setScene(new Scene(gamePageScene));
         primaryStage.show();
     }
 
