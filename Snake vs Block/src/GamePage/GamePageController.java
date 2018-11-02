@@ -3,10 +3,12 @@ package GamePage;
 import GameObjects.*;
 import javafx.animation.*;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
@@ -21,8 +23,11 @@ public class GamePageController implements Initializable
 {
 	public static final String[] COLOUR = {"#FF0000", "#00FF00", "#0000FF", "#FFFF00"};
 	public static final long offset = 2000;
+
 	//public Label pos;
-	public Pane window;
+	public Pane gameArea;
+	public ComboBox<String> options;
+
 	public Random rand;
 	public long blockPrevTime;
 	public long tokenPrevTime;
@@ -34,9 +39,11 @@ public class GamePageController implements Initializable
 		blockPrevTime = System.currentTimeMillis();
 		tokenPrevTime = (System.currentTimeMillis() + offset/2);
 
+		options.getItems().addAll("Restart", "Exit");
+
 		Snake snake = new Snake();
-		window.getChildren().add(snake.getHead());
-		window.getChildren().addAll(snake.getBody());
+		gameArea.getChildren().add(snake.getHead());
+		gameArea.getChildren().addAll(snake.getBody());
 
 		startBlockGeneration();
 		startTokenGeneration();
@@ -96,7 +103,7 @@ public class GamePageController implements Initializable
 				text.setFont(Font.font(40));
 				StackPane stackPane = new StackPane();
 				stackPane.getChildren().addAll(block, text);
-				window.getChildren().add(stackPane);
+				gameArea.getChildren().add(stackPane);
 				PathTransition transition = new PathTransition(Duration.seconds(8), path, stackPane);
 				transition.play();
 			}
@@ -115,7 +122,7 @@ public class GamePageController implements Initializable
 			text.setFont(Font.font(18));
 			StackPane stackPane = new StackPane();
 			stackPane.getChildren().addAll(ball, text);
-			window.getChildren().add(stackPane);
+			gameArea.getChildren().add(stackPane);
 			PathTransition transition = new PathTransition(Duration.seconds(8), path, stackPane);
 			transition.play();
 		}
@@ -125,7 +132,7 @@ public class GamePageController implements Initializable
 			Magnet magnet = new Magnet(System.currentTimeMillis(), path.getStartX(), path.getStartY());
 			PathTransition transition = new PathTransition(Duration.seconds(8), path, magnet);
 			transition.play();
-			window.getChildren().add(magnet);
+			gameArea.getChildren().add(magnet);
 		}
 
 		else if(idx == 3)
@@ -133,7 +140,7 @@ public class GamePageController implements Initializable
 			Shield shield = new Shield(System.currentTimeMillis(), path.getStartX(), path.getStartY());
 			PathTransition transition = new PathTransition(Duration.seconds(8), path, shield);
 			transition.play();
-			window.getChildren().add(shield);
+			gameArea.getChildren().add(shield);
 		}
 
 		else if(idx == 4)
@@ -141,7 +148,7 @@ public class GamePageController implements Initializable
 			DestroyBlocks destroyBlocks = new DestroyBlocks(path.getStartX(), path.getStartY());
 			PathTransition transition = new PathTransition(Duration.seconds(8), path, destroyBlocks);
 			transition.play();
-			window.getChildren().add(destroyBlocks);
+			gameArea.getChildren().add(destroyBlocks);
 		}
 
 	}
@@ -172,31 +179,31 @@ public class GamePageController implements Initializable
 	public void deleteGarbage()
 	{
 		int i=0;
-		while(i < window.getChildren().size())
+		while(i < gameArea.getChildren().size())
 		{
-			if(window.getChildren().get(i).getClass() == StackPane.class)
+			if(gameArea.getChildren().get(i).getClass() == StackPane.class)
 			{
-				StackPane stackPane = (StackPane) window.getChildren().get(i);
+				StackPane stackPane = (StackPane) gameArea.getChildren().get(i);
 				if(stackPane.getTranslateY() > 700)
-					window.getChildren().remove(i);
+					gameArea.getChildren().remove(i);
 			}
-			else if(window.getChildren().get(i).getClass() == Magnet.class)
+			else if(gameArea.getChildren().get(i).getClass() == Magnet.class)
 			{
-				Magnet token = (Magnet) window.getChildren().get(i);
+				Magnet token = (Magnet) gameArea.getChildren().get(i);
 				if(token.getTranslateY() > 800)
-					window.getChildren().remove(i);
+					gameArea.getChildren().remove(i);
 			}
-			else if(window.getChildren().get(i).getClass() == Shield.class)
+			else if(gameArea.getChildren().get(i).getClass() == Shield.class)
 			{
-				Shield token = (Shield) window.getChildren().get(i);
+				Shield token = (Shield) gameArea.getChildren().get(i);
 				if(token.getTranslateY() > 800)
-					window.getChildren().remove(i);
+					gameArea.getChildren().remove(i);
 			}
-			else if(window.getChildren().get(i).getClass() == DestroyBlocks.class)
+			else if(gameArea.getChildren().get(i).getClass() == DestroyBlocks.class)
 			{
-				DestroyBlocks token = (DestroyBlocks) window.getChildren().get(i);
+				DestroyBlocks token = (DestroyBlocks) gameArea.getChildren().get(i);
 				if(token.getTranslateY() > 800)
-					window.getChildren().remove(i);
+					gameArea.getChildren().remove(i);
 			}
 			i++;
 		}
