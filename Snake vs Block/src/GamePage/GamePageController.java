@@ -21,7 +21,7 @@ public class GamePageController implements Initializable
 {
 	public static final String[] COLOUR = {"#FF0000", "#00FF00", "#0000FF", "#FFFF00"};
 	public static final long offset = 2000;
-	public Label pos;
+	//public Label pos;
 	public Pane window;
 	public Random rand;
 	public long blockPrevTime;
@@ -202,9 +202,9 @@ public class GamePageController implements Initializable
 		}
 	}
 
-	public void displayPosition(MouseEvent event)
-	{
-		pos.setText("X = " + event.getX() + "		Y = " + event.getY());
-	}
+//	public void displayPosition(MouseEvent event)
+//	{
+//		pos.setText("X = " + event.getX() + "		Y = " + event.getY());
+//	}
 
 }

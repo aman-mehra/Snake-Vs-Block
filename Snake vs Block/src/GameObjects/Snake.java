@@ -7,7 +7,7 @@ import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 
-public class Snake extends Line
+public class Snake
 {
 	private int length;
 	private StackPane head;

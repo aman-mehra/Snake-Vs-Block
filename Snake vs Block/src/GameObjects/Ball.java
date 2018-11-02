@@ -1,11 +1,9 @@
 package GameObjects;
 
-import javafx.animation.PathTransition;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
-import javafx.util.Duration;
+
 
 public class Ball extends Circle implements Token
 {
