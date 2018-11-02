@@ -2,20 +2,18 @@ package GamePage;
 
 import GameObjects.*;
 import javafx.animation.*;
-import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import java.net.URL;
-import java.util.Observable;
 import java.util.Random;
 import java.util.ResourceBundle;
 
@@ -34,7 +32,12 @@ public class GamePageController implements Initializable
 	{
 		rand = new Random();
 		blockPrevTime = System.currentTimeMillis();
-		tokenPrevTime = System.currentTimeMillis() + offset/2;
+		tokenPrevTime = (System.currentTimeMillis() + offset/2);
+
+		Snake snake = new Snake();
+		window.getChildren().add(snake.getHead());
+		window.getChildren().addAll(snake.getBody());
+
 		startBlockGeneration();
 		startTokenGeneration();
 	}
@@ -88,11 +91,14 @@ public class GamePageController implements Initializable
 			if(rand.nextInt(2) == 1)
 			{
 				Line path = getBlockPath(i);
-				Block block = new Block(20, path.getStartX(),path.getStartY(),getRandomColour());
-				window.getChildren().add(block);
-
-				block.setTransition(new PathTransition(), path, Duration.seconds(8));
-				block.getTransition().play();
+				Block block = new Block(rand.nextInt(20) + 1, path.getStartX(),path.getStartY(),getRandomColour());
+				Text text = new Text(block.getValue() + "");
+				text.setFont(Font.font(40));
+				StackPane stackPane = new StackPane();
+				stackPane.getChildren().addAll(block, text);
+				window.getChildren().add(stackPane);
+				PathTransition transition = new PathTransition(Duration.seconds(8), path, stackPane);
+				transition.play();
 			}
 		}
 	}
@@ -104,54 +110,40 @@ public class GamePageController implements Initializable
 
 		if(idx == 0 || idx == 1)
 		{
-			Ball ball = new Ball(rand.nextInt(10), path.getStartX(), path.getStartY());
-			ball.setTransition(new PathTransition(), path, Duration.seconds(8));
-			ball.getTransition().play();
-			window.getChildren().add(ball);
+			Ball ball = new Ball(Integer.toString(rand.nextInt(10) + 1), path.getStartX(), path.getStartY(), 15);
+			Text text = new Text(ball.getValue());
+			text.setFont(Font.font(18));
+			StackPane stackPane = new StackPane();
+			stackPane.getChildren().addAll(ball, text);
+			window.getChildren().add(stackPane);
+			PathTransition transition = new PathTransition(Duration.seconds(8), path, stackPane);
+			transition.play();
 		}
 
 		else if(idx == 2)
 		{
 			Magnet magnet = new Magnet(System.currentTimeMillis(), path.getStartX(), path.getStartY());
-			magnet.setTransition(new PathTransition(), path, Duration.seconds(8));
-			magnet.getTransition().play();
+			PathTransition transition = new PathTransition(Duration.seconds(8), path, magnet);
+			transition.play();
 			window.getChildren().add(magnet);
 		}
 
 		else if(idx == 3)
 		{
 			Shield shield = new Shield(System.currentTimeMillis(), path.getStartX(), path.getStartY());
-			shield.setTransition(new PathTransition(), path, Duration.seconds(8));
-			shield.getTransition().play();
+			PathTransition transition = new PathTransition(Duration.seconds(8), path, shield);
+			transition.play();
 			window.getChildren().add(shield);
 		}
 
 		else if(idx == 4)
 		{
 			DestroyBlocks destroyBlocks = new DestroyBlocks(path.getStartX(), path.getStartY());
-			destroyBlocks.setTransition(new PathTransition(), path, Duration.seconds(8));
-			destroyBlocks.getTransition().play();
+			PathTransition transition = new PathTransition(Duration.seconds(8), path, destroyBlocks);
+			transition.play();
 			window.getChildren().add(destroyBlocks);
 		}
 
-	}
-
-	public void deleteGarbage()
-	{
-		int i=0;
-		while(i < window.getChildren().size())
-		{
-			if(window.getChildren().get(i).getClass() == Block.class)
-			{
-				Block tempBlock = (Block) window.getChildren().get(i);
-				if(tempBlock.getTranslateY() > 800)
-				{
-					tempBlock.getTransition().stop();
-					window.getChildren().remove(i);
-				}
-			}
-			i++;
-		}
 	}
 
 	public Line getBlockPath(int index)
@@ -165,7 +157,7 @@ public class GamePageController implements Initializable
 	public Line getTokenPath()
 	{
 		Line path = new Line();
-		int position_x = rand.nextInt(470) + 30;
+		int position_x = rand.nextInt(440) + 30;
 		path.setStartX(position_x); path.setStartY(-100);
 		path.setEndX(position_x); path.setEndY(1000);
 		return path;
@@ -175,6 +167,39 @@ public class GamePageController implements Initializable
 	{
 		int i = rand.nextInt(4);
 		return Color.valueOf(COLOUR[i]);
+	}
+
+	public void deleteGarbage()
+	{
+		int i=0;
+		while(i < window.getChildren().size())
+		{
+			if(window.getChildren().get(i).getClass() == StackPane.class)
+			{
+				StackPane stackPane = (StackPane) window.getChildren().get(i);
+				if(stackPane.getTranslateY() > 700)
+					window.getChildren().remove(i);
+			}
+			else if(window.getChildren().get(i).getClass() == Magnet.class)
+			{
+				Magnet token = (Magnet) window.getChildren().get(i);
+				if(token.getTranslateY() > 800)
+					window.getChildren().remove(i);
+			}
+			else if(window.getChildren().get(i).getClass() == Shield.class)
+			{
+				Shield token = (Shield) window.getChildren().get(i);
+				if(token.getTranslateY() > 800)
+					window.getChildren().remove(i);
+			}
+			else if(window.getChildren().get(i).getClass() == DestroyBlocks.class)
+			{
+				DestroyBlocks token = (DestroyBlocks) window.getChildren().get(i);
+				if(token.getTranslateY() > 800)
+					window.getChildren().remove(i);
+			}
+			i++;
+		}
 	}
 
 	public void displayPosition(MouseEvent event)

@@ -11,27 +11,25 @@ public class Ball extends Circle implements Token
 {
 	private static int idGenerator = 0;
 	private final Paint COLOUR = Color.valueOf("#00EEFF");
-	private final double RADIUS = 15;
 	private final String ID;
-	private int value;
-	private PathTransition transition;
+	private String value;
 
-	public Ball(int value, double center_x, double center_y)
+	public Ball(String value, double center_x, double center_y, double radius)
 	{
 		this.value = value;
 		this.ID = "B" + idGenerator++;
 		this.setCenterX(center_x);
 		this.setCenterY(center_y);
-		this.setRadius(RADIUS);
+		this.setRadius(radius);
 		this.setFill(COLOUR);
 	}
 
-	public int getValue()
+	public String getValue()
 	{
 		return value;
 	}
 
-	public void setValue(int value)
+	public void setValue(String value)
 	{
 		this.value = value;
 	}
@@ -41,16 +39,4 @@ public class Ball extends Circle implements Token
 		return ID;
 	}
 
-	public PathTransition getTransition()
-	{
-		return transition;
-	}
-
-	public void setTransition(PathTransition transition, Line path, Duration duration)
-	{
-		this.transition = transition;
-		this.transition.setNode(this);
-		this.transition.setPath(path);
-		this.transition.setDuration(duration);
-	}
 }

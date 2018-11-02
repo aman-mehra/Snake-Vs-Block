@@ -16,7 +16,6 @@ public class Magnet extends Circle implements Token
 	private static int idGenerator;
 	private final String ID;
 	private long startTime;
-	private PathTransition transition;
 
 	public Magnet(long startTime, double center_x, double center_y)
 	{
@@ -41,19 +40,6 @@ public class Magnet extends Circle implements Token
 	public String getID()
 	{
 		return ID;
-	}
-
-	public PathTransition getTransition()
-	{
-		return transition;
-	}
-
-	public void setTransition(PathTransition transition, Line path, Duration duration)
-	{
-		this.transition = transition;
-		this.transition.setNode(this);
-		this.transition.setPath(path);
-		this.transition.setDuration(duration);
 	}
 
 }

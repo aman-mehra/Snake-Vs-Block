@@ -15,7 +15,6 @@ public class DestroyBlocks extends Circle implements Token
 	private static int idGenerator;
 	private final String ID;
 	private long scoreCollected;
-	private PathTransition transition;
 
 	public DestroyBlocks(double center_x, double center_y)
 	{
@@ -42,16 +41,4 @@ public class DestroyBlocks extends Circle implements Token
 		this.scoreCollected = scoreCollected;
 	}
 
-	public PathTransition getTransition()
-	{
-		return transition;
-	}
-
-	public void setTransition(PathTransition transition, Line path, Duration duration)
-	{
-		this.transition = transition;
-		this.transition.setNode(this);
-		this.transition.setPath(path);
-		this.transition.setDuration(duration);
-	}
 }
