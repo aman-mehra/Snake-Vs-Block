@@ -23,7 +23,7 @@ public class ConfirmBox
 				//"-fx-background-color: BLACK;" +
 				"-fx-alignment: CENTER; " +
 				"-fx-pref-height: 125.0;" +
-				"-fx-pref-width: 425.0;"
+				"-fx-pref-width: 450.0;"
 		);
 
 		Label label = new Label(message);

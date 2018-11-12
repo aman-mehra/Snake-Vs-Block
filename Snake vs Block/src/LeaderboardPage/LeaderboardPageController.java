@@ -15,7 +15,7 @@ public class LeaderboardPageController implements Initializable
 		//Deserialize the entires
 	}
 
-	public void home()
+	public void homeButtonPressed()
 	{
 		Main.mainStage.setScene(Main.mainPageScene);
 	}

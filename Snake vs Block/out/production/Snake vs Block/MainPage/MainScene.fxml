@@ -18,22 +18,22 @@
             <Font name="Ubuntu Mono" size="65.0" />
          </font>
       </Label>
-      <Button fx:id="startgame" mnemonicParsing="false" onAction="#startGame" prefHeight="60.0" prefWidth="300.0" style="-fx-background-color: #00eeff;" text="Start Game" textAlignment="CENTER" textFill="BLACK">
+      <Button fx:id="startgame" mnemonicParsing="false" onAction="#startGameButtonPressed" prefHeight="60.0" prefWidth="300.0" style="-fx-background-color: #00eeff;" text="Start Game" textAlignment="CENTER" textFill="BLACK">
          <font>
             <Font size="30.0" />
          </font>
       </Button>
-      <Button fx:id="resumegame" disable="true" layoutX="136.0" layoutY="128.0" mnemonicParsing="false" onAction="#resumeGame" prefHeight="60.0" prefWidth="300.0" style="-fx-background-color: #00eeff;" text="Resume Game" textAlignment="CENTER" textFill="BLACK">
+      <Button fx:id="resumegame" disable="true" layoutX="136.0" layoutY="128.0" mnemonicParsing="false" onAction="#resumeGameButtonPressed" prefHeight="60.0" prefWidth="300.0" style="-fx-background-color: #00eeff;" text="Resume Game" textAlignment="CENTER" textFill="BLACK">
          <font>
             <Font size="30.0" />
          </font>
       </Button>
-      <Button fx:id="leaderboard" layoutX="110.0" layoutY="199.0" mnemonicParsing="false" onAction="#showLeaderboard" prefHeight="60.0" prefWidth="300.0" style="-fx-background-color: #00eeff;" text="Leaderboard" textAlignment="CENTER" textFill="BLACK">
+      <Button fx:id="leaderboard" layoutX="110.0" layoutY="199.0" mnemonicParsing="false" onAction="#showLeaderboardButtonPressed" prefHeight="60.0" prefWidth="300.0" style="-fx-background-color: #00eeff;" text="Leaderboard" textAlignment="CENTER" textFill="BLACK">
          <font>
             <Font size="30.0" />
          </font>
       </Button>
-      <Button fx:id="exit" layoutX="110.0" layoutY="279.0" mnemonicParsing="false" onAction="#exit" prefHeight="60.0" prefWidth="300.0" style="-fx-background-color: #00eeff;" text="Exit" textAlignment="CENTER" textFill="BLACK">
+      <Button fx:id="exit" layoutX="110.0" layoutY="279.0" mnemonicParsing="false" onAction="#exitButtonPressed" prefHeight="60.0" prefWidth="300.0" style="-fx-background-color: #00eeff;" text="Exit" textAlignment="CENTER" textFill="BLACK">
          <font>
             <Font size="30.0" />
          </font>

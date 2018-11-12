@@ -1,6 +1,6 @@
 package GameApplication;
 
-import PopupBoxes.ConfirmBox;
+import MainPage.MainPageController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -42,16 +42,7 @@ public class Main extends Application {
 		mainStage.setOnCloseRequest(e ->
 		{
 			e.consume();
-			closeProgram();
+			MainPageController.closeProgram();
 		});
     }
-
-    public static void closeProgram()
-	{
-		boolean choice = ConfirmBox.display("Confirm Exit", "Are you sure you want to exit?");
-		if(choice)
-			mainStage.close();
-
-	}
-
 }

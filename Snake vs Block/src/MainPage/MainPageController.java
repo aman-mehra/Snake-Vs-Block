@@ -1,27 +1,41 @@
 package MainPage;
 
 import GameApplication.Main;
+import PopupBoxes.ConfirmBox;
 
 
 public class MainPageController
 {
-	public void startGame()
+	public void startGameButtonPressed()
 	{
+//		startGame();
 		Main.mainStage.setScene(Main.gamePageScene);
 	}
 
-	public void resumeGame()
+	public void resumeGameButtonPressed()
 	{
 
 	}
 
-	public void showLeaderboard()
+	public void showLeaderboardButtonPressed()
 	{
 		Main.mainStage.setScene(Main.leaderboardPageScene);
 	}
 
-	public void exit()
+	public void exitButtonPressed()
 	{
-		Main.closeProgram();
+		closeProgram();
+	}
+
+	public static void startGame()
+	{
+
+	}
+
+	public static void closeProgram()
+	{
+		boolean ans = ConfirmBox.display("Confirm Exit", "Are you sure you want to exit?");
+		if(ans)
+			Main.mainStage.close();
 	}
 }

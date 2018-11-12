@@ -1,14 +1,15 @@
 package GamePage;
 
+import GameApplication.Main;
 import GameObjects.*;
+import MainPage.MainPageController;
+import PopupBoxes.ConfirmBox;
 import javafx.animation.*;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
@@ -22,15 +23,18 @@ import java.util.ResourceBundle;
 public class GamePageController implements Initializable
 {
 	public static final String[] COLOUR = {"#FF0000", "#00FF00", "#0000FF", "#FFFF00"};
-	public static final long offset = 2000;
+	public static final long offset = 3000;
 
 	//public Label pos;
 	public Pane gameArea;
 	public ComboBox<String> options;
+	public Label score;
 
-	public Random rand;
-	public long blockPrevTime;
-	public long tokenPrevTime;
+	private Random rand;
+	private long blockPrevTime;
+	private long tokenPrevTime;
+	private AnimationTimer blockTimer;
+	private AnimationTimer tokenTimer;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
@@ -39,7 +43,9 @@ public class GamePageController implements Initializable
 		blockPrevTime = System.currentTimeMillis();
 		tokenPrevTime = (System.currentTimeMillis() + offset/2);
 
-		options.getItems().addAll("Restart", "Exit");
+		options.getItems().addAll("Restart", "Home");
+//		options.toFront();
+//		score.toFront();
 
 		Snake snake = new Snake();
 		gameArea.getChildren().add(snake.getHead());
@@ -52,7 +58,7 @@ public class GamePageController implements Initializable
 	public void startBlockGeneration()
 	{
 
-		AnimationTimer timer = new AnimationTimer()
+		blockTimer = new AnimationTimer()
 		{
 			@Override
 			public void handle(long now)
@@ -66,14 +72,14 @@ public class GamePageController implements Initializable
 				deleteGarbage();
 			}
 		};
-		timer.start();
+		blockTimer.start();
 
 	}
 
 	public void startTokenGeneration()
 	{
 
-		AnimationTimer timer = new AnimationTimer()
+		tokenTimer = new AnimationTimer()
 		{
 			@Override
 			public void handle(long now)
@@ -87,7 +93,7 @@ public class GamePageController implements Initializable
 				deleteGarbage();
 			}
 		};
-		timer.start();
+		tokenTimer.start();
 
 	}
 
@@ -213,5 +219,28 @@ public class GamePageController implements Initializable
 //	{
 //		pos.setText("X = " + event.getX() + "		Y = " + event.getY());
 //	}
+
+	public void optionSelected()
+	{
+		String choice = options.getValue();
+		if(choice.equals("Restart"))
+		{
+			boolean ans = ConfirmBox.display("Confirm Restart", "Are you sure you want to restart?");
+			if(ans)
+			{
+				// save data
+				MainPageController.startGame();
+			}
+		}
+		else if(choice.equals("Home"))
+		{
+			boolean ans = ConfirmBox.display("Confirm Exit", "Are you sure you want to quit?");
+			if(ans)
+			{
+				// save data
+				Main.mainStage.setScene(Main.mainPageScene);
+			}
+		}
+	}
 
 }

@@ -12,7 +12,7 @@
    <children>
       <HBox prefHeight="100.0" prefWidth="200.0" spacing="15.0">
          <children>
-            <Button fx:id="home" mnemonicParsing="false" onAction="#home" style="-fx-background-color: #00eeff;" text="Home" />
+            <Button fx:id="home" mnemonicParsing="false" onAction="#homeButtonPressed" style="-fx-background-color: #00eeff;" text="Home" />
             <Label prefHeight="150.0" text="Leaderboard" textFill="#00eeff">
                <font>
                   <Font name="Ubuntu Mono" size="70.0" />
