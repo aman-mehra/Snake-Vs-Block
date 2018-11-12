@@ -8,11 +8,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="500.0" spacing="20.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="500.0" spacing="20.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LeaderboardPage.LeaderboardPageController">
    <children>
       <HBox prefHeight="100.0" prefWidth="200.0" spacing="15.0">
          <children>
-            <Button mnemonicParsing="false" style="-fx-background-color: #00eeff;" text="Home" />
+            <Button fx:id="home" mnemonicParsing="false" onAction="#home" style="-fx-background-color: #00eeff;" text="Home" />
             <Label prefHeight="150.0" text="Leaderboard" textFill="#00eeff">
                <font>
                   <Font name="Ubuntu Mono" size="70.0" />

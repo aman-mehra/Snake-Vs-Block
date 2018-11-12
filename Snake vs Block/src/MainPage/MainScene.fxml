@@ -11,41 +11,41 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="500.0" spacing="35.0" style="-fx-background-color: Black;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="500.0" spacing="35.0" style="-fx-background-color: Black;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainPage.MainPageController">
    <children>
       <Label prefHeight="160.0" text="Snake vs Block" textFill="#00eeff">
          <font>
             <Font name="Ubuntu Mono" size="65.0" />
          </font>
       </Label>
-      <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0" style="-fx-background-color: #00eeff;" text="Start Game" textAlignment="CENTER" textFill="BLACK">
+      <Button fx:id="startgame" mnemonicParsing="false" onAction="#startGame" prefHeight="60.0" prefWidth="300.0" style="-fx-background-color: #00eeff;" text="Start Game" textAlignment="CENTER" textFill="BLACK">
          <font>
             <Font size="30.0" />
          </font>
       </Button>
-      <Button disable="true" layoutX="136.0" layoutY="128.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0" style="-fx-background-color: #00eeff;" text="Restart Game" textAlignment="CENTER" textFill="BLACK">
+      <Button fx:id="resumegame" disable="true" layoutX="136.0" layoutY="128.0" mnemonicParsing="false" onAction="#resumeGame" prefHeight="60.0" prefWidth="300.0" style="-fx-background-color: #00eeff;" text="Resume Game" textAlignment="CENTER" textFill="BLACK">
          <font>
             <Font size="30.0" />
          </font>
       </Button>
-      <Button layoutX="110.0" layoutY="199.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0" style="-fx-background-color: #00eeff;" text="Leaderboard" textAlignment="CENTER" textFill="BLACK">
+      <Button fx:id="leaderboard" layoutX="110.0" layoutY="199.0" mnemonicParsing="false" onAction="#showLeaderboard" prefHeight="60.0" prefWidth="300.0" style="-fx-background-color: #00eeff;" text="Leaderboard" textAlignment="CENTER" textFill="BLACK">
          <font>
             <Font size="30.0" />
          </font>
       </Button>
-      <Button layoutX="110.0" layoutY="279.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0" style="-fx-background-color: #00eeff;" text="Exit" textAlignment="CENTER" textFill="BLACK">
+      <Button fx:id="exit" layoutX="110.0" layoutY="279.0" mnemonicParsing="false" onAction="#exit" prefHeight="60.0" prefWidth="300.0" style="-fx-background-color: #00eeff;" text="Exit" textAlignment="CENTER" textFill="BLACK">
          <font>
             <Font size="30.0" />
          </font>
       </Button>
       <HBox alignment="CENTER" prefHeight="50.0" spacing="10.0">
          <children>
-            <Label text="Last Game : " textFill="#00eeff">
+            <Label text="Last Game :  " textFill="#00eeff">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label layoutX="198.0" layoutY="48.0" text="&lt;Score&gt;" textFill="#00eeff">
+            <Label layoutX="198.0" layoutY="48.0" text="0" textFill="#00eeff">
                <font>
                   <Font size="20.0" />
                </font>
