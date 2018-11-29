@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.FXCollections?>
+
+<VBox fx:id="window" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="500.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GamePage.GamePageController">
+   <children>
+      <HBox>
+         <children>
+             <ComboBox fx:id="options" prefWidth="100.0" promptText="Options" style="-fx-background-color: #00eeff;" />
+             <Region HBox.hgrow="ALWAYS" />
+             <Label fx:id="score_box" text="Score : 0 " textFill="#00eeff">
+                <font>
+                   <Font size="22.0" />
+                </font>
+             </Label>
+         </children>
+      </HBox>
+      <Pane fx:id="gameArea" prefHeight="675.0" prefWidth="500.0" />
+   </children>
+</VBox>
