@@ -17,7 +17,6 @@ public class Main extends Application {
 
     public static Parent mainPageParent, leaderboardPageParent, gamePageParent;
     public static Scene mainPageScene, leaderboardPageScene, gamePageScene;
-
     public static Stage mainStage;
 
     public static void main(String[] args) {
@@ -40,7 +39,7 @@ public class Main extends Application {
 		leaderboardPageScene = new Scene(leaderboardPageParent);
 		gamePageScene = new Scene(gamePageParent);
 
-		mainStage.setScene(mainPageScene);
+		mainStage.setScene(gamePageScene);
 		mainStage.show();
 
 		mainStage.setOnCloseRequest(e ->

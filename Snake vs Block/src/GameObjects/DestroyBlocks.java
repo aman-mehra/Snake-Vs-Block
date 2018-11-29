@@ -10,7 +10,7 @@ import javafx.util.Duration;
 
 public class DestroyBlocks extends Circle implements Token
 {
-	private static final Image img = new Image("file:///home/bhavye/Desktop/AP/Project/Snake%20vs%20Block/bomb.png");
+	private static final Image img = new Image("file://../resources/bomb.png");
 	private static final double RADIUS = 15;
 	private static int idGenerator;
 	private final String ID;
