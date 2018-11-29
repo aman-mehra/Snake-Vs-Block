@@ -31,7 +31,7 @@ import GameApplication.Main;
 
 public class GamePageController implements Initializable
 {
-	private static final String[] COLOUR = {"#FF0000", "#00FF00", "#0000FF", "#FFFF00"};
+	private static final String[] COLOUR = {"#FF0000", "#00FF00", "#0000FF", "#FFFF00","#722F37"};
 	private static double animation_speed = 3;
 	private static long offset = 1000;
 	private static final double lambda = 0.7;
@@ -59,6 +59,7 @@ public class GamePageController implements Initializable
 	private long tokenPrevTime;
 	private long startTime;
 	private static long moveTime;
+	private static long animation_last_time;
 	
 	private Snake snake;
 	
@@ -68,6 +69,8 @@ public class GamePageController implements Initializable
 	{
 		rand = new Random();
 		blockPrevTime = System.currentTimeMillis();
+		animation_last_time = System.currentTimeMillis();
+		moveTime = 0;
 		tokenPrevTime = (System.currentTimeMillis() + offset/2);
 		startTime = System.currentTimeMillis();
 
@@ -126,21 +129,50 @@ public class GamePageController implements Initializable
         });
 	}
 	
-	private void explode(long last_time) {
-		new AnimationTimer()
-		{
-			private final int delay = 10;
-			
-			//private void 
-			
-			@Override
-			public void handle(long now)
-			{
-				if(last_time-now>delay) {
-					
-				}
-			}
-		}.start();
+	private void explode(Block block) {
+		
+		double start_position_x = block.getX()+(block.getSIDE()/2)+(rand.nextDouble()*(block.getSIDE()/4)-(block.getSIDE()/8));
+		double start_position_y = block.getX()+(block.getSIDE()/2)+(rand.nextDouble()*(block.getSIDE()/4)-(block.getSIDE()/8));
+		double path_time = 0.5;
+		for(int shards = 0 ; shards<60; shards++) {
+			Line path = new Line();
+			path.setStartX(start_position_x); path.setStartY(start_position_x);
+			path.setEndX(rand.nextInt(900)-300); path.setEndY(-100);
+			ExplosionPart debris = new ExplosionPart( path.getStartX(), path.getStartY());
+			PathTransition transition = new PathTransition(Duration.seconds(path_time+rand.nextDouble()*(0.3)), path, debris);
+			transition.play();
+			gameArea.getChildren().add(debris);
+		}
+		
+		for(int shards = 0 ; shards<60; shards++) {
+			Line path = new Line();
+			path.setStartX(start_position_x); path.setStartY(start_position_x);
+			path.setEndX(rand.nextInt(900)-300); path.setEndY(1100);
+			ExplosionPart debris = new ExplosionPart( path.getStartX(), path.getStartY());
+			PathTransition transition = new PathTransition(Duration.seconds(path_time+rand.nextDouble()*(0.3)), path, debris);
+			transition.play();
+			gameArea.getChildren().add(debris);
+		}
+		
+		for(int shards = 0 ; shards<60; shards++) {
+			Line path = new Line();
+			path.setStartX(start_position_x); path.setStartY(start_position_x);
+			path.setEndX(-600); path.setEndY(rand.nextInt(1500)-300);
+			ExplosionPart debris = new ExplosionPart( path.getStartX(), path.getStartY());
+			PathTransition transition = new PathTransition(Duration.seconds(path_time+rand.nextDouble()*(0.3)), path, debris);
+			transition.play();
+			gameArea.getChildren().add(debris);
+		}
+		
+		for(int shards = 0 ; shards<60; shards++) {
+			Line path = new Line();
+			path.setStartX(start_position_x); path.setStartY(start_position_x);
+			path.setEndX(700); path.setEndY(rand.nextInt(1500)-300);
+			ExplosionPart debris = new ExplosionPart( path.getStartX(), path.getStartY());
+			PathTransition transition = new PathTransition(Duration.seconds(path_time+rand.nextDouble()*(0.3)), path, debris);
+			transition.play();
+			gameArea.getChildren().add(debris);
+		}
 	}
 	
     private void gameLoop() {
@@ -148,7 +180,8 @@ public class GamePageController implements Initializable
 		{
 			@Override
 			public void handle(long now)
-			{
+			{	
+				//print(now-moveTime);
 				if(turnLeft==true && now-moveTime>mov_offset) {
 					snake.moveSnake(-1);
 					moveTime=System.currentTimeMillis();
@@ -168,7 +201,7 @@ public class GamePageController implements Initializable
 					if(gameArea.getChildren().get(i).getClass() == StackPane.class)
 					{
 						StackPane stackPane = (StackPane) gameArea.getChildren().get(i);
-						if(stackPane.getChildren().get(0).getClass() == Ball.class) {
+						if(stackPane.getChildren().get(0).getClass() == Ball.class) {//checks collision with ball
 							Ball ball=(Ball)stackPane.getChildren().get(0);
 							int value = Integer.parseInt(ball.getValue());
 							if(snake.collision(stackPane) && ball.isActive()) {
@@ -180,7 +213,7 @@ public class GamePageController implements Initializable
 							}
 						}
 						
-						if(stackPane.getChildren().get(0).getClass() == Block.class) {
+						if(stackPane.getChildren().get(0).getClass() == Block.class) {//check collision with block
 							Block block=(Block)stackPane.getChildren().get(0);
 							int value = block.getValue();
 							if(snake.blockCollision(stackPane,block) && block.isActive()) {
@@ -193,17 +226,22 @@ public class GamePageController implements Initializable
 											int id=snake.decreaseLength();
 											deleteSnakePart(id);
 										}
+										explode(block);/////////////////////////////////EXPLOSION????????????????
 										playTransitions();
 									}
 									else {
-										print(value);
+										//print(value);
 										pauseTransitions();
 										//moveBlocksUp();
 										snake.moveBack();
 										block.setValue(value-1);
 										int id=snake.decreaseLength();
 										deleteSnakePart(id);
-										
+										try {
+											Thread.sleep(80);
+										} catch (InterruptedException e) {
+											e.printStackTrace();
+										}
 									}
 								}
 								else {
@@ -255,26 +293,27 @@ public class GamePageController implements Initializable
     }
     
     private void moveBlocksUp(){
+    	
     	for(int i=0;i < gameArea.getChildren().size();i++)
 		{	
     		if(gameArea.getChildren().get(i).getClass() == StackPane.class)
 			{
 	    		StackPane stackPane = (StackPane) gameArea.getChildren().get(i);
 	    		if(stackPane.getChildren().get(0).getClass() == Block.class || stackPane.getChildren().get(0).getClass() == Ball.class) {
-					stackPane.setTranslateY(stackPane.getTranslateY());
+					stackPane.setTranslateY(stackPane.getTranslateY()-50);
 	    		}
 			}
     		else if(gameArea.getChildren().get(i).getClass() == Magnet.class) {
     			Magnet token = (Magnet) gameArea.getChildren().get(i);
-    			token.setTranslateY(token.getTranslateY());
+    			token.setTranslateY(token.getTranslateY()-50);
     		}
     		else if(gameArea.getChildren().get(i).getClass() == Shield.class) {
     			Shield token = (Shield) gameArea.getChildren().get(i);
-    			token.setTranslateY(token.getTranslateY());
+    			token.setTranslateY(token.getTranslateY()-50);
     		}
     		else if(gameArea.getChildren().get(i).getClass() == DestroyBlocks.class) {
     			DestroyBlocks token = (DestroyBlocks) gameArea.getChildren().get(i);
-    			token.setTranslateY(token.getTranslateY());
+    			token.setTranslateY(token.getTranslateY()-50);
     		}
 		}
     	
@@ -415,7 +454,7 @@ public class GamePageController implements Initializable
 
 	public Paint getRandomColour()
 	{
-		int i = rand.nextInt(4);
+		int i = rand.nextInt(COLOUR.length);
 		return Color.valueOf(COLOUR[i]);
 	}
 	
@@ -458,6 +497,13 @@ public class GamePageController implements Initializable
 			{
 				DestroyBlocks token = (DestroyBlocks) gameArea.getChildren().get(i);
 				if(token.getTranslateY() > 800)
+					gameArea.getChildren().remove(i);
+			}
+			
+			else if(gameArea.getChildren().get(i).getClass() == ExplosionPart.class)
+			{
+				ExplosionPart token = (ExplosionPart) gameArea.getChildren().get(i);
+				if(token.getTranslateY() > 800 || token.getTranslateY() < -50 || token.getTranslateX() > 500 || token.getTranslateX() < -50)
 					gameArea.getChildren().remove(i);
 			}
 			i++;
