@@ -8,6 +8,7 @@ import javafx.scene.shape.Circle;
 public class Magnet extends Circle implements Token
 {
 	private static final Image img = new Image("file:///home/bhavye/Desktop/AP/Project/Snake%20vs%20Block/magnet.png");
+	//private static final Image img = new Image("file://../resources/magnet.png");
 	private static final double RADIUS = 15;
 	private static final int TIME_TO_LIVE = 5;
 	private static int idGenerator;
