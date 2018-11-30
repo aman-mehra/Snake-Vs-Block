@@ -73,7 +73,8 @@ public class GamePageController implements Initializable
 		gameLoop();
 	}
 
-	public void setGlobals() {
+	public void setGlobals()
+	{
 		new AnimationTimer()
 		{
 			@Override
@@ -89,10 +90,12 @@ public class GamePageController implements Initializable
 		}.start();
 	}
 
-	private static void setMotionEventHandlers() {
+	private static void setMotionEventHandlers()
+	{
 		Main.gamePageScene.setOnKeyPressed(e ->
 		{
-			switch (e.getCode()) {
+			switch (e.getCode())
+			{
 				case LEFT:  turnLeft  = true;moveTime=System.currentTimeMillis(); break;
 				case RIGHT: turnRight  = true;moveTime=System.currentTimeMillis(); break;
 			}
@@ -100,31 +103,62 @@ public class GamePageController implements Initializable
 
 		Main.gamePageScene.setOnKeyReleased(e ->
 		{
-			switch (e.getCode()) {
+			switch (e.getCode())
+			{
 				case LEFT: turnLeft  = false; break;
 				case RIGHT: turnRight  = false; break;
 			}
 		});
 	}
 
-	private void explode(long last_time) {
-		new AnimationTimer()
-		{
-			private final int delay = 10;
+	private void explode(Block block)
+	{
+		double start_position_x = block.getX()+(block.getSIDE()/2)+(rand.nextDouble()*(block.getSIDE()/4)-(block.getSIDE()/8));
+		double start_position_y = block.getX()+(block.getSIDE()/2)+(rand.nextDouble()*(block.getSIDE()/4)-(block.getSIDE()/8));
+		double path_time = 0.5;
+		for(int shards = 0 ; shards<60; shards++) {
+			Line path = new Line();
+			path.setStartX(start_position_x); path.setStartY(start_position_x);
+			path.setEndX(rand.nextInt(900)-300); path.setEndY(-100);
+			ExplosionPart debris = new ExplosionPart( path.getStartX(), path.getStartY());
+			PathTransition transition = new PathTransition(Duration.seconds(path_time+rand.nextDouble()*(0.3)), path, debris);
+			transition.play();
+			gameArea.getChildren().add(debris);
+		}
 
-			//private void
+		for(int shards = 0 ; shards<60; shards++) {
+			Line path = new Line();
+			path.setStartX(start_position_x); path.setStartY(start_position_x);
+			path.setEndX(rand.nextInt(900)-300); path.setEndY(1100);
+			ExplosionPart debris = new ExplosionPart( path.getStartX(), path.getStartY());
+			PathTransition transition = new PathTransition(Duration.seconds(path_time+rand.nextDouble()*(0.3)), path, debris);
+			transition.play();
+			gameArea.getChildren().add(debris);
+		}
 
-			@Override
-			public void handle(long now)
-			{
-				if(last_time-now>delay) {
+		for(int shards = 0 ; shards<60; shards++) {
+			Line path = new Line();
+			path.setStartX(start_position_x); path.setStartY(start_position_x);
+			path.setEndX(-600); path.setEndY(rand.nextInt(1500)-300);
+			ExplosionPart debris = new ExplosionPart( path.getStartX(), path.getStartY());
+			PathTransition transition = new PathTransition(Duration.seconds(path_time+rand.nextDouble()*(0.3)), path, debris);
+			transition.play();
+			gameArea.getChildren().add(debris);
+		}
 
-				}
-			}
-		}.start();
+		for(int shards = 0 ; shards<60; shards++) {
+			Line path = new Line();
+			path.setStartX(start_position_x); path.setStartY(start_position_x);
+			path.setEndX(700); path.setEndY(rand.nextInt(1500)-300);
+			ExplosionPart debris = new ExplosionPart( path.getStartX(), path.getStartY());
+			PathTransition transition = new PathTransition(Duration.seconds(path_time+rand.nextDouble()*(0.3)), path, debris);
+			transition.play();
+			gameArea.getChildren().add(debris);
+		}
 	}
 
-	private void gameLoop() {
+	private void gameLoop()
+	{
 		new AnimationTimer()
 		{
 			@Override
@@ -219,24 +253,29 @@ public class GamePageController implements Initializable
 		}.start();
 	}
 
-	private void pauseTransitions() {
+	private void pauseTransitions()
+	{
 		int i = 0;
-		while (i<transitions.size()) {
+		while (i<transitions.size())
+		{
 			transitions.get(i).pause();
 			i+=1;
 		}
 	}
 
-	private void playTransitions() {
+	private void playTransitions()
+	{
 		int i = 0;
-		while (i<transitions.size()) {
+		while (i<transitions.size())
+		{
 			transitions.get(i).play();
 			i+=1;
 		}
 	}
 
-	private void moveBlocksUp(){
-		for(int i=0;i < gameArea.getChildren().size();i++)
+	private void moveBlocksUp()
+	{
+		for(int i=0; i<gameArea.getChildren().size(); i++)
 		{
 			if(gameArea.getChildren().get(i).getClass() == StackPane.class)
 			{

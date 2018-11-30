@@ -1,16 +1,13 @@
 package GameObjects;
 
-import javafx.animation.PathTransition;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
-import javafx.util.Duration;
+
 
 public class DestroyBlocks extends Circle implements Token
 {
-	private static final Image img = new Image("file://../resources/bomb.png");
+	private static final Image img = new Image("file:///home/bhavye/Desktop/AP/Project/Snake%20vs%20Block/bomb.png");
 	private static final double RADIUS = 15;
 	private static int idGenerator;
 	private final String ID;
