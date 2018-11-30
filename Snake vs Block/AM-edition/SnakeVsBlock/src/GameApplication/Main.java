@@ -23,7 +23,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         primaryStage.setTitle("Snake vs Block");
 
-        mainPage = FXMLLoader.load(getClass().getClassLoader().getResource("MainPage/MainScene.fxml"));
+        mainPage = FXMLLoader.load(getClass().getClassLoader().getResource("HomePage/HomeScene.fxml"));
         leaderboardPage = FXMLLoader.load(getClass().getClassLoader().getResource("LeaderboardPage/LeaderboardScene.fxml"));
 		gamePage = FXMLLoader.load(getClass().getClassLoader().getResource("GamePage/GameScene.fxml"));
 

@@ -1,7 +1,10 @@
 package GameApplication;
 
+import GamePage.GamePageController;
+import HomePage.HomePageController;
 import LeaderboardPage.LeaderboardEntry;
-import MainPage.MainPageController;
+import LeaderboardPage.LeaderboardPageController;
+import PopupBoxes.ConfirmBox;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,14 +12,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.io.*;
 import java.util.ArrayList;
 
 public class Main extends Application {
 
-    public static Parent mainPageParent, leaderboardPageParent, gamePageParent;
-    public static Scene mainPageScene, leaderboardPageScene, gamePageScene;
+	public static FXMLLoader homePageLoader, leaderboardPageLoader, gamePageLoader;
+	public static HomePageController homePageController;
+	public static LeaderboardPageController leaderboardPageController;
+	public static GamePageController gamePageController;
+	public static Parent homePageParent, leaderboardPageParent, gamePageParent;
+    public static Scene homePageScene, leaderboardPageScene, gamePageScene;
     public static Stage mainStage;
 
     public static void main(String[] args) {
@@ -28,24 +34,39 @@ public class Main extends Application {
 	{
 
     	mainStage = primaryStage;
-
 		mainStage.setTitle("Snake vs Block");
 
-        mainPageParent = FXMLLoader.load(getClass().getClassLoader().getResource("MainPage/MainScene.fxml"));
-        leaderboardPageParent = FXMLLoader.load(getClass().getClassLoader().getResource("LeaderboardPage/LeaderboardScene.fxml"));
-		gamePageParent = FXMLLoader.load(getClass().getClassLoader().getResource("GamePage/GameScene.fxml"));
+		homePageLoader = new FXMLLoader(getClass().getClassLoader().getResource("HomePage/HomeScene.fxml"));
+		homePageController = new HomePageController();
+		homePageLoader.setController(homePageController);
+		homePageParent = homePageLoader.load();
+		homePageScene = new Scene(homePageParent);
 
-		mainPageScene = new Scene(mainPageParent);
+		leaderboardPageLoader = new FXMLLoader(getClass().getClassLoader().getResource("LeaderboardPage/LeaderboardScene.fxml"));
+		leaderboardPageController = new LeaderboardPageController();
+		leaderboardPageLoader.setController(leaderboardPageController);
+		leaderboardPageParent = leaderboardPageLoader.load();
 		leaderboardPageScene = new Scene(leaderboardPageParent);
+
+		gamePageLoader = new FXMLLoader(getClass().getClassLoader().getResource("GamePage/GameScene.fxml"));
+		gamePageController = new GamePageController();
+		gamePageLoader.setController(gamePageController);
+		gamePageParent = gamePageLoader.load();
 		gamePageScene = new Scene(gamePageParent);
 
-		mainStage.setScene(gamePageScene);
+		homePageController.setUpHomePage();
+		mainStage.setScene(homePageScene);
 		mainStage.show();
 
 		mainStage.setOnCloseRequest(e ->
 		{
 			e.consume();
-			MainPageController.closeProgram();
+			if(mainStage.getScene() == gamePageScene)
+			{
+				gamePageController.pauseTimers();
+				gamePageController.pauseTransitions();
+			}
+			closeApplication();
 		});
     }
 
@@ -62,7 +83,8 @@ public class Main extends Application {
 		}
 		finally
 		{
-			out.close();
+			if(out != null)
+				out.close();
 		}
 
 	}
@@ -85,19 +107,89 @@ public class Main extends Application {
 		}
 		finally
 		{
-			in.close();
+			if(in != null)
+				in.close();
 		}
 		return scores;
 	}
 
-	public static void serializeLastGame()
+	public static void updateLeaderBoard(LeaderboardEntry entry) throws IOException, ClassNotFoundException
 	{
+		ObservableList<LeaderboardEntry> entries = FXCollections.observableArrayList();
+		if(areEntriesPresent())
+			entries = Main.deserializeLeaderboard();
+		entries.add(entry);
+		FXCollections.sort(entries);
+		ArrayList<LeaderboardEntry> updatedEntries = new ArrayList<>();
 
+		int sz = Math.min(entries.size(), 10);
+		for(int i=0; i<sz; i++)
+			updatedEntries.add(entries.get(i));
+
+		Main.serializeLeaderboard(updatedEntries);
 	}
 
-	public static void deserializeLastGame()
+	public static boolean areEntriesPresent()
 	{
-
+		File file = new File("leaderboard.txt");
+		if(file.length() == 0)
+			return false;
+		return true;
 	}
 
+	public static void serializeLastGame(GamePageController gameState) throws IOException
+	{
+		ObjectOutputStream out = null;
+		try
+		{
+			out = new ObjectOutputStream(new FileOutputStream("lastgame"));
+			out.writeObject(gameState);
+		}
+		finally
+		{
+			if(out != null)
+				out.close();
+		}
+	}
+
+	public static GamePageController deserializeLastGame() throws IOException, ClassNotFoundException
+	{
+		ObjectInputStream in = null;
+		GamePageController gameState = null;
+		try
+		{
+			in = new ObjectInputStream(new FileInputStream("lastgame.txt"));
+			gameState = (GamePageController) in.readObject();
+		}
+		finally
+		{
+			if(in != null)
+				in.close();
+		}
+		return gameState;
+	}
+
+	public static boolean isLastGameSaved()
+	{
+		File file = new File("lastgame.txt");
+		if(file.length() == 0)
+			return false;
+		return true;
+	}
+
+	public static void closeApplication()
+	{
+		boolean ans = ConfirmBox.display("Confirm Exit", "Are you sure you want to exit?");
+		if(ans)
+		{
+			try	{serializeLastGame(gamePageController);}
+			catch (IOException e) {}
+			Main.mainStage.close();
+		}
+		else if(mainStage.getScene() == gamePageScene)
+		{
+			gamePageController.playTimers();
+			gamePageController.playTransitions();
+		}
+	}
 }

@@ -2,9 +2,11 @@ package GamePage;
 
 import GameApplication.Main;
 import GameObjects.*;
-import MainPage.MainPageController;
+import HomePage.HomePageController;
+import LeaderboardPage.LeaderboardEntry;
 import PopupBoxes.ConfirmBox;
 import javafx.animation.*;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -16,66 +18,87 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+
+import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 import java.util.ResourceBundle;
 
-public class GamePageController implements Initializable
+public class GamePageController
 {
-	//public Label pos;
 	public Pane gameArea;
 	public ComboBox<String> options;
 	public Label score_box;
 
 	private static final String[] COLOUR = {"#FF0000", "#00FF00", "#0000FF", "#FFFF00"};
-	private static double animation_speed = 3;
-	private static long offset = 1000;
 	private static final double lambda = 0.7;
 	private static final long mov_offset = 2;
-	private static boolean turnLeft,turnRight;
-	private static ArrayList<PathTransition> transitions;
-	private static int score;
+	private static final Random rand = new Random();
 
-	private static long blockPrevTime;
-	private static long tokenPrevTime;
-	private static long startTime;
-	private static long moveTime;
-	private static AnimationTimer blockTimer;
-	private static AnimationTimer tokenTimer;
-	private static Snake snake;
-	private static Random rand;
+	private long score;
+	private String date;
+	private long offset;
+	private double animation_speed;
+	private Snake snake;
+	private boolean turnLeft, turnRight, gamePaused;
+	private ArrayList<PathTransition> transitions;
+	private AnimationTimer blockTimer, tokenTimer, snakeMovementTimer, gameLoopTimer;
+	private long blockPrevTime, tokenPrevTime;
+	private long startTime, moveTime;
 	//private static ArrayList<Integer> garbageObjects = new ArrayList<Integer>();
 
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources)
+	public void setUpGamePage(GamePageController controller)
 	{
-		rand = new Random();
+		if(controller == null)
+		{
+			score = 0;
+			offset = 1000;
+			animation_speed = 3;
+			snake = new Snake();
+			transitions = new ArrayList<PathTransition>();
+			moveTime = 0;
+			gameArea.getChildren().removeAll();
+			gameArea.getChildren().addAll(snake.getBody());
+			gameArea.getChildren().add(snake.getHead());
+		}
+		else
+		{
+			score = controller.score;
+			offset = controller.offset;
+			animation_speed = controller.animation_speed;
+			snake = controller.snake;
+			transitions = controller.transitions;
+			gameArea = controller.gameArea;
+		}
+
+		date = "";
+		turnLeft = false; turnRight = false;
+		blockTimer = null; tokenTimer = null; snakeMovementTimer = null; gameLoopTimer = null;
+		options.getItems().addAll("Restart", "Exit");
+		score_box.setText(score + "");
+
 		blockPrevTime = System.currentTimeMillis();
 		tokenPrevTime = (System.currentTimeMillis() + offset/2);
 		startTime = System.currentTimeMillis();
+		moveTime = 0;
 
-		options.getItems().addAll("Restart", "Exit");
-//		options.toFront();
-//		score.toFront();
-
-		snake = new Snake();
-		gameArea.getChildren().add(snake.getHead());
-		gameArea.getChildren().addAll(snake.getBody());
-
-		transitions = new ArrayList<PathTransition>();
+		setGlobals();
+		gameLoop();
 
 		startBlockGeneration();
 		startTokenGeneration();
 
-		setGlobals();
-		gameLoop();
+		playTransitions();
 	}
 
-	public void setGlobals()
+	private void setGlobals()
 	{
-		new AnimationTimer()
+		snakeMovementTimer = new AnimationTimer()
 		{
 			@Override
 			public void handle(long now)
@@ -83,21 +106,40 @@ public class GamePageController implements Initializable
 				long curTime = System.currentTimeMillis();
 				if(curTime-startTime > 1000 )
 				{
-					setMotionEventHandlers();
+					setKeyPressEventHandlers();
 					this.stop();
 				}
 			}
-		}.start();
+		};
+		snakeMovementTimer.start();
 	}
 
-	private static void setMotionEventHandlers()
+	private void setKeyPressEventHandlers()
 	{
 		Main.gamePageScene.setOnKeyPressed(e ->
 		{
 			switch (e.getCode())
 			{
-				case LEFT:  turnLeft  = true;moveTime=System.currentTimeMillis(); break;
-				case RIGHT: turnRight  = true;moveTime=System.currentTimeMillis(); break;
+				case LEFT	:
+					turnLeft = true;
+					moveTime = System.currentTimeMillis();
+					break;
+
+				case RIGHT	:
+					turnRight = true;
+					moveTime = System.currentTimeMillis();
+					break;
+
+				/*case P		:
+					if(gamePaused)
+					{
+						playTimers();	playTransitions();
+					}
+					else
+					{
+						pauseTimers();	pauseTransitions();
+					}
+					break;*/
 			}
 		});
 
@@ -105,61 +147,17 @@ public class GamePageController implements Initializable
 		{
 			switch (e.getCode())
 			{
-				case LEFT: turnLeft  = false; break;
-				case RIGHT: turnRight  = false; break;
+				case LEFT	:	turnLeft = false;
+								break;
+				case RIGHT	:	turnRight = false;
+								break;
 			}
 		});
 	}
 
-	private void explode(Block block)
-	{
-		double start_position_x = block.getX()+(block.getSIDE()/2)+(rand.nextDouble()*(block.getSIDE()/4)-(block.getSIDE()/8));
-		double start_position_y = block.getX()+(block.getSIDE()/2)+(rand.nextDouble()*(block.getSIDE()/4)-(block.getSIDE()/8));
-		double path_time = 0.5;
-		for(int shards = 0 ; shards<60; shards++) {
-			Line path = new Line();
-			path.setStartX(start_position_x); path.setStartY(start_position_x);
-			path.setEndX(rand.nextInt(900)-300); path.setEndY(-100);
-			ExplosionPart debris = new ExplosionPart( path.getStartX(), path.getStartY());
-			PathTransition transition = new PathTransition(Duration.seconds(path_time+rand.nextDouble()*(0.3)), path, debris);
-			transition.play();
-			gameArea.getChildren().add(debris);
-		}
-
-		for(int shards = 0 ; shards<60; shards++) {
-			Line path = new Line();
-			path.setStartX(start_position_x); path.setStartY(start_position_x);
-			path.setEndX(rand.nextInt(900)-300); path.setEndY(1100);
-			ExplosionPart debris = new ExplosionPart( path.getStartX(), path.getStartY());
-			PathTransition transition = new PathTransition(Duration.seconds(path_time+rand.nextDouble()*(0.3)), path, debris);
-			transition.play();
-			gameArea.getChildren().add(debris);
-		}
-
-		for(int shards = 0 ; shards<60; shards++) {
-			Line path = new Line();
-			path.setStartX(start_position_x); path.setStartY(start_position_x);
-			path.setEndX(-600); path.setEndY(rand.nextInt(1500)-300);
-			ExplosionPart debris = new ExplosionPart( path.getStartX(), path.getStartY());
-			PathTransition transition = new PathTransition(Duration.seconds(path_time+rand.nextDouble()*(0.3)), path, debris);
-			transition.play();
-			gameArea.getChildren().add(debris);
-		}
-
-		for(int shards = 0 ; shards<60; shards++) {
-			Line path = new Line();
-			path.setStartX(start_position_x); path.setStartY(start_position_x);
-			path.setEndX(700); path.setEndY(rand.nextInt(1500)-300);
-			ExplosionPart debris = new ExplosionPart( path.getStartX(), path.getStartY());
-			PathTransition transition = new PathTransition(Duration.seconds(path_time+rand.nextDouble()*(0.3)), path, debris);
-			transition.play();
-			gameArea.getChildren().add(debris);
-		}
-	}
-
 	private void gameLoop()
 	{
-		new AnimationTimer()
+		gameLoopTimer = new AnimationTimer()
 		{
 			@Override
 			public void handle(long now)
@@ -250,26 +248,95 @@ public class GamePageController implements Initializable
 				//offset=(long)(8-animation_speed)*150;for speed = 2
 				snake.moveAhead();
 			}
-		}.start();
+		};
+		gameLoopTimer.start();
 	}
 
-	private void pauseTransitions()
+	private void startBlockGeneration()
 	{
-		int i = 0;
-		while (i<transitions.size())
+
+		blockTimer = new AnimationTimer()
 		{
-			transitions.get(i).pause();
-			i+=1;
+			@Override
+			public void handle(long now)
+			{
+				long curTime = System.currentTimeMillis();
+				if(curTime > blockPrevTime + offset)
+				{
+					generateBlocks();
+					blockPrevTime = System.currentTimeMillis();
+				}
+				deleteGarbage();
+			}
+		};
+		blockTimer.start();
+
+	}
+
+	private void startTokenGeneration()
+	{
+
+		tokenTimer = new AnimationTimer()
+		{
+			@Override
+			public void handle(long now)
+			{
+				long curTime = System.currentTimeMillis();
+				if(curTime > tokenPrevTime + offset)
+				{
+					generateToken();
+					tokenPrevTime = System.currentTimeMillis();
+				}
+				deleteGarbage();
+			}
+		};
+		tokenTimer.start();
+
+	}
+
+	private void explode(Block block)
+	{
+		double start_position_x = block.getX()+(block.getSIDE()/2)+(rand.nextDouble()*(block.getSIDE()/4)-(block.getSIDE()/8));
+		double start_position_y = block.getX()+(block.getSIDE()/2)+(rand.nextDouble()*(block.getSIDE()/4)-(block.getSIDE()/8));
+		double path_time = 0.5;
+		for(int shards = 0 ; shards<60; shards++) {
+			Line path = new Line();
+			path.setStartX(start_position_x); path.setStartY(start_position_x);
+			path.setEndX(rand.nextInt(900)-300); path.setEndY(-100);
+			ExplosionPart debris = new ExplosionPart( path.getStartX(), path.getStartY());
+			PathTransition transition = new PathTransition(Duration.seconds(path_time+rand.nextDouble()*(0.3)), path, debris);
+			transition.play();
+			gameArea.getChildren().add(debris);
 		}
-	}
 
-	private void playTransitions()
-	{
-		int i = 0;
-		while (i<transitions.size())
-		{
-			transitions.get(i).play();
-			i+=1;
+		for(int shards = 0 ; shards<60; shards++) {
+			Line path = new Line();
+			path.setStartX(start_position_x); path.setStartY(start_position_x);
+			path.setEndX(rand.nextInt(900)-300); path.setEndY(1100);
+			ExplosionPart debris = new ExplosionPart( path.getStartX(), path.getStartY());
+			PathTransition transition = new PathTransition(Duration.seconds(path_time+rand.nextDouble()*(0.3)), path, debris);
+			transition.play();
+			gameArea.getChildren().add(debris);
+		}
+
+		for(int shards = 0 ; shards<60; shards++) {
+			Line path = new Line();
+			path.setStartX(start_position_x); path.setStartY(start_position_x);
+			path.setEndX(-600); path.setEndY(rand.nextInt(1500)-300);
+			ExplosionPart debris = new ExplosionPart( path.getStartX(), path.getStartY());
+			PathTransition transition = new PathTransition(Duration.seconds(path_time+rand.nextDouble()*(0.3)), path, debris);
+			transition.play();
+			gameArea.getChildren().add(debris);
+		}
+
+		for(int shards = 0 ; shards<60; shards++) {
+			Line path = new Line();
+			path.setStartX(start_position_x); path.setStartY(start_position_x);
+			path.setEndX(700); path.setEndY(rand.nextInt(1500)-300);
+			ExplosionPart debris = new ExplosionPart( path.getStartX(), path.getStartY());
+			PathTransition transition = new PathTransition(Duration.seconds(path_time+rand.nextDouble()*(0.3)), path, debris);
+			transition.play();
+			gameArea.getChildren().add(debris);
 		}
 	}
 
@@ -301,53 +368,48 @@ public class GamePageController implements Initializable
 
 	}
 
+	public void pauseTimers()
+	{
+		blockTimer.stop();
+		tokenTimer.stop();
+		snakeMovementTimer.stop();
+		gameLoopTimer.stop();
+	}
+
+	public void playTimers()
+	{
+		blockTimer.start();
+		tokenTimer.start();
+		snakeMovementTimer.start();
+		gameLoopTimer.start();
+	}
+
+	public void pauseTransitions()
+	{
+		int i = 0;
+		while (i<transitions.size())
+		{
+			transitions.get(i).pause();
+			i+=1;
+		}
+	}
+
+	public void playTransitions()
+	{
+		int i = 0;
+		while (i<transitions.size())
+		{
+			transitions.get(i).play();
+			i+=1;
+		}
+	}
+
 	////////////////////////////////////
-	private void print(Object toPrint) {
+	private void print(Object toPrint)
+	{
 		System.out.println(toPrint);
 	}
 	////////////////////////////////////
-
-	public void startBlockGeneration()
-	{
-
-		blockTimer = new AnimationTimer()
-		{
-			@Override
-			public void handle(long now)
-			{
-				long curTime = System.currentTimeMillis();
-				if(curTime > blockPrevTime + offset)
-				{
-					generateBlocks();
-					blockPrevTime = System.currentTimeMillis();
-				}
-				deleteGarbage();
-			}
-		};
-		blockTimer.start();
-
-	}
-
-	public void startTokenGeneration()
-	{
-
-		tokenTimer = new AnimationTimer()
-		{
-			@Override
-			public void handle(long now)
-			{
-				long curTime = System.currentTimeMillis();
-				if(curTime > tokenPrevTime + offset)
-				{
-					generateToken();
-					tokenPrevTime = System.currentTimeMillis();
-				}
-				deleteGarbage();
-			}
-		};
-		tokenTimer.start();
-
-	}
 
 	public void generateBlocks()
 	{
@@ -493,16 +555,26 @@ public class GamePageController implements Initializable
 		}
 	}
 
-	public void optionSelected()
+	public void optionSelected() throws IOException, ClassNotFoundException
 	{
+		pauseTimers();
+		pauseTransitions();
+
 		String choice = options.getValue();
 		if(choice.equals("Restart"))
 		{
 			boolean ans = ConfirmBox.display("Confirm Restart", "Are you sure you want to restart?");
 			if(ans)
 			{
-				// save data
-				MainPageController.startGame();
+				date = getCurrentDate();
+				LeaderboardEntry entry = new LeaderboardEntry(score, date);
+				Main.updateLeaderBoard(entry);
+				Main.gamePageController.setUpGamePage(null);
+			}
+			else
+			{
+				playTimers();
+				playTransitions();
 			}
 		}
 		else if(choice.equals("Home"))
@@ -510,15 +582,183 @@ public class GamePageController implements Initializable
 			boolean ans = ConfirmBox.display("Confirm Exit", "Are you sure you want to quit?");
 			if(ans)
 			{
-				// save data
-				Main.mainStage.setScene(Main.mainPageScene);
+				Main.serializeLastGame(this);
+				Main.homePageController.setUpHomePage();
+				Main.mainStage.setScene(Main.homePageScene);
+			}
+			else
+			{
+				playTimers();
+				playTransitions();
 			}
 		}
 	}
 
-	//	public void displayPosition(MouseEvent event)
-//	{
-//		pos.setText("X = " + event.getX() + "		Y = " + event.getY());
-//	}
+	public String getCurrentDate()
+	{
+		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
+		Date date = new Date();
+		return dateFormat.format(date);
+	}
 
+
+	public long getScore()
+	{
+		return score;
+	}
+
+	public void setScore(long score)
+	{
+		this.score = score;
+	}
+
+	public String getDate()
+	{
+		return date;
+	}
+
+	public void setDate(String date)
+	{
+		this.date = date;
+	}
+
+	public long getOffset()
+	{
+		return offset;
+	}
+
+	public void setOffset(long offset)
+	{
+		this.offset = offset;
+	}
+
+	public double getAnimation_speed()
+	{
+		return animation_speed;
+	}
+
+	public void setAnimation_speed(double animation_speed)
+	{
+		this.animation_speed = animation_speed;
+	}
+
+	public Snake getSnake()
+	{
+		return snake;
+	}
+
+	public void setSnake(Snake snake)
+	{
+		this.snake = snake;
+	}
+
+	public boolean isTurnLeft()
+	{
+		return turnLeft;
+	}
+
+	public void setTurnLeft(boolean turnLeft)
+	{
+		this.turnLeft = turnLeft;
+	}
+
+	public boolean isTurnRight()
+	{
+		return turnRight;
+	}
+
+	public void setTurnRight(boolean turnRight)
+	{
+		this.turnRight = turnRight;
+	}
+
+	public ArrayList<PathTransition> getTransitions()
+	{
+		return transitions;
+	}
+
+	public void setTransitions(ArrayList<PathTransition> transitions)
+	{
+		this.transitions = transitions;
+	}
+
+	public AnimationTimer getBlockTimer()
+	{
+		return blockTimer;
+	}
+
+	public void setBlockTimer(AnimationTimer blockTimer)
+	{
+		this.blockTimer = blockTimer;
+	}
+
+	public AnimationTimer getTokenTimer()
+	{
+		return tokenTimer;
+	}
+
+	public void setTokenTimer(AnimationTimer tokenTimer)
+	{
+		this.tokenTimer = tokenTimer;
+	}
+
+	public AnimationTimer getSnakeMovementTimer()
+	{
+		return snakeMovementTimer;
+	}
+
+	public void setSnakeMovementTimer(AnimationTimer snakeMovementTimer)
+	{
+		this.snakeMovementTimer = snakeMovementTimer;
+	}
+
+	public AnimationTimer getGameLoopTimer()
+	{
+		return gameLoopTimer;
+	}
+
+	public void setGameLoopTimer(AnimationTimer gameLoopTimer)
+	{
+		this.gameLoopTimer = gameLoopTimer;
+	}
+
+	public long getBlockPrevTime()
+	{
+		return blockPrevTime;
+	}
+
+	public void setBlockPrevTime(long blockPrevTime)
+	{
+		this.blockPrevTime = blockPrevTime;
+	}
+
+	public long getTokenPrevTime()
+	{
+		return tokenPrevTime;
+	}
+
+	public void setTokenPrevTime(long tokenPrevTime)
+	{
+		this.tokenPrevTime = tokenPrevTime;
+	}
+
+	public long getStartTime()
+	{
+		return startTime;
+	}
+
+	public void setStartTime(long startTime)
+	{
+		this.startTime = startTime;
+	}
+
+	public long getMoveTime()
+	{
+		return moveTime;
+	}
+
+	public void setMoveTime(long moveTime)
+	{
+		this.moveTime = moveTime;
+	}
 }

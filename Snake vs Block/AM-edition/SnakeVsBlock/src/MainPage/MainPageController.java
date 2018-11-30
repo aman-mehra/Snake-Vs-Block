@@ -1,4 +1,4 @@
-package MainPage;
+package HomePage;
 
 public class MainPageController
 { 
