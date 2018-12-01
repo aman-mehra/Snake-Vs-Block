@@ -568,7 +568,7 @@ public class GamePageController implements Serializable
 			boolean ans = ConfirmBox.display("Confirm Exit", "Are you sure you want to quit?");
 			if(ans)
 			{
-				Main.gameState = new GameState(score, date, offset, animation_speed, snake.getHead_x(), snake.getLength(), gameArea.getChildren().size() - snake.getLength() - 1);
+				Main.gameState = getCurrentGameState();
 				Main.serializeLastGame(Main.gameState);
 				Main.homePageController.setUpHomePage();
 				Main.mainStage.setScene(Main.homePageScene);
@@ -579,6 +579,11 @@ public class GamePageController implements Serializable
 				playTransitions();
 			}
 		}
+	}
+
+	public GameState getCurrentGameState()
+	{
+		return (new GameState(score, date, offset, animation_speed, snake.getHead_x(), snake.getLength(), gameArea.getChildren().size() - snake.getLength() - 1));
 	}
 
 	public String getCurrentDate()

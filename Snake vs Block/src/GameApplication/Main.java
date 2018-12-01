@@ -67,7 +67,7 @@ public class Main extends Application {
 			{
 				gamePageController.pauseTimers();
 				gamePageController.pauseTransitions();
-				//Main.gameState = new GameState(gamePageController.getScore(),gamePageController.getCurrentDate(), gamePageController.getOffset(), gamePageController.getAnimation_speed(), gamePageController.getSnake());
+				Main.gameState = gamePageController.getCurrentGameState();
 			}
 			closeApplication();
 		});
