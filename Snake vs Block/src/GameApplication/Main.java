@@ -1,6 +1,7 @@
 package GameApplication;
 
 import GamePage.GamePageController;
+import GamePage.GameState;
 import HomePage.HomePageController;
 import LeaderboardPage.LeaderboardEntry;
 import LeaderboardPage.LeaderboardPageController;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 
 public class Main extends Application {
 
+	public static GameState gameState;
 	public static FXMLLoader homePageLoader, leaderboardPageLoader, gamePageLoader;
 	public static HomePageController homePageController;
 	public static LeaderboardPageController leaderboardPageController;
@@ -65,6 +67,7 @@ public class Main extends Application {
 			{
 				gamePageController.pauseTimers();
 				gamePageController.pauseTransitions();
+				//Main.gameState = new GameState(gamePageController.getScore(),gamePageController.getCurrentDate(), gamePageController.getOffset(), gamePageController.getAnimation_speed(), gamePageController.getSnake());
 			}
 			closeApplication();
 		});
@@ -137,12 +140,12 @@ public class Main extends Application {
 		return true;
 	}
 
-	public static void serializeLastGame(GamePageController gameState) throws IOException
+	public static void serializeLastGame(GameState gameState) throws IOException
 	{
 		ObjectOutputStream out = null;
 		try
 		{
-			out = new ObjectOutputStream(new FileOutputStream("lastgame"));
+			out = new ObjectOutputStream(new FileOutputStream("lastgame.txt"));
 			out.writeObject(gameState);
 		}
 		finally
@@ -152,14 +155,14 @@ public class Main extends Application {
 		}
 	}
 
-	public static GamePageController deserializeLastGame() throws IOException, ClassNotFoundException
+	public static GameState deserializeLastGame() throws IOException, ClassNotFoundException
 	{
 		ObjectInputStream in = null;
-		GamePageController gameState = null;
+		GameState gameState = null;
 		try
 		{
 			in = new ObjectInputStream(new FileInputStream("lastgame.txt"));
-			gameState = (GamePageController) in.readObject();
+			gameState = (GameState) in.readObject();
 		}
 		finally
 		{
@@ -182,7 +185,7 @@ public class Main extends Application {
 		boolean ans = ConfirmBox.display("Confirm Exit", "Are you sure you want to exit?");
 		if(ans)
 		{
-			try	{serializeLastGame(gamePageController);}
+			try	{serializeLastGame(gameState);}
 			catch (IOException e) {}
 			Main.mainStage.close();
 		}

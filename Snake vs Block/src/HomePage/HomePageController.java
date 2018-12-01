@@ -4,16 +4,9 @@ import GameApplication.Main;
 import GamePage.GamePageController;
 import GamePage.GameState;
 import LeaderboardPage.LeaderboardEntry;
-import LeaderboardPage.LeaderboardPageController;
-import PopupBoxes.ConfirmBox;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
-import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 
 public class HomePageController
@@ -25,24 +18,25 @@ public class HomePageController
 		System.out.println("HomePage coming up !");
 		System.out.println("In HP Last Game Saved = " + Main.isLastGameSaved());
 		if(Main.isLastGameSaved())
-			resumegame.setDisable(true);
+			resumegame.setDisable(false);
 	}
 
 	public void startGameButtonPressed() throws IOException, ClassNotFoundException
 	{
 		if(Main.isLastGameSaved())
 		{
-			GamePageController lastSavedGame = Main.deserializeLastGame();
-			LeaderboardEntry entry = new LeaderboardEntry(lastSavedGame.getScore(), lastSavedGame.getDate());
+			Main.gameState = Main.deserializeLastGame();
+			LeaderboardEntry entry = new LeaderboardEntry(Main.gameState.getScore(), Main.gameState.getDate());
 			Main.updateLeaderBoard(entry);
 		}
-		Main.gamePageController.setUpGamePage(null);
+		Main.gamePageController.setUpGamePage();
 		Main.mainStage.setScene(Main.gamePageScene);
 	}
 
 	public void resumeGameButtonPressed() throws IOException, ClassNotFoundException
 	{
-		Main.gamePageController.setUpGamePage(Main.deserializeLastGame());
+		Main.gameState = Main.deserializeLastGame();
+		Main.gamePageController.setUpGamePage();
 		Main.mainStage.setScene(Main.gamePageScene);
 	}
 

@@ -20,6 +20,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -28,7 +29,7 @@ import java.util.Date;
 import java.util.Random;
 import java.util.ResourceBundle;
 
-public class GamePageController
+public class GamePageController implements Serializable
 {
 	public Pane gameArea;
 	public ComboBox<String> options;
@@ -52,35 +53,33 @@ public class GamePageController
 	//private static ArrayList<Integer> garbageObjects = new ArrayList<Integer>();
 
 
-	public void setUpGamePage(GamePageController controller)
+	public void setUpGamePage()
 	{
-		if(controller == null)
+		date = "";
+		transitions = new ArrayList<PathTransition>();
+		gameArea.getChildren().removeAll();
+		turnLeft = false; turnRight = false;
+		blockTimer = null; tokenTimer = null; snakeMovementTimer = null; gameLoopTimer = null;
+		options.getItems().addAll("Restart", "Exit");
+		score_box.setText(score + "");
+
+		if(Main.gameState == null)
 		{
 			score = 0;
 			offset = 1000;
 			animation_speed = 3;
 			snake = new Snake();
-			transitions = new ArrayList<PathTransition>();
-			moveTime = 0;
-			gameArea.getChildren().removeAll();
-			gameArea.getChildren().addAll(snake.getBody());
-			gameArea.getChildren().add(snake.getHead());
 		}
 		else
 		{
-			score = controller.score;
-			offset = controller.offset;
-			animation_speed = controller.animation_speed;
-			snake = controller.snake;
-			transitions = controller.transitions;
-			gameArea = controller.gameArea;
+			score = Main.gameState.getScore();
+			offset = Main.gameState.getOffset();
+			animation_speed = Main.gameState.getAnimation_speed();
+			//reconstruct snake, gameObjects
 		}
 
-		date = "";
-		turnLeft = false; turnRight = false;
-		blockTimer = null; tokenTimer = null; snakeMovementTimer = null; gameLoopTimer = null;
-		options.getItems().addAll("Restart", "Exit");
-		score_box.setText(score + "");
+		gameArea.getChildren().addAll(snake.getBody());
+		gameArea.getChildren().add(snake.getHead());
 
 		blockPrevTime = System.currentTimeMillis();
 		tokenPrevTime = (System.currentTimeMillis() + offset/2);
@@ -92,8 +91,6 @@ public class GamePageController
 
 		startBlockGeneration();
 		startTokenGeneration();
-
-		playTransitions();
 	}
 
 	private void setGlobals()
@@ -129,17 +126,6 @@ public class GamePageController
 					turnRight = true;
 					moveTime = System.currentTimeMillis();
 					break;
-
-				/*case P		:
-					if(gamePaused)
-					{
-						playTimers();	playTransitions();
-					}
-					else
-					{
-						pauseTimers();	pauseTransitions();
-					}
-					break;*/
 			}
 		});
 
@@ -569,7 +555,7 @@ public class GamePageController
 				date = getCurrentDate();
 				LeaderboardEntry entry = new LeaderboardEntry(score, date);
 				Main.updateLeaderBoard(entry);
-				Main.gamePageController.setUpGamePage(null);
+				Main.gamePageController.setUpGamePage();
 			}
 			else
 			{
@@ -582,7 +568,8 @@ public class GamePageController
 			boolean ans = ConfirmBox.display("Confirm Exit", "Are you sure you want to quit?");
 			if(ans)
 			{
-				Main.serializeLastGame(this);
+				Main.gameState = new GameState(score, date, offset, animation_speed, snake.getHead_x(), snake.getLength(), gameArea.getChildren().size() - snake.getLength() - 1);
+				Main.serializeLastGame(Main.gameState);
 				Main.homePageController.setUpHomePage();
 				Main.mainStage.setScene(Main.homePageScene);
 			}
@@ -599,166 +586,5 @@ public class GamePageController
 		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
 		Date date = new Date();
 		return dateFormat.format(date);
-	}
-
-
-	public long getScore()
-	{
-		return score;
-	}
-
-	public void setScore(long score)
-	{
-		this.score = score;
-	}
-
-	public String getDate()
-	{
-		return date;
-	}
-
-	public void setDate(String date)
-	{
-		this.date = date;
-	}
-
-	public long getOffset()
-	{
-		return offset;
-	}
-
-	public void setOffset(long offset)
-	{
-		this.offset = offset;
-	}
-
-	public double getAnimation_speed()
-	{
-		return animation_speed;
-	}
-
-	public void setAnimation_speed(double animation_speed)
-	{
-		this.animation_speed = animation_speed;
-	}
-
-	public Snake getSnake()
-	{
-		return snake;
-	}
-
-	public void setSnake(Snake snake)
-	{
-		this.snake = snake;
-	}
-
-	public boolean isTurnLeft()
-	{
-		return turnLeft;
-	}
-
-	public void setTurnLeft(boolean turnLeft)
-	{
-		this.turnLeft = turnLeft;
-	}
-
-	public boolean isTurnRight()
-	{
-		return turnRight;
-	}
-
-	public void setTurnRight(boolean turnRight)
-	{
-		this.turnRight = turnRight;
-	}
-
-	public ArrayList<PathTransition> getTransitions()
-	{
-		return transitions;
-	}
-
-	public void setTransitions(ArrayList<PathTransition> transitions)
-	{
-		this.transitions = transitions;
-	}
-
-	public AnimationTimer getBlockTimer()
-	{
-		return blockTimer;
-	}
-
-	public void setBlockTimer(AnimationTimer blockTimer)
-	{
-		this.blockTimer = blockTimer;
-	}
-
-	public AnimationTimer getTokenTimer()
-	{
-		return tokenTimer;
-	}
-
-	public void setTokenTimer(AnimationTimer tokenTimer)
-	{
-		this.tokenTimer = tokenTimer;
-	}
-
-	public AnimationTimer getSnakeMovementTimer()
-	{
-		return snakeMovementTimer;
-	}
-
-	public void setSnakeMovementTimer(AnimationTimer snakeMovementTimer)
-	{
-		this.snakeMovementTimer = snakeMovementTimer;
-	}
-
-	public AnimationTimer getGameLoopTimer()
-	{
-		return gameLoopTimer;
-	}
-
-	public void setGameLoopTimer(AnimationTimer gameLoopTimer)
-	{
-		this.gameLoopTimer = gameLoopTimer;
-	}
-
-	public long getBlockPrevTime()
-	{
-		return blockPrevTime;
-	}
-
-	public void setBlockPrevTime(long blockPrevTime)
-	{
-		this.blockPrevTime = blockPrevTime;
-	}
-
-	public long getTokenPrevTime()
-	{
-		return tokenPrevTime;
-	}
-
-	public void setTokenPrevTime(long tokenPrevTime)
-	{
-		this.tokenPrevTime = tokenPrevTime;
-	}
-
-	public long getStartTime()
-	{
-		return startTime;
-	}
-
-	public void setStartTime(long startTime)
-	{
-		this.startTime = startTime;
-	}
-
-	public long getMoveTime()
-	{
-		return moveTime;
-	}
-
-	public void setMoveTime(long moveTime)
-	{
-		this.moveTime = moveTime;
 	}
 }

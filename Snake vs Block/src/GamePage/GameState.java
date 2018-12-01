@@ -1,31 +1,31 @@
 package GamePage;
 
 import GameObjects.Snake;
-import javafx.animation.PathTransition;
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
-import java.util.ArrayList;
 
+import java.io.Serializable;
 
-public class GameState
+public class GameState implements Serializable
 {
-	private long score;
+	private long score, offset;
 	private String date;
 	private double animation_speed;
-	private long offset;
-	private ObservableList<Node> nodes;
-	private ArrayList<PathTransition> transitions;
-	private Snake snake;
+	private double snake_head_x;
+	private int snake_length;
+	private int number_of_gameObjects;
+	private String[] gameObjects_id;
+	private double[][] gameObjects_pos;
 
-	public GameState(long score, String date, double animation_speed, long offset, ObservableList<Node> nodes, ArrayList<PathTransition> transitions, Snake snake)
+	public GameState(long score, String date, long offset, double animation_speed, double snake_head_x, int snake_length, int number_of_gameObjects)
 	{
 		this.score = score;
 		this.date = date;
-		this.animation_speed = animation_speed;
 		this.offset = offset;
-		this.nodes = nodes;
-		this.transitions = transitions;
-		this.snake = snake;
+		this.animation_speed = animation_speed;
+		this.snake_head_x = snake_head_x;
+		this.snake_length = snake_length;
+		this.number_of_gameObjects = number_of_gameObjects;
+		this.gameObjects_id = new String[number_of_gameObjects];
+		this.gameObjects_pos = new double[number_of_gameObjects][2];
 	}
 
 	public long getScore()
@@ -48,16 +48,6 @@ public class GameState
 		this.date = date;
 	}
 
-	public double getAnimation_speed()
-	{
-		return animation_speed;
-	}
-
-	public void setAnimation_speed(double animation_speed)
-	{
-		this.animation_speed = animation_speed;
-	}
-
 	public long getOffset()
 	{
 		return offset;
@@ -68,33 +58,63 @@ public class GameState
 		this.offset = offset;
 	}
 
-	public ObservableList<Node> getNodes()
+	public double getAnimation_speed()
 	{
-		return nodes;
+		return animation_speed;
 	}
 
-	public void setNodes(ObservableList<Node> nodes)
+	public void setAnimation_speed(double animation_speed)
 	{
-		this.nodes = nodes;
+		this.animation_speed = animation_speed;
 	}
 
-	public ArrayList<PathTransition> getTransitions()
+	public double getSnake_head_x()
 	{
-		return transitions;
+		return snake_head_x;
 	}
 
-	public void setTransitions(ArrayList<PathTransition> transitions)
+	public void setSnake_head_x(double snake_head_x)
 	{
-		this.transitions = transitions;
+		this.snake_head_x = snake_head_x;
 	}
 
-	public Snake getSnake()
+	public int getSnake_length()
 	{
-		return snake;
+		return snake_length;
 	}
 
-	public void setSnake(Snake snake)
+	public void setSnake_length(int snake_length)
 	{
-		this.snake = snake;
+		this.snake_length = snake_length;
+	}
+
+	public int getNumber_of_gameObjects()
+	{
+		return number_of_gameObjects;
+	}
+
+	public void setNumber_of_gameObjects(int number_of_gameObjects)
+	{
+		this.number_of_gameObjects = number_of_gameObjects;
+	}
+
+	public String[] getGameObjects_id()
+	{
+		return gameObjects_id;
+	}
+
+	public void setGameObjects_id(String[] gameObjects_id)
+	{
+		this.gameObjects_id = gameObjects_id;
+	}
+
+	public double[][] getGameObjects_pos()
+	{
+		return gameObjects_pos;
+	}
+
+	public void setGameObjects_pos(double[][] gameObjects_pos)
+	{
+		this.gameObjects_pos = gameObjects_pos;
 	}
 }
