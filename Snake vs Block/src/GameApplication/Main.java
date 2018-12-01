@@ -210,7 +210,7 @@ public class Main extends Application {
 			{
 				try	{
 					GameState gameState = gamePageController.getCurrentGameState();
-					System.out.println("Score = " + gameState.getScore());
+					//System.out.println("Score = " + gameState.getScore());
 					serializeLastGame(gameState);
 				}
 				catch (IOException e) {}

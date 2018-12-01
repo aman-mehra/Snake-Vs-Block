@@ -161,7 +161,7 @@ public class GamePageController implements Serializable, Initializable
 			}*/
 		}
 
-		System.out.println("gameArea size = " + gameArea.getChildren().size());
+		//System.out.println("gameArea size = " + gameArea.getChildren().size());
 
 		score_box.setText("Score : " + score + " ");
 		gameArea.getChildren().add(snake.getHead());
@@ -200,13 +200,13 @@ public class GamePageController implements Serializable, Initializable
 		}.start();
 	}
 
-	private static void setKeyPressEventHandlers() {
+	private void setKeyPressEventHandlers() {
 		Main.gamePageScene.setOnKeyPressed((EventHandler<? super KeyEvent>) new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
                 switch (event.getCode()) {
-                     case LEFT:  turnLeft  = true;moveTime=System.currentTimeMillis(); break;
-                     case RIGHT: turnRight  = true;moveTime=System.currentTimeMillis(); break;
+                	case LEFT:  turnLeft  = true;moveTime=System.currentTimeMillis(); break;
+                	case RIGHT: turnRight  = true;moveTime=System.currentTimeMillis(); break;
                 }
             }
         });
@@ -217,6 +217,12 @@ public class GamePageController implements Serializable, Initializable
                 switch (event.getCode()) {
                     case LEFT: turnLeft  = false; break;
                     case RIGHT: turnRight  = false; break;
+					case SPACE: {
+						if(isPaused)
+							playTransitions();
+						else
+							pauseTransitions();
+					} break;
                 }
             }
         });
