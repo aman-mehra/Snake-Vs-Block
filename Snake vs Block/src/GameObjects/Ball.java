@@ -5,7 +5,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
 
-public class Ball extends Circle implements Token
+public class Ball extends Circle
 {
 	private static int idGenerator = 0;
 	private Paint COLOUR = Color.valueOf("#FF69B4");
