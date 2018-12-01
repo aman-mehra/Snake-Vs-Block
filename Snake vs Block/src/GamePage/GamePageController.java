@@ -317,7 +317,7 @@ private void explode(Block block) {
 					}
 				}
 				else {
-					///////TO DO
+					////////////////////////PUT EXIT ROUTINE HERE//////////////////////
 				}
 				
 			}
@@ -478,7 +478,7 @@ private void explode(Block block) {
 		}.start();
 	}
 	
-	private void pauseTransitions() {
+	public void pauseTransitions() {
     	int i = 0;
     	while (i<transitions.size()) {
     		transitions.get(i).pause();
@@ -487,7 +487,7 @@ private void explode(Block block) {
     	this.isPaused = true;
     }
     
-    private void playTransitions() {
+    public void playTransitions() {
     	int i = 0;
     	while (i<transitions.size()) {
     		transitions.get(i).play();

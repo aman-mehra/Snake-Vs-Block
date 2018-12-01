@@ -66,7 +66,7 @@ public class Main extends Application {
 			if(mainStage.getScene() == gamePageScene)
 			{
 				//gamePageController.pauseTimers();
-				//gamePageController.pauseTransitions();
+				gamePageController.pauseTransitions();
 				Main.gameState = gamePageController.getCurrentGameState();
 			}
 			closeApplication();
@@ -192,7 +192,7 @@ public class Main extends Application {
 		else if(mainStage.getScene() == gamePageScene)
 		{
 			//gamePageController.playTimers();
-			//gamePageController.playTransitions();
+			gamePageController.playTransitions();
 		}
 	}
 }
