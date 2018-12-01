@@ -34,11 +34,13 @@ public class LeaderboardPageController implements Initializable
 	{
 		//System.out.println("Leaderboard coming up !");
 		//System.out.println("In LP entries present = " + Main.areEntriesPresent());
+
 		if(Main.areEntriesPresent())
 		{
 			ObservableList<LeaderboardEntry> scores = Main.deserializeLeaderboard();
 			leaderboard.setItems(scores);
 		}
+		//System.out.println("LB setted up");
 	}
 
 	public void homeButtonPressed() throws IOException, ClassNotFoundException

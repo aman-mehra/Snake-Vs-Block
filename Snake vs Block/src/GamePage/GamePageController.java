@@ -2,14 +2,12 @@ package GamePage;
 
 import GameApplication.Main;
 import GameObjects.*;
-import HomePage.HomePageController;
 import LeaderboardPage.LeaderboardEntry;
 import PopupBoxes.ConfirmBox;
 import javafx.animation.*;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
@@ -18,11 +16,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Path;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import sun.security.krb5.internal.crypto.Des;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -34,52 +30,52 @@ import java.util.Date;
 import java.util.Random;
 import java.util.ResourceBundle;
 
-public class GamePageController implements Serializable
+public class GamePageController implements Serializable, Initializable
 {
 	@FXML public Pane gameArea;
 	@FXML public ComboBox<String> options;
 	@FXML public Label score_box;
 
-	//private static final String[] COLOUR = {"#FF0000", "#00FF00", "#0000FF", "#FFFF00"};
+	private static final String[] COLOUR = {"#33FF99", "#33FF33", "#99FF33", "#FFFF33", "#FF9933", "#FF3333", "#FF3399", "#FF33FF", "#9933FF", "#3333FF"};
 	private static final double lambda = 0.7;
 	private static final long mov_offset = 2;
 	private static final String hex = "123456789ABCDE";
 	private static final Random rand = new Random();
 
 	private long score;
-	private String date;
 	private double animation_speed = 3;// 1.8 - 3
 	private long offset = (long)(1000*(1+(animation_speed-3)/3));
 
-	private static boolean turnLeft,turnRight;
-	
-	private long blockPrevTime;
-	private long tokenPrevTime;
-	private long blockCurrentTime;
-	private long tokenCurrentTime;
-	private long startTime;
-	private static boolean isPaused = false;
+	private static boolean turnLeft, turnRight, isGameOver, isPaused;
 	private static long moveTime;
-	
+	private long startTime;
+	private long blockPrevTime, tokenPrevTime, blockCurrentTime, tokenCurrentTime;
+
 	private ArrayList<PathTransition> transitions;
-	/*private AnimationTimer blockTimer, tokenTimer, snakeMovementTimer, gameLoopTimer;
-	private long blockPrevTime, tokenPrevTime;
-	private long startTime, moveTime;*/
-	
+	//private AnimationTimer blockTimer, tokenTimer, snakeMovementTimer, gameLoopTimer;
+
 	private Snake snake;
 	
 	private boolean holocaust = false;
 
-	public void setUpGamePage()
+	@Override
+	public void initialize(URL location, ResourceBundle resources)
 	{
-		date = "";
-		gameArea.getChildren().removeAll();
+		options.getItems().addAll("Restart", "Exit");
+	}
+
+	public void setUpGamePage() throws IOException, ClassNotFoundException
+	{
+		//System.out.println("gameArea size before = " + gameArea.getChildren().size());
+		gameArea.getChildren().remove(0, gameArea.getChildren().size());
+		//System.out.println("gameArea size after = " + gameArea.getChildren().size());
 		transitions = new ArrayList<>();
 		turnLeft = false; turnRight = false;
-		//blockTimer = null; tokenTimer = null; snakeMovementTimer = null; gameLoopTimer = null;
-		//options.getItems().addAll("Restart", "Exit");
+		isPaused = false; isGameOver = false;
 
-		if(Main.gameState == null)
+		//blockTimer = null; tokenTimer = null; snakeMovementTimer = null; gameLoopTimer = null;
+
+		if(!Main.isGameSaved())
 		{
 			score = 0;
 			offset = 1000;
@@ -88,14 +84,24 @@ public class GamePageController implements Serializable
 		}
 		else
 		{
-			score = Main.gameState.getScore();
-			offset = Main.gameState.getOffset();
-			animation_speed = Main.gameState.getAnimation_speed();
-			snake = new Snake(Main.gameState.getSnake_length(), Main.gameState.getSnake_head_x());
+			GameState gameState = null;
+			try
+			{
+				gameState = Main.deserializeLastGame();
+				Main.serializeLastGame(null);
+			}
+			catch (IOException e) {}
+			catch (ClassNotFoundException e) {
 
-			int sz = Main.gameState.getGameObjects_id().size();
-			ArrayList<String> ids = Main.gameState.getGameObjects_id();
-			ArrayList<double[]> vals = Main.gameState.getGameObjects_vals();
+			}
+			score = gameState.getScore();
+			offset = gameState.getOffset();
+			animation_speed = gameState.getAnimation_speed();
+			snake = new Snake(gameState.getSnake_length(), gameState.getSnake_head_x());
+
+			int sz = gameState.getGameObjects_id().size();
+			ArrayList<String> ids = gameState.getGameObjects_id();
+			ArrayList<double[]> vals = gameState.getGameObjects_vals();
 
 			for(int i=0; i<sz; i++)
 			{
@@ -107,7 +113,7 @@ public class GamePageController implements Serializable
 
 				if(ids.get(i).equals("BL"))
 				{
-					Block block = new Block((int)vals.get(i)[2], path.getStartX(),path.getStartY(),getRandomColour());
+					Block block = new Block((int)vals.get(i)[2], path.getStartX(), path.getStartY(), getBlockColour((int)vals.get(i)[2]));
 					Text text = new Text(block.getValue() + "");
 					text.setFont(Font.font(40));
 					StackPane stackPane = new StackPane();
@@ -158,18 +164,18 @@ public class GamePageController implements Serializable
 			}
 		}
 
-		System.out.println("gameArea size = " + gameArea.getChildren().size());
+		//System.out.println("gameArea size = " + gameArea.getChildren().size());
 
-		score_box.setText("Score : " + score + " ");
+		//score_box.setText("Score : " + score + " ");
 		gameArea.getChildren().add(snake.getHead());
 		gameArea.getChildren().addAll(snake.getBody());
 
 		blockPrevTime = System.currentTimeMillis();
 		tokenPrevTime = (System.currentTimeMillis() + offset/2);
 		startTime = System.currentTimeMillis();
-		moveTime = 0;
+		moveTime = System.currentTimeMillis();
 
-		System.out.println("Size = " + transitions.size());
+		//System.out.println("Size = " + transitions.size());
 		playTransitions();
 
 		setGlobals();
@@ -186,18 +192,18 @@ public class GamePageController implements Serializable
 			public void handle(long now)
 			{
 				long curTime = System.currentTimeMillis();
-				if(curTime-startTime > 2000 )
+				if(curTime - startTime > 1000 && !isGameOver)
 				{
 					startBlockGeneration();
 					startTokenGeneration();
-					setMotionEventHandlers();
+					setKeyPressEventHandlers();
 					this.stop();
 				}
 			}
 		}.start();
 	}
 
-	private static void setMotionEventHandlers() {
+	private static void setKeyPressEventHandlers() {
 		Main.gamePageScene.setOnKeyPressed((EventHandler<? super KeyEvent>) new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -219,123 +225,130 @@ public class GamePageController implements Serializable
         });
 	}
 
-	private void gameLoop()
-	{
+	private void gameLoop()	{
 		new AnimationTimer()
 		{
 			@Override
 			public void handle(long now)
 			{
-				//print(now-moveTime);
-				if(turnLeft==true && now-moveTime>mov_offset) {
-					snake.moveSnake(-1);
-					moveTime=System.currentTimeMillis();
-				}
-				else if(turnRight==true && now-moveTime>mov_offset) {
-					snake.moveSnake(1);
-					moveTime=System.currentTimeMillis();
-				}
-				else if(now-moveTime>mov_offset) {
-					snake.moveSnake(0);
-					moveTime=System.currentTimeMillis();
-				}
-
-				snake.setLeftBlock(false);
-				snake.setRightBlock(false);
-				for(int i=0;i < gameArea.getChildren().size();i++)
+				if(!isGameOver)
 				{
-					if(gameArea.getChildren().get(i).getClass() == StackPane.class)
+					//print(now-moveTime);
+					if (turnLeft == true && now - moveTime > mov_offset)
 					{
-						StackPane stackPane = (StackPane) gameArea.getChildren().get(i);
-						if(stackPane.getChildren().get(0).getClass() == Ball.class) {//checks collision with ball
-							ballHandler(stackPane,i);
-						}
-
-						else if(stackPane.getChildren().get(0).getClass() == Block.class) {//check collision with block
-							blocksHandler(stackPane,i);
-						}
-
-						else if(stackPane.getChildren().get(0).getClass() == Wall.class) {//check collision with wall
-							wallsHandler(stackPane,i);
-						}
+						snake.moveSnake(-1);
+						moveTime = System.currentTimeMillis();
+					} else if (turnRight == true && now - moveTime > mov_offset)
+					{
+						snake.moveSnake(1);
+						moveTime = System.currentTimeMillis();
+					} else if (now - moveTime > mov_offset)
+					{
+						snake.moveSnake(0);
+						moveTime = System.currentTimeMillis();
 					}
 
-					else if(gameArea.getChildren().get(i).getClass() == Magnet.class)
+					snake.setLeftBlock(false);
+					snake.setRightBlock(false);
+					for (int i = 0; i < gameArea.getChildren().size(); i++)
 					{
-						Magnet token = (Magnet) gameArea.getChildren().get(i);
-						if(snake.collision(token) && token.isActive()) {
-							token.setActive(false);
-							snake.magnetStart();
-							//activeMagnets.add(token);
-							tokenCollection(token);
-							gameArea.getChildren().get(i).setVisible(false);
-							snake.setActiveMagnet(true);
-						}
-
-					}
-					else if(gameArea.getChildren().get(i).getClass() == Shield.class)
-					{
-						Shield token = (Shield) gameArea.getChildren().get(i);
-						if(snake.collision(token) && token.isActive()) {
-							token.setActive(false);
-							snake.shieldStart();
-							//activeShields.add(token);
-							tokenCollection(token);
-							gameArea.getChildren().get(i).setVisible(false);
-							snake.setActiveShield(true);
-						}
-
-					}
-					else if(gameArea.getChildren().get(i).getClass() == DestroyBlocks.class)
-					{
-						DestroyBlocks token = (DestroyBlocks) gameArea.getChildren().get(i);
-						if(snake.collision(token) && token.isActive()) {
-							destroyBlocksHandler(token,i);
-						}
-
-					}
-
-				}
-
-				if (holocaust==true) {
-					holocaust=false;
-					for(int i=0;i < gameArea.getChildren().size();i++) {
-						if(gameArea.getChildren().get(i).getClass() == StackPane.class)
+						if (gameArea.getChildren().get(i).getClass() == StackPane.class)
 						{
 							StackPane stackPane = (StackPane) gameArea.getChildren().get(i);
-							if(stackPane.getChildren().get(0).getClass() == Block.class) {
-								Block block=(Block)stackPane.getChildren().get(0);
-								if(block.isActive()) {
-									block.setActive(false);
-									gameArea.getChildren().get(i).setVisible(false);
-									explode(block);
+							if (stackPane.getChildren().get(0).getClass() == Ball.class)
+							{//checks collision with ball
+								ballHandler(stackPane, i);
+							} else if (stackPane.getChildren().get(0).getClass() == Block.class)
+							{//check collision with block
+								blocksHandler(stackPane, i);
+							} else if (stackPane.getChildren().get(0).getClass() == Wall.class)
+							{//check collision with wall
+								wallsHandler(stackPane, i);
+							}
+						} else if (gameArea.getChildren().get(i).getClass() == Magnet.class)
+						{
+							Magnet token = (Magnet) gameArea.getChildren().get(i);
+							if (snake.collision(token) && token.isActive())
+							{
+								token.setActive(false);
+								snake.magnetStart();
+								//activeMagnets.add(token);
+								tokenCollection(token);
+								gameArea.getChildren().get(i).setVisible(false);
+								snake.setActiveMagnet(true);
+							}
+
+						} else if (gameArea.getChildren().get(i).getClass() == Shield.class)
+						{
+							Shield token = (Shield) gameArea.getChildren().get(i);
+							if (snake.collision(token) && token.isActive())
+							{
+								token.setActive(false);
+								snake.shieldStart();
+								//activeShields.add(token);
+								tokenCollection(token);
+								gameArea.getChildren().get(i).setVisible(false);
+								snake.setActiveShield(true);
+							}
+
+						} else if (gameArea.getChildren().get(i).getClass() == DestroyBlocks.class)
+						{
+							DestroyBlocks token = (DestroyBlocks) gameArea.getChildren().get(i);
+							if (snake.collision(token) && token.isActive())
+							{
+								destroyBlocksHandler(token, i);
+							}
+
+						}
+
+					}
+
+					if (holocaust == true)
+					{
+						holocaust = false;
+						for (int i = 0; i < gameArea.getChildren().size(); i++)
+						{
+							if (gameArea.getChildren().get(i).getClass() == StackPane.class)
+							{
+								StackPane stackPane = (StackPane) gameArea.getChildren().get(i);
+								if (stackPane.getChildren().get(0).getClass() == Block.class)
+								{
+									Block block = (Block) stackPane.getChildren().get(0);
+									if (block.isActive())
+									{
+										block.setActive(false);
+										gameArea.getChildren().get(i).setVisible(false);
+										explode(block);
+									}
 								}
 							}
 						}
 					}
+
+					if (snake.getActiveMagnet())
+					{
+						magnetHandler();
+					}
+
+					if (snake.getActiveShield())
+					{
+						shieldHandler();
+					}
+
+					snake.moveAhead();
+
+					speedModeration();
+
+					//animation_speed=3;
+					//offset=(long)(8-animation_speed)*300;//for speed = 4
+					//offset=(long)(8-animation_speed)*200;//for speed = 3
+					//offset=(long)(8-animation_speed)*150;for speed = 2
 				}
-
-				if(snake.getActiveMagnet()) {
-					magnetHandler();
-				}
-
-				if(snake.getActiveShield()) {
-					shieldHandler();
-				}
-
-				snake.moveAhead();
-
-				speedModeration();
-
-				//animation_speed=3;
-				//offset=(long)(8-animation_speed)*300;//for speed = 4
-				//offset=(long)(8-animation_speed)*200;//for speed = 3
-				//offset=(long)(8-animation_speed)*150;for speed = 2
 			}
 		}.start();
 	}
-	private void explode(Block block)
-	{
+
+	private void explode(Block block) {
 		double start_position_x = block.getX()+(block.getSIDE()/2)+(rand.nextDouble()*(block.getSIDE()/4)-(block.getSIDE()/8));
 		double start_position_y = block.getX()+(block.getSIDE()/2)+(rand.nextDouble()*(block.getSIDE()/4)-(block.getSIDE()/8));
 		updateScore(block.getValue());
@@ -435,22 +448,21 @@ public class GamePageController implements Serializable
 	private void ballCollection(StackPane pane,Ball ball) {
 		double start_position_x = pane.getTranslateX()+(rand.nextDouble()*(ball.getRadius()/4)-(ball.getRadius()/8));
 		double start_position_y = pane.getTranslateY()+(rand.nextDouble()*(ball.getRadius()/4)-(ball.getRadius()/8));
-		collectAnimation(start_position_x,start_position_y);	
+		//collectAnimation(start_position_x,start_position_y);
 	}
 	
 	private void tokenCollection(Token token) {
 		double start_position_x = token.getX()+(rand.nextDouble()*(15.0/4)-(15.0/8));
 		double start_position_y = token.getY()+(rand.nextDouble()*(15.0/4)-(15.0/8));
-		collectAnimation(start_position_x,start_position_y);	
+		//collectAnimation(start_position_x,start_position_y);
 	}
-	
+
 	private void wallsHandler(StackPane stackPane,int i) {
 		Wall wall=(Wall)stackPane.getChildren().get(0);
 		snake.sideWaysWall(stackPane, wall);
 	}
 	
-	private void ballHandler(StackPane stackPane,int i)
-	{
+	private void ballHandler(StackPane stackPane,int i)	{
 		Ball ball = (Ball)stackPane.getChildren().get(0);
 		int value = Integer.parseInt(ball.getValue());
 		if(snake.collision(stackPane) && ball.isActive()) {
@@ -501,11 +513,26 @@ public class GamePageController implements Serializable
 					}
 				}
 				else {
-					////////////////////////PUT EXIT ROUTINE HERE//////////////////////
+					//pauseTimers();
+					pauseTransitions();
+					isGameOver = true;
+					LeaderboardEntry entry = new LeaderboardEntry(score, getCurrentDate());
+					try	{
+						Main.updateLeaderBoard(entry);
+						Main.homePageController.setUpHomePage();
+						Main.homePageController.updateScoreLabel(score + "");
+						Main.mainStage.setScene(Main.homePageScene);
+					}
+					catch (IOException e){e.printStackTrace();}
+					catch (ClassNotFoundException e){e.printStackTrace();}
+					/*try {
+						Thread.sleep(1500);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}*/
+
 				}
-				
 			}
-			
 			else {
 				
 				block.setActive(false);
@@ -516,8 +543,7 @@ public class GamePageController implements Serializable
 		}
 	}
 	
-	private void destroyBlocksHandler(DestroyBlocks token,int i)
-	{
+	private void destroyBlocksHandler(DestroyBlocks token,int i) {
 		holocaust=true;
 		tokenCollection(token);
 		token.setActive(false);
@@ -547,8 +573,7 @@ public class GamePageController implements Serializable
 		snake.setActiveMagnet(!snake.magnetHasExpired());
 	}
 	
-	public void pauseTransitions()
-	{
+	public void pauseTransitions() {
     	int i = 0;
     	while (i<transitions.size())
     	{
@@ -558,8 +583,7 @@ public class GamePageController implements Serializable
     	this.isPaused = true;
     }
     
-    public void playTransitions()
-	{
+    public void playTransitions() {
     	int sz = transitions.size();
     	for(int i=0; i<sz; i++)
 		{
@@ -567,6 +591,22 @@ public class GamePageController implements Serializable
 		}
     	this.isPaused = false;
     }
+
+    public void pauseTimers()
+	{
+//		blockTimer.stop();
+//		tokenTimer.stop();
+//		//snakeMovementTimer.stop();
+//		gameLoopTimer.stop();
+	}
+
+	public void playTimers()
+	{
+//		blockTimer.start();
+//		tokenTimer.start();
+//		//snakeMovementTimer.start();
+//		gameLoopTimer.start();
+	}
 
     private void speedModeration()
 	{
@@ -576,7 +616,7 @@ public class GamePageController implements Serializable
 
 	private void startBlockGeneration()
 	{
-		AnimationTimer timer = new AnimationTimer()
+		new AnimationTimer()
 		{
 			@Override
 			public void handle(long now)
@@ -594,13 +634,12 @@ public class GamePageController implements Serializable
 				}
 				deleteGarbage();
 			}
-		};
-		timer.start();
+		}.start();
 	}
 
 	private void startTokenGeneration()
 	{
-		AnimationTimer timer = new AnimationTimer()
+		new AnimationTimer()
 		{
 			@Override
 			public void handle(long now)
@@ -617,8 +656,7 @@ public class GamePageController implements Serializable
 				}
 				deleteGarbage();
 			}
-		};
-		timer.start();
+		}.start();
 	}
 
 	public void generateBlocks()//generates blocks and walls
@@ -654,7 +692,7 @@ public class GamePageController implements Serializable
 				if(passable>=0 && i==indices[passable]) {
 					block_value = rand.nextInt(Math.max(snake.getLength()-2,1))+1;
 				}
-				Block block = new Block(block_value, path.getStartX(),path.getStartY(),getRandomColour());
+				Block block = new Block(block_value, path.getStartX(),path.getStartY(), getBlockColour(block_value));
 				Text text = new Text(block.getValue() + "");
 				text.setFont(Font.font(40));
 				StackPane stackPane = new StackPane();
@@ -768,6 +806,13 @@ public class GamePageController implements Serializable
 		return Color.valueOf(color);
 	}
 
+	public Paint getBlockColour(int blockValue)
+	{
+		if(blockValue >= 50)
+			return Color.valueOf(COLOUR[COLOUR.length-1]);
+		return Color.valueOf(COLOUR[blockValue/5]);
+	}
+
 	public int getNextBallNumber()
 	{
 	    return  (int)(Math.ceil(Math.log(1-rand.nextDouble())/(-lambda)));
@@ -782,8 +827,7 @@ public class GamePageController implements Serializable
 
 	public GameState getCurrentGameState()
 	{
-		date = getCurrentDate();
-		GameState gameState = new GameState(score, date, offset, animation_speed, snake.getHead_x(), snake.getLength());
+		GameState gamestate = new GameState(score, getCurrentDate(), offset, animation_speed, snake.getHead_x(), snake.getLength());
 
 		int sz = gameArea.getChildren().size();
 		for(int i=0; i<sz; i++)
@@ -794,49 +838,48 @@ public class GamePageController implements Serializable
 				if(stackPane.getChildren().get(0).getClass() == Block.class)
 				{
 					Block block = (Block) stackPane.getChildren().get(0);
-					gameState.getGameObjects_id().add(block.getID());
+					gamestate.getGameObjects_id().add(block.getID());
 					double[] values = {block.getX(), block.getY(), block.getValue()};
-					gameState.getGameObjects_vals().add(values);
+					gamestate.getGameObjects_vals().add(values);
 				}
 				else if(stackPane.getChildren().get(0).getClass() == Ball.class)
 				{
 					Ball ball = (Ball) stackPane.getChildren().get(0);
-					gameState.getGameObjects_id().add(ball.getID());
+					gamestate.getGameObjects_id().add(ball.getID());
 					double[] values = {ball.getCenterX(), ball.getCenterY(), Double.parseDouble(ball.getValue())};
-					gameState.getGameObjects_vals().add(values);
+					gamestate.getGameObjects_vals().add(values);
 				}
 			}
 			else if(gameArea.getChildren().get(i).getClass() == Magnet.class)
 			{
 				Magnet token = (Magnet) gameArea.getChildren().get(i);
-				gameState.getGameObjects_id().add(token.getID());
+				gamestate.getGameObjects_id().add(token.getID());
 				double[] values = {token.getX(), token.getY()};
-				gameState.getGameObjects_vals().add(values);
+				gamestate.getGameObjects_vals().add(values);
 			}
 			else if(gameArea.getChildren().get(i).getClass() == Shield.class)
 			{
 				Shield token = (Shield) gameArea.getChildren().get(i);
-				gameState.getGameObjects_id().add(token.getID());
+				gamestate.getGameObjects_id().add(token.getID());
 				double[] values = {token.getX(), token.getY()};
-				gameState.getGameObjects_vals().add(values);
+				gamestate.getGameObjects_vals().add(values);
 			}
 			else if(gameArea.getChildren().get(i).getClass() == DestroyBlocks.class)
 			{
 				DestroyBlocks token = (DestroyBlocks) gameArea.getChildren().get(i);
-				gameState.getGameObjects_id().add(token.getID());
+				gamestate.getGameObjects_id().add(token.getID());
 				double[] values = {token.getX(), token.getY()};
-				gameState.getGameObjects_vals().add(values);
+				gamestate.getGameObjects_vals().add(values);
 			}
 			else if(gameArea.getChildren().get(i).getClass() == Wall.class)
 			{
 				Wall token = (Wall) gameArea.getChildren().get(i);
-				gameState.getGameObjects_id().add(token.getID());
+				gamestate.getGameObjects_id().add(token.getID());
 				double[] values = {token.getX(), token.getY(), token.getLength()};
-				gameState.getGameObjects_vals().add(values);
+				gamestate.getGameObjects_vals().add(values);
 			}
 		}
-
-		return gameState;
+		return gamestate;
 	}
 
 	private void updateScore(int upd)
@@ -894,10 +937,10 @@ public class GamePageController implements Serializable
 	{
 		for (int i=0;i<gameArea.getChildren().size();i++)
 		{
-			if(gameArea.getChildren().get(i).getClass()==SnakePart.class)
+			if(gameArea.getChildren().get(i).getClass() == SnakePart.class)
 			{
 				SnakePart temp = (SnakePart)gameArea.getChildren().get(i);
-				if(temp.getPId()==id)
+				if(temp.getPId() == id)
 				{
 					gameArea.getChildren().get(i).setVisible(false);
 					gameArea.getChildren().remove(i);
@@ -909,7 +952,6 @@ public class GamePageController implements Serializable
 	public void optionSelected() throws IOException, ClassNotFoundException
 	{
 		//pauseTimers();
-		isPaused = true;
 		pauseTransitions();
 
 		String choice = options.getValue();
@@ -918,8 +960,7 @@ public class GamePageController implements Serializable
 			boolean ans = ConfirmBox.display("Confirm Restart", "Are you sure you want to restart?");
 			if(ans)
 			{
-				date = getCurrentDate();
-				LeaderboardEntry entry = new LeaderboardEntry(score, date);
+				LeaderboardEntry entry = new LeaderboardEntry(score, getCurrentDate());
 				Main.updateLeaderBoard(entry);
 				Main.gamePageController.setUpGamePage();
 			}
@@ -934,8 +975,8 @@ public class GamePageController implements Serializable
 			boolean ans = ConfirmBox.display("Confirm Exit", "Are you sure you want to quit?");
 			if(ans)
 			{
-				Main.gameState = getCurrentGameState();
-				Main.serializeLastGame(Main.gameState);
+				GameState gameState = getCurrentGameState();
+				Main.serializeLastGame(gameState);
 				Main.homePageController.setUpHomePage();
 				Main.mainStage.setScene(Main.homePageScene);
 			}

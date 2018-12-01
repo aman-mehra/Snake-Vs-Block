@@ -1,7 +1,6 @@
 package HomePage;
 
 import GameApplication.Main;
-import GamePage.GamePageController;
 import GamePage.GameState;
 import LeaderboardPage.LeaderboardEntry;
 import javafx.fxml.FXML;
@@ -19,29 +18,39 @@ public class HomePageController
 	public void setUpHomePage() throws IOException, ClassNotFoundException
 	{
 		//System.out.println("HomePage coming up !");
-		//System.out.println("In HP Last Game Saved = " + Main.isLastGameSaved());
-		lastGameScore.setText("Last Game : 0");
-		if(Main.isLastGameSaved())
+		//System.out.println("In HP Last Game Saved = " + Main.isGameSaved());
+
+		if(Main.isGameSaved())
 		{
 			resumegame.setDisable(false);
-			Main.gameState = Main.deserializeLastGame();
-			lastGameScore.setText("Last Game : " + Main.gameState.getScore());
+			GameState gameState = Main.deserializeLastGame();
+			lastGameScore.setText("Last Game : " + gameState.getScore());
 		}
+		else
+		{
+			resumegame.setDisable(true);
+		}
+	}
+
+	public void updateScoreLabel(String score)
+	{
+		lastGameScore.setText("Last Game : " + score);
 	}
 
 	public void startGameButtonPressed() throws IOException, ClassNotFoundException
 	{
-		if(Main.isLastGameSaved())
+		if(Main.isGameSaved())
 		{
-			LeaderboardEntry entry = new LeaderboardEntry(Main.gameState.getScore(), Main.gameState.getDate());
+			GameState gameState = Main.deserializeLastGame();
+			Main.serializeLastGame(null);
+			LeaderboardEntry entry = new LeaderboardEntry(gameState.getScore(), gameState.getDate());
 			Main.updateLeaderBoard(entry);
-			Main.gameState = null;
 		}
 		Main.gamePageController.setUpGamePage();
 		Main.mainStage.setScene(Main.gamePageScene);
 	}
 
-	public void resumeGameButtonPressed()
+	public void resumeGameButtonPressed() throws IOException, ClassNotFoundException
 	{
 		Main.gamePageController.setUpGamePage();
 		Main.mainStage.setScene(Main.gamePageScene);

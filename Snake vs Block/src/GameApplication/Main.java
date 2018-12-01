@@ -18,7 +18,6 @@ import java.util.ArrayList;
 
 public class Main extends Application {
 
-	public static GameState gameState;
 	public static FXMLLoader homePageLoader, leaderboardPageLoader, gamePageLoader;
 	public static HomePageController homePageController;
 	public static LeaderboardPageController leaderboardPageController;
@@ -67,8 +66,6 @@ public class Main extends Application {
 			{
 				//gamePageController.pauseTimers();
 				gamePageController.pauseTransitions();
-				gameState = gamePageController.getCurrentGameState();
-				System.out.println("Score = " + gameState.getScore());
 			}
 			closeApplication();
 		});
@@ -100,8 +97,7 @@ public class Main extends Application {
 		try
 		{
 			in = new ObjectInputStream(new FileInputStream("leaderboard.txt"));
-			File file = new File("leaderboard.txt");
-			if(file.length() != 0)
+			if(areEntriesPresent())
 			{
 				int sz = in.read();
 				scores = FXCollections.observableArrayList();
@@ -120,13 +116,22 @@ public class Main extends Application {
 	public static void updateLeaderBoard(LeaderboardEntry entry) throws IOException, ClassNotFoundException
 	{
 		ObservableList<LeaderboardEntry> entries = FXCollections.observableArrayList();
+
 		if(areEntriesPresent())
 			entries = Main.deserializeLeaderboard();
-		entries.add(entry);
+
+		boolean B1 = false;
+		int sz = entries.size();
+		for(int i=0; i<sz; i++)
+			if(entries.get(i).equals(entry))
+				B1 = true;
+
+		if(!B1)
+			entries.add(entry);
 		FXCollections.sort(entries);
 		ArrayList<LeaderboardEntry> updatedEntries = new ArrayList<>();
 
-		int sz = Math.min(entries.size(), 10);
+		sz = Math.min(entries.size(), 10);
 		for(int i=0; i<sz; i++)
 			updatedEntries.add(entries.get(i));
 
@@ -144,15 +149,22 @@ public class Main extends Application {
 	public static void serializeLastGame(GameState gameState) throws IOException
 	{
 		ObjectOutputStream out = null;
+		//PrintWriter writer = null;
 		try
 		{
 			out = new ObjectOutputStream(new FileOutputStream("lastgame.txt"));
-			out.writeObject(gameState);
+			//writer = new PrintWriter(new File("lastgame.txt"));
+			//if(gameState != null)
+				out.writeObject(gameState);
+			//else
+				//writer.write("");
 		}
 		finally
 		{
 			if(out != null)
 				out.close();
+			//if(writer != null)
+				//writer.close();
 		}
 	}
 
@@ -162,8 +174,11 @@ public class Main extends Application {
 		GameState gameState = null;
 		try
 		{
-			in = new ObjectInputStream(new FileInputStream("lastgame.txt"));
-			gameState = (GameState) in.readObject();
+			if((new File("lastgame.txt")).length() != 0)
+			{
+				in = new ObjectInputStream(new FileInputStream("lastgame.txt"));
+				gameState = (GameState) in.readObject();
+			}
 		}
 		finally
 		{
@@ -173,12 +188,17 @@ public class Main extends Application {
 		return gameState;
 	}
 
-	public static boolean isLastGameSaved()
+	public static boolean isGameSaved() throws IOException, ClassNotFoundException
 	{
-		File file = new File("lastgame.txt");
+		/*File file = new File("lastgame.txt");
 		if(file.length() == 0)
 			return false;
-		return true;
+		return true;*/
+
+		GameState gameState = Main.deserializeLastGame();
+		if(gameState != null)
+			return true;
+		return false;
 	}
 
 	public static void closeApplication()
@@ -186,8 +206,15 @@ public class Main extends Application {
 		boolean ans = ConfirmBox.display("Confirm Exit", "Are you sure you want to exit?");
 		if(ans)
 		{
-			try	{serializeLastGame(gameState);}
-			catch (IOException e) {}
+			if(mainStage.getScene() == gamePageScene)
+			{
+				try	{
+					GameState gameState = gamePageController.getCurrentGameState();
+					System.out.println("Score = " + gameState.getScore());
+					serializeLastGame(gameState);
+				}
+				catch (IOException e) {}
+			}
 			Main.mainStage.close();
 		}
 		else if(mainStage.getScene() == gamePageScene)

@@ -24,6 +24,17 @@ public class LeaderboardEntry implements Serializable, Comparable<LeaderboardEnt
 		return date.compareTo(o.date);
 	}
 
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(obj != null && getClass() == obj.getClass())
+		{
+			LeaderboardEntry entry = (LeaderboardEntry) obj;
+			return (score == entry.score && date.equals(entry.date));
+		}
+		return false;
+	}
+
 	public long getScore()
 	{
 		return score;
