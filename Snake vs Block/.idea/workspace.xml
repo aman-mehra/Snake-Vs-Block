@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="game serialization updated">
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="minor modifications">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GameApplication/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameApplication/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lastgame.txt" beforeDir="false" afterPath="$PROJECT_DIR$/lastgame.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GamePage/GamePageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GamePage/GamePageController.java" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
@@ -82,14 +82,14 @@
         <counts>
           <entry key="dummy" value="22" />
           <entry key="fxml" value="241" />
-          <entry key="java" value="18451" />
-          <entry key="txt" value="482" />
+          <entry key="java" value="18512" />
+          <entry key="txt" value="501" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="18451" />
-          <entry key="PLAIN_TEXT" value="504" />
+          <entry key="JAVA" value="18512" />
+          <entry key="PLAIN_TEXT" value="523" />
           <entry key="XML" value="241" />
         </counts>
       </usages-collector>
@@ -124,7 +124,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/GameApplication/Main.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="400">
@@ -141,11 +141,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/GamePage/GamePageController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
-              <caret line="570" column="55" selection-start-line="570" selection-start-column="55" selection-end-line="570" selection-end-column="55" />
+            <state relative-caret-position="440">
+              <caret line="586" column="33" selection-start-line="586" selection-start-column="33" selection-end-line="586" selection-end-column="33" />
               <folding>
                 <element signature="e#2728#3041#0" />
                 <element signature="e#3044#3723#0" />
@@ -302,12 +302,12 @@
         <option value="$PROJECT_DIR$/src/LeaderboardPage/LeaderboardPageController.java" />
         <option value="$PROJECT_DIR$/leaderboard.txt" />
         <option value="$PROJECT_DIR$/src/HomePage/HomePageController.java" />
-        <option value="$PROJECT_DIR$/lastgame.txt" />
         <option value="$PROJECT_DIR$/src/GameObjects/SnakePart.java" />
         <option value="$PROJECT_DIR$/src/GameObjects/Snake.java" />
         <option value="$PROJECT_DIR$/src/GamePage/GameState.java" />
-        <option value="$PROJECT_DIR$/src/GamePage/GamePageController.java" />
         <option value="$PROJECT_DIR$/src/GameApplication/Main.java" />
+        <option value="$PROJECT_DIR$/src/GamePage/GamePageController.java" />
+        <option value="$PROJECT_DIR$/lastgame.txt" />
       </list>
     </option>
   </component>
@@ -390,7 +390,7 @@
     <property name="MemberChooser.sorted" value="false" />
     <property name="OverrideImplement.combined" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543661172088" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543661324680" />
     <property name="dynamic.classpath" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Global Libraries" />
@@ -614,7 +614,14 @@
       <option name="project" value="LOCAL" />
       <updated>1543661087810</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="minor modifications">
+      <created>1543661226680</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1543661226680</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -747,10 +754,10 @@
     <MESSAGE value="Minor optimisations, additions" />
     <MESSAGE value="leaderboard serialization, deserialization done" />
     <MESSAGE value="branches merged" />
-    <MESSAGE value="minor modifications" />
     <MESSAGE value="game serialization done" />
     <MESSAGE value="game serialization updated" />
-    <option name="LAST_COMMIT_MESSAGE" value="game serialization updated" />
+    <MESSAGE value="minor modifications" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor modifications" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -992,12 +999,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lastgame.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/leaderboard.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/GameObjects/SnakePart.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="116">
@@ -1068,10 +1069,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/HomePage/HomePageController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GameApplication/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="69" column="74" selection-start-line="69" selection-start-column="74" selection-end-line="69" selection-end-column="74" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#serializeLeaderboard#0;class#Main#0" />
+            <element signature="method#deserializeLeaderboard#0;class#Main#0" />
+            <element signature="method#updateLeaderBoard#0;class#Main#0" />
+            <element signature="method#areEntriesPresent#0;class#Main#0" />
+            <element signature="method#isLastGameSaved#0;class#Main#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leaderboard.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lastgame.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/GamePage/GamePageController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="570" column="55" selection-start-line="570" selection-start-column="55" selection-end-line="570" selection-end-column="55" />
+        <state relative-caret-position="440">
+          <caret line="586" column="33" selection-start-line="586" selection-start-column="33" selection-end-line="586" selection-end-column="33" />
           <folding>
             <element signature="e#2728#3041#0" />
             <element signature="e#3044#3723#0" />
@@ -1092,28 +1121,6 @@
             <element signature="e#14149#15137#0" />
             <element signature="e#15140#15510#0" />
             <element signature="e#16396#16563#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/HomePage/HomePageController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="27" selection-start-line="27" selection-end-line="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/GameApplication/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="69" column="74" selection-start-line="69" selection-start-column="74" selection-end-line="69" selection-end-column="74" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#serializeLeaderboard#0;class#Main#0" />
-            <element signature="method#deserializeLeaderboard#0;class#Main#0" />
-            <element signature="method#updateLeaderBoard#0;class#Main#0" />
-            <element signature="method#areEntriesPresent#0;class#Main#0" />
-            <element signature="method#isLastGameSaved#0;class#Main#0" />
           </folding>
         </state>
       </provider>

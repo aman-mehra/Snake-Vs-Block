@@ -583,7 +583,9 @@ public class GamePageController implements Serializable
 
 	public GameState getCurrentGameState()
 	{
-		return (new GameState(score, date, offset, animation_speed, snake.getHead_x(), snake.getLength(), gameArea.getChildren().size() - snake.getLength() - 1));
+		GameState gameState = new GameState(score, date, offset, animation_speed, snake.getHead_x(), snake.getLength(), gameArea.getChildren().size() - snake.getLength() - 1);
+		//add data of gameObjects
+		return gameState;
 	}
 
 	public String getCurrentDate()
