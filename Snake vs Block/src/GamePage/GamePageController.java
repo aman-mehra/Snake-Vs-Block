@@ -70,9 +70,6 @@ public class GamePageController implements Serializable, Initializable
 		gameArea.getChildren().remove(0, gameArea.getChildren().size());
 		//System.out.println("gameArea size after = " + gameArea.getChildren().size());
 		transitions = new ArrayList<>();
-		turnLeft = false; turnRight = false;
-		isPaused = false; isGameOver = false;
-
 		//blockTimer = null; tokenTimer = null; snakeMovementTimer = null; gameLoopTimer = null;
 
 		if(!Main.isGameSaved())
@@ -99,7 +96,7 @@ public class GamePageController implements Serializable, Initializable
 			animation_speed = gameState.getAnimation_speed();
 			snake = new Snake(gameState.getSnake_length(), gameState.getSnake_head_x());
 
-			int sz = gameState.getGameObjects_id().size();
+			/*int sz = gameState.getGameObjects_id().size();
 			ArrayList<String> ids = gameState.getGameObjects_id();
 			ArrayList<double[]> vals = gameState.getGameObjects_vals();
 
@@ -161,19 +158,19 @@ public class GamePageController implements Serializable, Initializable
 					transitions.add(transition);
 					gameArea.getChildren().add(wall);
 				}
-			}
+			}*/
 		}
 
-		//System.out.println("gameArea size = " + gameArea.getChildren().size());
+		System.out.println("gameArea size = " + gameArea.getChildren().size());
 
-		//score_box.setText("Score : " + score + " ");
+		score_box.setText("Score : " + score + " ");
 		gameArea.getChildren().add(snake.getHead());
 		gameArea.getChildren().addAll(snake.getBody());
-
+		turnLeft = false; turnRight = false;
+		isPaused = false; isGameOver = false;
 		blockPrevTime = System.currentTimeMillis();
 		tokenPrevTime = (System.currentTimeMillis() + offset/2);
 		startTime = System.currentTimeMillis();
-		moveTime = System.currentTimeMillis();
 
 		//System.out.println("Size = " + transitions.size());
 		playTransitions();
@@ -194,8 +191,8 @@ public class GamePageController implements Serializable, Initializable
 				long curTime = System.currentTimeMillis();
 				if(curTime - startTime > 1000 && !isGameOver)
 				{
-					startBlockGeneration();
-					startTokenGeneration();
+					//startBlockGeneration();
+					//startTokenGeneration();
 					setKeyPressEventHandlers();
 					this.stop();
 				}
@@ -448,7 +445,7 @@ public class GamePageController implements Serializable, Initializable
 	private void ballCollection(StackPane pane,Ball ball) {
 		double start_position_x = pane.getTranslateX()+(rand.nextDouble()*(ball.getRadius()/4)-(ball.getRadius()/8));
 		double start_position_y = pane.getTranslateY()+(rand.nextDouble()*(ball.getRadius()/4)-(ball.getRadius()/8));
-		//collectAnimation(start_position_x,start_position_y);
+		collectAnimation(start_position_x,start_position_y);
 	}
 	
 	private void tokenCollection(Token token) {
@@ -525,12 +522,11 @@ public class GamePageController implements Serializable, Initializable
 					}
 					catch (IOException e){e.printStackTrace();}
 					catch (ClassNotFoundException e){e.printStackTrace();}
-					/*try {
-						Thread.sleep(1500);
+					try {
+						Thread.sleep(2000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
-					}*/
-
+					}
 				}
 			}
 			else {

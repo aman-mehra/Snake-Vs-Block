@@ -22,7 +22,7 @@ public class Snake
 	private long magnetStartTime;
 
 	private static final int radius = 11;
-	private static final int part_radius = 9;
+	private static final int part_radius = 7;
 	private static final int ball_radius = 15;
 	private static final int magnet_radius = 150;
 	private static final double displace = 7.1;
