@@ -22,8 +22,8 @@
       </HBox>
       <TableView fx:id="leaderboard" prefHeight="550.0" prefWidth="475.0">
         <columns>
-          <TableColumn editable="false" prefWidth="175.0" resizable="false" sortable="false" text="Score" />
-            <TableColumn editable="false" minWidth="200.0" prefWidth="300.0" resizable="false" sortable="false" text="Date" />
+          <TableColumn fx:id="score" editable="false" prefWidth="175.0" resizable="false" sortable="false" text="Score" />
+            <TableColumn fx:id="date" editable="false" minWidth="200.0" prefWidth="300.0" resizable="false" sortable="false" text="Date" />
         </columns>
       </TableView>
    </children>

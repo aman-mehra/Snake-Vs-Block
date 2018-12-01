@@ -11,18 +11,15 @@ import javafx.util.Duration;
 public class Block extends Rectangle
 {
 	private static final int SIDE = 100;
-	private static int idGenerator;
-	private final String ID;
+	private final String ID = "BL";
 	private int value;
 	private boolean active;
 
 	public Block(int value, double topleft_x, double topleft_y, Paint colour)
 	{
+		super(topleft_x, topleft_y, SIDE, SIDE);
 		this.active = true;
 		this.value = value;
-		this.ID = "BL" + idGenerator++;
-		this.setHeight(SIDE); this.setWidth(SIDE);
-		this.setX(topleft_x); this.setY(topleft_y);
 		this.setArcHeight(30); this.setArcWidth(30);
 		this.setFill(colour);
 	}
@@ -48,11 +45,6 @@ public class Block extends Rectangle
 	public static int getSIDE()
 	{
 		return SIDE;
-	}
-
-	public static int getIdGenerator()
-	{
-		return idGenerator;
 	}
 
 	public String getID()

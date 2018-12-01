@@ -22,7 +22,7 @@ public class Snake
 	private long magnetStartTime;
 
 	private static final int radius = 11;
-	private static final int part_radius = 5;
+	private static final int part_radius = 9;
 	private static final int ball_radius = 15;
 	private static final int magnet_radius = 150;
 	private static final double displace = 7.1;
@@ -38,7 +38,15 @@ public class Snake
 		this.length = 5; 
 		this.head_x = 250;
 		this.head = new StackPane();
-		
+		this.body = new ArrayList<SnakePart>();
+		initialize_snake();
+	}
+
+	public Snake(int length, double head_x)
+	{
+		this.length = length;
+		this.head_x = head_x;
+		this.head = new StackPane();
 		this.body = new ArrayList<SnakePart>();
 		initialize_snake();
 	}
@@ -46,7 +54,7 @@ public class Snake
 	public void initialize_snake() {
 		SnakePart part = new SnakePart(head_x,head_y,radius);
 		vel=displace;
-		Text text = new Text("5");
+		Text text = new Text(length + "");
 		text.setFont(Font.font(16));
 		head.getChildren().addAll(part, text);
 		head.setTranslateX(part.getCenterX() - radius);
@@ -153,7 +161,7 @@ public class Snake
 		}
 		
 		double temp_x;
-		head.setTranslateX((prev_x+dir*vel) );
+		head.setTranslateX((prev_x + (dir*vel)/5 ));
 		prev_x+=radius;
 		for (int i = 0 ; i<this.body.size();i++) {
 			temp_x=this.body.get(i).getCenterX();
@@ -219,7 +227,7 @@ public class Snake
 	}
 	
 	public void sideWaysWall(StackPane pane,Wall wall) {
-		double right_hor_dist = head.getTranslateX() - (pane.getTranslateX()+wall.getBreadth());//right with respect to wall
+		double right_hor_dist = head.getTranslateX() - (pane.getTranslateX() + wall.getBreadth());//right with respect to wall
 		double left_hor_dist = pane.getTranslateX() - head.getTranslateX();//left with respect to wall
 		double limit = radius+2;
 		

@@ -1,8 +1,8 @@
 package GamePage;
 
-import GameObjects.Snake;
-
 import java.io.Serializable;
+import java.util.ArrayList;
+
 
 public class GameState implements Serializable
 {
@@ -11,11 +11,10 @@ public class GameState implements Serializable
 	private double animation_speed;
 	private double snake_head_x;
 	private int snake_length;
-	private int number_of_gameObjects;
-	private String[] gameObjects_id;
-	private double[][] gameObjects_pos;
+	private ArrayList<String> gameObjects_id;
+	private ArrayList<double[]> gameObjects_vals;
 
-	public GameState(long score, String date, long offset, double animation_speed, double snake_head_x, int snake_length, int number_of_gameObjects)
+	public GameState(long score, String date, long offset, double animation_speed, double snake_head_x, int snake_length)
 	{
 		this.score = score;
 		this.date = date;
@@ -23,9 +22,8 @@ public class GameState implements Serializable
 		this.animation_speed = animation_speed;
 		this.snake_head_x = snake_head_x;
 		this.snake_length = snake_length;
-		this.number_of_gameObjects = number_of_gameObjects;
-		this.gameObjects_id = new String[number_of_gameObjects];
-		this.gameObjects_pos = new double[number_of_gameObjects][2];
+		this.gameObjects_id = new ArrayList<>();
+		this.gameObjects_vals = new ArrayList<>();
 	}
 
 	public long getScore()
@@ -88,33 +86,23 @@ public class GameState implements Serializable
 		this.snake_length = snake_length;
 	}
 
-	public int getNumber_of_gameObjects()
-	{
-		return number_of_gameObjects;
-	}
-
-	public void setNumber_of_gameObjects(int number_of_gameObjects)
-	{
-		this.number_of_gameObjects = number_of_gameObjects;
-	}
-
-	public String[] getGameObjects_id()
+	public ArrayList<String> getGameObjects_id()
 	{
 		return gameObjects_id;
 	}
 
-	public void setGameObjects_id(String[] gameObjects_id)
+	public void setGameObjects_id(ArrayList<String> gameObjects_id)
 	{
 		this.gameObjects_id = gameObjects_id;
 	}
 
-	public double[][] getGameObjects_pos()
+	public ArrayList<double[]> getGameObjects_vals()
 	{
-		return gameObjects_pos;
+		return gameObjects_vals;
 	}
 
-	public void setGameObjects_pos(double[][] gameObjects_pos)
+	public void setGameObjects_vals(ArrayList<double[]> gameObjects_vals)
 	{
-		this.gameObjects_pos = gameObjects_pos;
+		this.gameObjects_vals = gameObjects_vals;
 	}
 }

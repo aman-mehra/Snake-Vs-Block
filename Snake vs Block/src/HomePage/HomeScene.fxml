@@ -40,12 +40,7 @@
       </Button>
       <HBox alignment="CENTER" prefHeight="50.0" spacing="10.0">
          <children>
-            <Label text="Last Game :  " textFill="#00eeff">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <Label layoutX="198.0" layoutY="48.0" text="0" textFill="#00eeff">
+            <Label fx:id="lastGameScore" text="Last Game : 0" textFill="#00eeff">
                <font>
                   <Font size="20.0" />
                </font>

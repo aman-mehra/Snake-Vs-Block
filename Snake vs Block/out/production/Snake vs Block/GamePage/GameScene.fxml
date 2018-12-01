@@ -14,7 +14,7 @@
     <children>
         <HBox>
             <children>
-                <ComboBox fx:id="options" onAction="#optionSelected" prefWidth="100.0" promptText="Options" style="-fx-background-color: #00eeff;" />
+                <ComboBox fx:id="options" onAction="#optionSelected" prefWidth="100.0" promptText="Options" style="-fx-background-color: #00eeff;" translateZ="100.0" />
                 <Region HBox.hgrow="ALWAYS" />
                 <Label fx:id="score_box" text="Score : 0 " textFill="#00eeff">
                     <font>

@@ -1,7 +1,5 @@
 package GameObjects;
 
-import javafx.scene.layout.Pane;
-
 public interface Token
 {
 	public double getX();

@@ -13,21 +13,17 @@ import javafx.util.Duration;
 
 public class DestroyBlocks extends Circle implements Token
 {	
-	//private static final Image img = new Image("file:///home/bhavye/Desktop/AP/Project/Snake%20vs%20Block/bomb.png");
+	private static final Image img = new Image("file:///home/bhavye/Desktop/AP/Project/Snake%20vs%20Block/bomb.png");
 	//private static final Image img = new Image("file:///../../resources/bomb.png");
-	private static final Image img = new Image("file://../resources/bomb.png");
+	//private static final Image img = new Image("file://../resources/bomb.png");
 	private static final double RADIUS = 15;
-	private static int idGenerator;
-	private final String ID;
+	private final String ID = "DB";
 	private long scoreCollected;
 	private boolean isActive = true;
 	
 	public DestroyBlocks(double center_x, double center_y)
 	{
-		this.ID = "DB" + idGenerator++;
-		this.setCenterX(center_x);
-		this.setCenterY(center_y);
-		this.setRadius(RADIUS);
+		super(center_x, center_y, RADIUS);
 		this.setFill(new ImagePattern(img));
 
 	}

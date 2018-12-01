@@ -7,20 +7,16 @@ import javafx.scene.shape.Circle;
 
 public class Ball extends Circle
 {
-	private static int idGenerator = 0;
 	private Paint COLOUR = Color.valueOf("#FF69B4");
-	private final String ID;
+	private final String ID = "B";
 	private String value;
 	private boolean active;
 
 	public Ball(String value, double center_x, double center_y, double radius)
 	{
+		super(center_x, center_y, radius);
 		this.active=true;
 		this.value = value;
-		this.ID = "B" + idGenerator++;
-		this.setCenterX(center_x);
-		this.setCenterY(center_y);
-		this.setRadius(radius);
 		this.setFill(COLOUR);
 	}
 

@@ -32,7 +32,7 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws IOException
+    public void start(Stage primaryStage) throws IOException, ClassNotFoundException
 	{
 
     	mainStage = primaryStage;
@@ -67,7 +67,8 @@ public class Main extends Application {
 			{
 				//gamePageController.pauseTimers();
 				gamePageController.pauseTransitions();
-				Main.gameState = gamePageController.getCurrentGameState();
+				gameState = gamePageController.getCurrentGameState();
+				System.out.println("Score = " + gameState.getScore());
 			}
 			closeApplication();
 		});
