@@ -11,8 +11,8 @@ import javafx.util.Duration;
 
 public class Shield extends Circle implements Token
 {
-	//private static final Image img = new Image("file:///home/bhavye/Desktop/AP/Project/Snake%20vs%20Block/shield.png");
-	private static final Image img = new Image("file://../resources/shield.png");
+	private static final Image img = new Image("file:///home/bhavye/Desktop/AP/Project/Snake%20vs%20Block/shield.png");
+	//private static final Image img = new Image("file://../resources/shield.png");
 	private static final double RADIUS = 15;
 	//private static final int TIME_TO_LIVE = 5000;
 	private final String ID = "S";

@@ -30,7 +30,7 @@ import java.util.Date;
 import java.util.Random;
 import java.util.ResourceBundle;
 
-public class GamePageController implements Serializable, Initializable
+public class GamePageController
 {
 	@FXML public Pane gameArea;
 	@FXML public ComboBox<String> options;
@@ -58,14 +58,9 @@ public class GamePageController implements Serializable, Initializable
 	
 	private boolean holocaust = false;
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources)
-	{
-		options.getItems().addAll("Restart", "Exit");
-	}
-
 	public void setUpGamePage() throws IOException, ClassNotFoundException
 	{
+		options.getItems().addAll("Restart", "Home");
 		//System.out.println("gameArea size before = " + gameArea.getChildren().size());
 		gameArea.getChildren().remove(0, gameArea.getChildren().size());
 		//System.out.println("gameArea size after = " + gameArea.getChildren().size());
@@ -194,7 +189,6 @@ public class GamePageController implements Serializable, Initializable
 				{
 					startBlockGeneration();
 					startTokenGeneration();
-					
 					this.stop();
 				}
 			}
@@ -208,6 +202,12 @@ public class GamePageController implements Serializable, Initializable
                 switch (event.getCode()) {
                 	case LEFT:  turnLeft  = true;moveTime=System.currentTimeMillis(); break;
                 	case RIGHT: turnRight  = true;moveTime=System.currentTimeMillis(); break;
+					default:
+						if(isPaused)
+							playTransitions();
+						else
+							pauseTransitions();
+						break;
                 }
             }
         });
@@ -218,12 +218,8 @@ public class GamePageController implements Serializable, Initializable
                 switch (event.getCode()) {
                     case LEFT: turnLeft  = false; break;
                     case RIGHT: turnRight  = false; break;
-					case UP: {
-						if(isPaused)
-							playTransitions();
-						else
-							pauseTransitions();
-					} break;
+					default:
+						break;
                 }
             }
         });
@@ -473,7 +469,7 @@ public class GamePageController implements Serializable, Initializable
 	private void tokenCollection(Token token) {
 		double start_position_x = token.getX()+(rand.nextDouble()*(15.0/4)-(15.0/8));
 		double start_position_y = token.getY()+(rand.nextDouble()*(15.0/4)-(15.0/8));
-		collectAnimation(start_position_x,start_position_y);
+		//collectAnimation(start_position_x,start_position_y);
 	}
 
 	private void wallsHandler(StackPane stackPane,int i) {
@@ -540,7 +536,7 @@ public class GamePageController implements Serializable, Initializable
 					snake.moveSnake(0);
 					snake.setLeftBlock(false);
 					snake.setRightBlock(false);
-					unsetKeyPressEventHandlers();
+					//unsetKeyPressEventHandlers();
 					moveTime = Long.MAX_VALUE;
 					try	{
 						Main.updateLeaderBoard(entry);
@@ -551,7 +547,7 @@ public class GamePageController implements Serializable, Initializable
 					catch (IOException e){e.printStackTrace();}
 					catch (ClassNotFoundException e){e.printStackTrace();}
 					try {
-						Thread.sleep(1000);
+						Thread.sleep(2000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -615,8 +611,6 @@ public class GamePageController implements Serializable, Initializable
 		}
     	this.isPaused = false;
     }
-
-   
 
     private void speedModeration()
 	{
