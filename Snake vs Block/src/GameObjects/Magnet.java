@@ -11,9 +11,9 @@ import javafx.util.Duration;
 
 public class Magnet extends Circle implements Token
 {
-	private static final Image img = new Image("file:///home/bhavye/Desktop/AP/Project/Snake%20vs%20Block/magnet.png");
+	//private static final Image img = new Image("file:///home/bhavye/Desktop/AP/Project/Snake%20vs%20Block/magnet.png");
 	//private static final Image img = new Image("file:///D:/Aman M/eclipse-workspace/SnakeVsBlock/resources/magnet.png");
-	//private static final Image img = new Image("file://../resources/magnet.png");
+	private static final Image img = new Image("file://../resources/magnet.png");
 	private static final double RADIUS = 15;
 	//private static final int TIME_TO_LIVE = 5000;
 	private final String ID = "M";

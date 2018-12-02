@@ -12,8 +12,9 @@ public class Wall extends Rectangle
 	
 	public Wall(double topleft_x, double topleft_y, int length)
 	{
-		super(topleft_x, topleft_y, BREADTH, length);
 		this.length = length;
+		this.setHeight(length); this.setWidth(BREADTH);
+		this.setX(topleft_x); this.setY(topleft_y);
 		this.setArcHeight(2); this.setArcWidth(2);
 		this.setFill(Color.valueOf("#FFFFFF"));
 	}

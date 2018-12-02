@@ -161,7 +161,7 @@ public class Snake
 		}
 		
 		double temp_x;
-		head.setTranslateX((prev_x + (dir*vel)/10 ));
+		head.setTranslateX((prev_x + (dir*vel) ));
 		prev_x+=radius;
 		for (int i = 0 ; i<this.body.size();i++) {
 			temp_x=this.body.get(i).getCenterX();

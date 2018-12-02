@@ -178,8 +178,8 @@ public class GamePageController implements Serializable, Initializable
 		setGlobals();
 		gameLoop();
 
-		startBlockGeneration();
-		startTokenGeneration();
+		//startBlockGeneration();
+		//startTokenGeneration();
 	}
 
 	private void setGlobals() {
@@ -188,12 +188,13 @@ public class GamePageController implements Serializable, Initializable
 			@Override
 			public void handle(long now)
 			{
+				setKeyPressEventHandlers();
 				long curTime = System.currentTimeMillis();
-				if(curTime - startTime > 1000 && !isGameOver)
+				if(curTime - startTime > 1000 )
 				{
-					//startBlockGeneration();
-					//startTokenGeneration();
-					setKeyPressEventHandlers();
+					startBlockGeneration();
+					startTokenGeneration();
+					
 					this.stop();
 				}
 			}
@@ -217,13 +218,29 @@ public class GamePageController implements Serializable, Initializable
                 switch (event.getCode()) {
                     case LEFT: turnLeft  = false; break;
                     case RIGHT: turnRight  = false; break;
-					case SPACE: {
+					case UP: {
 						if(isPaused)
 							playTransitions();
 						else
 							pauseTransitions();
 					} break;
                 }
+            }
+        });
+	}
+	
+	private void unsetKeyPressEventHandlers() {
+		Main.gamePageScene.setOnKeyPressed((EventHandler<? super KeyEvent>) new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+          
+            }
+        });
+		
+		Main.gamePageScene.setOnKeyReleased((EventHandler<? super KeyEvent>) new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+              
             }
         });
 	}
@@ -236,7 +253,6 @@ public class GamePageController implements Serializable, Initializable
 			{
 				if(!isGameOver)
 				{
-					//print(now-moveTime);
 					if (turnLeft == true && now - moveTime > mov_offset)
 					{
 						snake.moveSnake(-1);
@@ -457,7 +473,7 @@ public class GamePageController implements Serializable, Initializable
 	private void tokenCollection(Token token) {
 		double start_position_x = token.getX()+(rand.nextDouble()*(15.0/4)-(15.0/8));
 		double start_position_y = token.getY()+(rand.nextDouble()*(15.0/4)-(15.0/8));
-		//collectAnimation(start_position_x,start_position_y);
+		collectAnimation(start_position_x,start_position_y);
 	}
 
 	private void wallsHandler(StackPane stackPane,int i) {
@@ -520,6 +536,12 @@ public class GamePageController implements Serializable, Initializable
 					pauseTransitions();
 					isGameOver = true;
 					LeaderboardEntry entry = new LeaderboardEntry(score, getCurrentDate());
+					snake.moveSnake(0);
+					snake.moveSnake(0);
+					snake.setLeftBlock(false);
+					snake.setRightBlock(false);
+					unsetKeyPressEventHandlers();
+					moveTime = Long.MAX_VALUE;
 					try	{
 						Main.updateLeaderBoard(entry);
 						Main.homePageController.setUpHomePage();
@@ -529,7 +551,7 @@ public class GamePageController implements Serializable, Initializable
 					catch (IOException e){e.printStackTrace();}
 					catch (ClassNotFoundException e){e.printStackTrace();}
 					try {
-						Thread.sleep(2000);
+						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -594,21 +616,7 @@ public class GamePageController implements Serializable, Initializable
     	this.isPaused = false;
     }
 
-    public void pauseTimers()
-	{
-//		blockTimer.stop();
-//		tokenTimer.stop();
-//		//snakeMovementTimer.stop();
-//		gameLoopTimer.stop();
-	}
-
-	public void playTimers()
-	{
-//		blockTimer.start();
-//		tokenTimer.start();
-//		//snakeMovementTimer.start();
-//		gameLoopTimer.start();
-	}
+   
 
     private void speedModeration()
 	{
@@ -708,8 +716,10 @@ public class GamePageController implements Serializable, Initializable
 				Line path = getWallPath(i);
 				int wall_length = rand.nextInt(150)+100;
 				Wall wall = new Wall(path.getStartX(),path.getStartY(),wall_length);
-				gameArea.getChildren().add(wall);
-				PathTransition transition = new PathTransition(Duration.seconds(animation_speed*(17.0/11)), path, wall);
+				StackPane stackPane = new StackPane();
+				stackPane.getChildren().addAll(wall);
+				gameArea.getChildren().add(stackPane);
+				PathTransition transition = new PathTransition(Duration.seconds(animation_speed*(17.0/11)), path, stackPane);
 				transition.play();
 				transitions.add(transition);
 			}
