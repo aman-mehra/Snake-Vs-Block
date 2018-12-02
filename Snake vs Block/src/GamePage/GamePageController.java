@@ -30,7 +30,7 @@ import java.util.Date;
 import java.util.Random;
 import java.util.ResourceBundle;
 
-public class GamePageController implements Serializable, Initializable
+public class GamePageController
 {
 	@FXML public Pane gameArea;
 	@FXML public ComboBox<String> options;
@@ -58,19 +58,17 @@ public class GamePageController implements Serializable, Initializable
 	
 	private boolean holocaust = false;
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources)
-	{
-		options.getItems().addAll("Restart", "Exit");
-	}
 
 	public void setUpGamePage() throws IOException, ClassNotFoundException
 	{
+		options.getItems().addAll("Restart", "Home");
 		//System.out.println("gameArea size before = " + gameArea.getChildren().size());
 		gameArea.getChildren().remove(0, gameArea.getChildren().size());
 		//System.out.println("gameArea size after = " + gameArea.getChildren().size());
 		transitions = new ArrayList<>();
 		//blockTimer = null; tokenTimer = null; snakeMovementTimer = null; gameLoopTimer = null;
+
+		//System.out.println("In GP Last Game Saved = " + Main.isGameSaved());
 
 		if(!Main.isGameSaved())
 		{
@@ -180,6 +178,7 @@ public class GamePageController implements Serializable, Initializable
 
 		startBlockGeneration();
 		startTokenGeneration();
+		//setKeyPressEventHandlers();
 	}
 
 	private void setGlobals() {
@@ -191,8 +190,8 @@ public class GamePageController implements Serializable, Initializable
 				long curTime = System.currentTimeMillis();
 				if(curTime - startTime > 1000 && !isGameOver)
 				{
-					//startBlockGeneration();
-					//startTokenGeneration();
+//					startBlockGeneration();
+//					startTokenGeneration();
 					setKeyPressEventHandlers();
 					this.stop();
 				}
@@ -201,12 +200,29 @@ public class GamePageController implements Serializable, Initializable
 	}
 
 	private void setKeyPressEventHandlers() {
+
 		Main.gamePageScene.setOnKeyPressed((EventHandler<? super KeyEvent>) new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
                 switch (event.getCode()) {
-                	case LEFT:  turnLeft  = true;moveTime=System.currentTimeMillis(); break;
-                	case RIGHT: turnRight  = true;moveTime=System.currentTimeMillis(); break;
+                	case LEFT:
+						System.out.println("Left key pressed");
+						turnLeft  = true;
+						moveTime=System.currentTimeMillis();
+                		break;
+                	case RIGHT:
+						System.out.println("Right key pressed");
+						turnRight  = true;
+						moveTime=System.currentTimeMillis();
+                		break;
+					default:
+						System.out.println("Other key pressed");
+						if(isPaused)
+							playTransitions();
+						else
+							pauseTransitions();
+						//unsetKeyPressEventHandlers();
+						break;
                 }
             }
         });
@@ -215,17 +231,44 @@ public class GamePageController implements Serializable, Initializable
             @Override
             public void handle(KeyEvent event) {
                 switch (event.getCode()) {
-                    case LEFT: turnLeft  = false; break;
-                    case RIGHT: turnRight  = false; break;
-					case SPACE: {
-						if(isPaused)
-							playTransitions();
-						else
-							pauseTransitions();
-					} break;
+                    case LEFT:
+                    	turnLeft = false;
+                    	break;
+                    case RIGHT:
+                    	turnRight = false;
+                    	break;
+					default:
+						break;
                 }
             }
         });
+	}
+
+	private void unsetKeyPressEventHandlers() {
+		Main.gamePageScene.setOnKeyPressed((EventHandler<? super KeyEvent>) new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent event) {
+				switch (event.getCode()) {
+					default:
+						/*if(isPaused)
+							playTransitions();
+						else
+							pauseTransitions();*/
+						//setKeyPressEventHandlers();
+						break;
+				}
+			}
+		});
+
+		Main.gamePageScene.setOnKeyReleased((EventHandler<? super KeyEvent>) new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent event) {
+				switch (event.getCode()) {
+					default:
+						break;
+				}
+			}
+		});
 	}
 
 	private void gameLoop()	{
@@ -519,6 +562,7 @@ public class GamePageController implements Serializable, Initializable
 					//pauseTimers();
 					pauseTransitions();
 					isGameOver = true;
+					//unsetKeyPressEventHandlers();
 					LeaderboardEntry entry = new LeaderboardEntry(score, getCurrentDate());
 					try	{
 						Main.updateLeaderBoard(entry);
@@ -810,9 +854,9 @@ public class GamePageController implements Serializable, Initializable
 
 	public Paint getBlockColour(int blockValue)
 	{
-		if(blockValue >= 50)
+		if(blockValue >= 30)
 			return Color.valueOf(COLOUR[COLOUR.length-1]);
-		return Color.valueOf(COLOUR[blockValue/5]);
+		return Color.valueOf(COLOUR[blockValue/3]);
 	}
 
 	public int getNextBallNumber()

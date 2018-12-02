@@ -27,7 +27,7 @@ public class Snake
 	private static final int magnet_radius = 150;
 	private static final double displace = 7.1;
 	private static final double acc = 0.32;
-	private static final int TIME_TO_LIVE = 4000;
+	private static final int TIME_TO_LIVE = 5000;
 	private static double vel;
 	
 	private static boolean leftMoveBlock=false;
@@ -159,7 +159,6 @@ public class Snake
 			vel=displace;
 			dir=-1;
 		}
-		
 		double temp_x;
 		head.setTranslateX((prev_x + (dir*vel)/10 ));
 		prev_x+=radius;
