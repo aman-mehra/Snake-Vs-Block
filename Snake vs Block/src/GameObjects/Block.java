@@ -54,7 +54,7 @@ public class Block extends Rectangle
 
 	/**
 	 * Value setter
-	 * @param active
+	 * @param value
 	 * @author Bhavye
 	 */
 	public void setValue(int value)

@@ -5,31 +5,10 @@
     <option name="CUSTOM_SCOPE_NAME" value="Module 'Snake vs Block'" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="play again bug fixed">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="JavaDoc completed and merged">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/final/GameObjects/Snake.java" beforeDir="false" afterPath="$PROJECT_DIR$/final/GameObjects/Snake.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/final/GamePage/GamePageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/final/GamePage/GamePageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Snake vs Block/GameApplication/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Snake vs Block/GameApplication/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Snake vs Block/GameObjects/Snake.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Snake vs Block/GameObjects/Snake.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Snake vs Block/GamePage/GamePageController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Snake vs Block/GamePage/GamePageController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GameApplication/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameApplication/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GameObjects/Ball.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameObjects/Ball.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GameObjects/Block.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameObjects/Block.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GameObjects/DestroyBlocks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameObjects/DestroyBlocks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GameObjects/ExplosionPart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameObjects/ExplosionPart.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GameObjects/Magnet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameObjects/Magnet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GameObjects/Shield.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameObjects/Shield.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GameObjects/Snake.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameObjects/Snake.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GameObjects/SnakePart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameObjects/SnakePart.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GameObjects/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameObjects/Token.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GameObjects/Wall.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameObjects/Wall.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GamePage/GamePageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GamePage/GamePageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GamePage/GameState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GamePage/GameState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HomePage/HomePageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HomePage/HomePageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LeaderboardPage/LeaderboardEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LeaderboardPage/LeaderboardEntry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LeaderboardPage/LeaderboardPageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LeaderboardPage/LeaderboardPageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PopupBoxes/ConfirmBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PopupBoxes/ConfirmBox.java" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -107,20 +86,20 @@
         <counts>
           <entry key="dummy" value="22" />
           <entry key="fxml" value="241" />
-          <entry key="java" value="26462" />
-          <entry key="txt" value="670" />
+          <entry key="java" value="26556" />
+          <entry key="txt" value="702" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="26462" />
-          <entry key="PLAIN_TEXT" value="692" />
+          <entry key="JAVA" value="26556" />
+          <entry key="PLAIN_TEXT" value="724" />
           <entry key="XML" value="241" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="306" />
+          <entry key="JAVA" value="309" />
           <entry key="PLAIN_TEXT" value="30" />
           <entry key="XML" value="38" />
         </counts>
@@ -129,7 +108,7 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="fxml" value="38" />
-          <entry key="java" value="306" />
+          <entry key="java" value="309" />
           <entry key="txt" value="30" />
         </counts>
       </usages-collector>
@@ -149,87 +128,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/final/GamePage/GamePageController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="364">
-              <caret line="1104" column="7" lean-forward="true" selection-start-line="1099" selection-start-column="4" selection-end-line="1104" selection-end-column="7" />
-              <folding>
-                <element signature="e#2001#6515#0" />
-                <element signature="e#6518#6941#0" />
-                <element signature="e#6944#7892#0" />
-                <element signature="e#7896#8427#0" />
-                <element signature="e#8430#12055#0" />
-                <element signature="e#12058#14364#0" />
-                <element signature="e#14368#16623#0" />
-                <element signature="e#16627#17065#0" />
-                <element signature="e#17069#17417#0" />
-                <element signature="e#18291#20345#0" />
-                <element signature="e#20349#21094#0" />
-                <element signature="e#22154#22717#0" />
-                <element signature="e#22720#23317#0" />
-                <element signature="e#23320#25254#0" />
-                <element signature="e#25257#26833#0" />
-                <element signature="e#26836#27084#0" />
-                <element signature="e#27088#27502#0" />
-                <element signature="e#27505#28311#0" />
-                <element signature="e#28314#28532#0" />
-                <element signature="e#28535#28759#0" />
-                <element signature="e#28972#29205#0" />
-                <element signature="e#29209#31556#0" />
-                <element signature="e#31559#31733#0" />
-                <element signature="e#31736#33134#0" />
-                <element signature="e#33137#33600#0" />
-                <element signature="e#33604#34649#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/GamePage/GamePageController.java">
+        <entry file="file://$PROJECT_DIR$/src/GameObjects/Block.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="353">
-              <caret line="1148" column="39" selection-start-line="1148" selection-start-column="39" selection-end-line="1148" selection-end-column="39" />
+            <state relative-caret-position="272">
+              <caret line="56" column="19" selection-start-line="56" selection-start-column="19" selection-end-line="56" selection-end-column="19" />
               <folding>
-                <element signature="e#2009#6436#0" />
-                <element signature="e#6439#6767#0" />
-                <element signature="e#6770#7770#0" />
-                <element signature="e#7774#8246#0" />
-                <element signature="e#8249#11767#0" />
-                <element signature="e#11770#13997#0" />
-                <element signature="e#14001#16256#0" />
-                <element signature="e#16260#16597#0" />
-                <element signature="e#16601#16862#0" />
-                <element signature="e#17855#18110#0" />
-                <element signature="e#18114#18722#0" />
-                <element signature="e#17518#19460#0" />
-                <element signature="e#20786#21531#0" />
-                <element signature="e#21830#21905#0" />
-                <element signature="e#21830#22005#0" />
-                <element signature="e#22091#22165#0" />
-                <element signature="e#22091#22257#0" />
-                <element signature="e#22335#22409#0" />
-                <element signature="e#20637#20736#0" />
-                <element signature="e#22494#22548#0" />
-                <element signature="e#20739#20836#0" />
-                <element signature="e#22650#22738#0" />
-                <element signature="e#20842#20991#0" />
-                <element signature="e#20994#21480#0" />
-                <element signature="e#21483#22021#0" />
-                <element signature="e#22024#23881#0" />
-                <element signature="e#23884#25385#0" />
-                <element signature="e#25388#25582#0" />
-                <element signature="e#25586#25947#0" />
-                <element signature="e#25950#26702#0" />
-                <element signature="e#26705#26866#0" />
-                <element signature="e#26869#27037#0" />
-                <element signature="e#27151#27318#0" />
-                <element signature="e#27321#29594#0" />
-                <element signature="e#29597#29709#0" />
-                <element signature="e#29712#31238#0" />
-                <element signature="e#31241#31615#0" />
-                <element signature="e#31618#32605#0" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -304,13 +209,10 @@
         <option value="$PROJECT_DIR$/src/LeaderboardPage/LeaderboardScene.fxml" />
         <option value="$PROJECT_DIR$/leaderboard.txt" />
         <option value="$PROJECT_DIR$/lastgame.txt" />
-        <option value="$PROJECT_DIR$/src/GameApplication/Main.java" />
         <option value="$PROJECT_DIR$/src/LeaderboardPage/LeaderboardEntry.java" />
         <option value="$PROJECT_DIR$/src/HomePage/HomePageController.java" />
         <option value="$PROJECT_DIR$/src/LeaderboardPage/LeaderboardPageController.java" />
         <option value="$PROJECT_DIR$/src/PopupBoxes/ConfirmBox.java" />
-        <option value="$PROJECT_DIR$/src/GameObjects/Ball.java" />
-        <option value="$PROJECT_DIR$/src/GameObjects/Block.java" />
         <option value="$PROJECT_DIR$/src/GameObjects/DestroyBlocks.java" />
         <option value="$PROJECT_DIR$/src/GameObjects/ExplosionPart.java" />
         <option value="$PROJECT_DIR$/src/GameObjects/Magnet.java" />
@@ -323,6 +225,9 @@
         <option value="$PROJECT_DIR$/src/GamePage/GameState.java" />
         <option value="$PROJECT_DIR$/final/GamePage/GamePageController.java" />
         <option value="$PROJECT_DIR$/src/GamePage/GamePageController.java" />
+        <option value="$PROJECT_DIR$/src/GameApplication/Main.java" />
+        <option value="$PROJECT_DIR$/src/GameObjects/Ball.java" />
+        <option value="$PROJECT_DIR$/src/GameObjects/Block.java" />
       </list>
     </option>
   </component>
@@ -364,13 +269,13 @@
               <item name="Snake vs Block" type="b2602c69:ProjectViewProjectNode" />
               <item name="Snake vs Block" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="GamePage" type="462c0819:PsiDirectoryNode" />
+              <item name="GameApplication" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Snake vs Block" type="b2602c69:ProjectViewProjectNode" />
               <item name="Snake vs Block" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="LeaderboardPage" type="462c0819:PsiDirectoryNode" />
+              <item name="GameObjects" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -388,7 +293,7 @@
     <property name="OverrideImplement.combined" value="false" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///home/bhavye/Desktop/AP/Project/Snake vs Block/final/GamePage/GameState.java" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543770385806" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543770783272" />
     <property name="dynamic.classpath" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Global Libraries" />
@@ -662,7 +567,14 @@
       <option name="project" value="LOCAL" />
       <updated>1543765359967</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="JavaDoc completed and merged">
+      <created>1543770428116</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1543770428116</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -802,7 +714,8 @@
     <MESSAGE value="all exits handled" />
     <MESSAGE value="minor changes" />
     <MESSAGE value="play again bug fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="play again bug fixed" />
+    <MESSAGE value="JavaDoc completed and merged" />
+    <option name="LAST_COMMIT_MESSAGE" value="JavaDoc completed and merged" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -949,25 +862,6 @@
     <entry file="file://$PROJECT_DIR$/lastgame.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/GameApplication/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="725">
-          <caret line="266" column="21" selection-start-line="266" selection-start-column="21" selection-end-line="266" selection-end-column="21" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#start#0;class#Main#0" />
-            <element signature="method#serializeLeaderboard#0;class#Main#0" />
-            <element signature="method#deserializeLeaderboard#0;class#Main#0" />
-            <element signature="method#updateLeaderBoard#0;class#Main#0" />
-            <element signature="method#areEntriesPresent#0;class#Main#0" />
-            <element signature="method#serializeLastGame#0;class#Main#0" />
-            <element signature="method#deserializeLastGame#0;class#Main#0" />
-            <element signature="method#isGameSaved#0;class#Main#0" />
-            <element signature="method#closeApplication#0;class#Main#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/final/HomePage/HomePageController.java">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -1000,16 +894,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/GameObjects/Ball.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="701">
-          <caret line="76" column="5" selection-start-line="76" selection-start-column="5" selection-end-line="76" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/final/GameObjects/Ball.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="667">
@@ -1021,16 +905,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="556">
           <caret line="82" column="5" lean-forward="true" selection-start-line="26" selection-start-column="4" selection-end-line="82" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/GameObjects/Block.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1861">
-          <caret line="82" column="5" selection-start-line="82" selection-start-column="5" selection-end-line="82" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1303,6 +1177,45 @@
             <element signature="e#29712#31238#0" />
             <element signature="e#31241#31615#0" />
             <element signature="e#31618#32605#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GameApplication/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1711">
+          <caret line="79" column="26" lean-forward="true" selection-start-line="79" selection-start-column="26" selection-end-line="79" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#start#0;class#Main#0" />
+            <element signature="method#serializeLeaderboard#0;class#Main#0" />
+            <element signature="method#deserializeLeaderboard#0;class#Main#0" />
+            <element signature="method#updateLeaderBoard#0;class#Main#0" />
+            <element signature="method#areEntriesPresent#0;class#Main#0" />
+            <element signature="method#serializeLastGame#0;class#Main#0" />
+            <element signature="method#deserializeLastGame#0;class#Main#0" />
+            <element signature="method#isGameSaved#0;class#Main#0" />
+            <element signature="method#closeApplication#0;class#Main#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GameObjects/Ball.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="469">
+          <caret line="70" column="21" selection-start-line="70" selection-start-column="21" selection-end-line="70" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GameObjects/Block.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="56" column="19" selection-start-line="56" selection-start-column="19" selection-end-line="56" selection-end-column="19" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

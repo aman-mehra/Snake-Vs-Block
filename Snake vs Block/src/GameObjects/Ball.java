@@ -22,7 +22,7 @@ public class Ball extends Circle
 
 	/**
 	 * Checks Item Actv=ivity
-	 * @return
+	 * @return boolean value active
 	 * @author Aman M
 	 */
 	public boolean isActive() {
@@ -31,7 +31,7 @@ public class Ball extends Circle
 
 	/**
 	 * Alters Activity of Item
-	 * @param active
+	 * @param active boolean value
 	 * @author Aman M
 	 */
 	public void setActive(boolean active) {
@@ -48,7 +48,7 @@ public class Ball extends Circle
 
 	/**
 	 * Returns ball value
-	 * @return
+	 * @return value
 	 * @author Bhavye
 	 */
 	public String getValue()
@@ -58,7 +58,7 @@ public class Ball extends Circle
 
 	/**
 	 * Sets ball value
-	 * @param value
+	 * @param value string value
 	 * @author Bhavye
 	 */
 	public void setValue(String value)
@@ -68,7 +68,7 @@ public class Ball extends Circle
 
 	/**
 	 * Returns object ID
-	 * @return
+	 * @return int id
 	 * @author Bhavye
 	 */
 	public String getID()
