@@ -48,6 +48,11 @@ public class Magnet extends Circle implements Token
 		return false;
 	}*/
 
+	/**
+	 * Id getter
+	 * @return
+	 * @author Aman M
+	 */
 	public String getID()
 	{
 		return ID;

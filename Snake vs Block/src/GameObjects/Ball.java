@@ -20,28 +20,57 @@ public class Ball extends Circle
 		this.setFill(COLOUR);
 	}
 
+	/**
+	 * Checks Item Actv=ivity
+	 * @return
+	 * @author Aman M
+	 */
 	public boolean isActive() {
 		return active;
 	}
 
+	/**
+	 * Alters Activity of Item
+	 * @param active
+	 * @author Aman M
+	 */
 	public void setActive(boolean active) {
 		this.active = active;
 	}
 
+	/**
+	 * Makes ball invisible
+	 * @author Aman M
+	 */
 	public void eraseBall() {
 		this.COLOUR = Color.valueOf("#FFFFFF");
 	}
 
+	/**
+	 * Returns ball value
+	 * @return
+	 * @author Bhavye
+	 */
 	public String getValue()
 	{
 		return value;
 	}
 
+	/**
+	 * Sets ball value
+	 * @param value
+	 * @author Bhavye
+	 */
 	public void setValue(String value)
 	{
 		this.value = value;
 	}
 
+	/**
+	 * Returns object ID
+	 * @return
+	 * @author Bhavye
+	 */
 	public String getID()
 	{
 		return ID;

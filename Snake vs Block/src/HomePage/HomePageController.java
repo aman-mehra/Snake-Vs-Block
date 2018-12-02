@@ -11,11 +11,24 @@ import javafx.scene.control.Label;
 import java.io.IOException;
 
 
+/**
+ * Controller class for HomePageScene
+ *
+ * @author Bhavye
+ */
+
 public class HomePageController
 {
 	@FXML public Button resumegame;
 	@FXML public Label lastGameScore;
 
+	/**
+	 * Sets up the HomePage before HomePageScene is setted up.
+	 *
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @author Bhavye
+	 */
 	public void setUpHomePage() throws IOException, ClassNotFoundException
 	{
 		//System.out.println("HomePage coming up !");
@@ -33,11 +46,24 @@ public class HomePageController
 		}
 	}
 
+	/**
+	 * Updates Score Label with the score provided.
+	 *
+	 * @param score score of last game.
+	 * @author Bhavye
+	 */
 	public void updateScoreLabel(String score)
 	{
 		lastGameScore.setText("Last Game : " + score);
 	}
 
+	/**
+	 * EventHandler when Start Game button is pressed.
+	 *
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @author Bhavye
+	 */
 	public void startGameButtonPressed() throws IOException, ClassNotFoundException
 	{
 		if(Main.isGameSaved())
@@ -51,18 +77,39 @@ public class HomePageController
 		Main.mainStage.setScene(Main.gamePageScene);
 	}
 
+	/**
+	 * EventHandler when Resume Game button is pressed.
+	 *
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @author Bhavye
+	 */
 	public void resumeGameButtonPressed() throws IOException, ClassNotFoundException
 	{
 		Main.gamePageController.setUpGamePage();
 		Main.mainStage.setScene(Main.gamePageScene);
 	}
 
+	/**
+	 * EventHandler when Show Leaderboard button is pressed.
+	 *
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @author Bhavye
+	 */
 	public void showLeaderboardButtonPressed() throws IOException, ClassNotFoundException
 	{
 		Main.leaderboardPageController.setUpLeaderboardPage();
 		Main.mainStage.setScene(Main.leaderboardPageScene);
 	}
 
+	/**
+	 * EventHandler when Exit button is pressed.
+	 *
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @author Bhavye
+	 */
 	public void exitButtonPressed()
 	{
 		Main.closeApplication();

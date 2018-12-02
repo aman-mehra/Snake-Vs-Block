@@ -19,20 +19,40 @@ public class Wall extends Rectangle
 		this.setFill(Color.valueOf("#FFFFFF"));
 	}
 
+	/**
+	 * Length getter
+	 * @return
+	 * @author Aman M
+	 */
 	public int getLength() {
 		return length;
 	}
 
+	/**
+	 * ID getter
+	 * @return
+	 * @author Aman M
+	 */
 	public String getID()
 	{
 		return ID;
 	}
 
+	/**
+	 * Breadth getter
+	 * @return
+	 * @author Aman M
+	 */
 	public static int getBreadth()
 	{
 		return BREADTH;
 	}
 
+	/**
+	 * Length getter
+	 * @param length
+	 * @author Aman M
+	 */
 	public void setLength(int length)
 	{
 		this.length = length;

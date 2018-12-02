@@ -16,6 +16,13 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.ResourceBundle;
 
+/**
+ *
+ * Controller class for LeaderboardPageScene
+ *
+ * @author Bhavye
+ */
+
 public class LeaderboardPageController implements Initializable
 {
 
@@ -23,6 +30,12 @@ public class LeaderboardPageController implements Initializable
 	@FXML public TableColumn<LeaderboardEntry, Integer> score;
 	@FXML public TableColumn<LeaderboardEntry, String> date;
 
+	/**
+	 * Initializes the LeaderboardPageScene when loaded by FXML loader.
+	 *
+	 * @param location
+	 * @param resources
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
 	{
@@ -30,6 +43,13 @@ public class LeaderboardPageController implements Initializable
 		date.setCellValueFactory(new PropertyValueFactory<>("date"));
 	}
 
+	/**
+	 * Sets up the LeaderboardPage before LeaderboardPageScene is setted up.
+	 *
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @author Bhavye
+	 */
 	public void setUpLeaderboardPage() throws IOException, ClassNotFoundException
 	{
 		//System.out.println("Leaderboard coming up !");
@@ -43,6 +63,13 @@ public class LeaderboardPageController implements Initializable
 		//System.out.println("LB setted up");
 	}
 
+	/**
+	 * EventHandler when Home button is pressed.
+	 *
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @author Bhavye
+	 */
 	public void homeButtonPressed() throws IOException, ClassNotFoundException
 	{
 		Main.homePageController.setUpHomePage();

@@ -32,7 +32,12 @@ public class Snake
 	
 	private static boolean leftMoveBlock=false;
 	private static boolean rightMoveBlock=false;
- 
+
+	/**
+	 * Creates instance of Snake with default values
+	 *
+	 * @author Aman
+	 */
 	public Snake()
 	{
 		this.length = 5; 
@@ -42,6 +47,13 @@ public class Snake
 		initialize_snake();
 	}
 
+	/**
+	 * Creates instance of Snake with parametrised values
+	 *
+	 * @param length length of snake
+	 * @param head_x x coordinate of head
+	 * @author Bhavye
+	 */
 	public Snake(int length, double head_x)
 	{
 		this.length = length;

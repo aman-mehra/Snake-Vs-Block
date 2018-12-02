@@ -30,6 +30,7 @@ public class Main extends Application {
         launch(args);
     }
 
+
     @Override
     public void start(Stage primaryStage) throws IOException, ClassNotFoundException
 	{
@@ -71,7 +72,15 @@ public class Main extends Application {
 		});
     }
 
-    public static void serializeLeaderboard(ArrayList<LeaderboardEntry> scores) throws IOException
+	/**
+	 *
+	 * Serializes the Leaderboard entries into leaderboard.txt file.
+	 *
+	 * @param scores ArrayList of top scores that are to be serialised
+	 * @throws IOException
+	 * @author Bhavye
+	 */
+	public static void serializeLeaderboard(ArrayList<LeaderboardEntry> scores) throws IOException
 	{
 		ObjectOutputStream out = null;
 		try
@@ -90,6 +99,15 @@ public class Main extends Application {
 
 	}
 
+	/**
+	 *
+	 * Deserializes the Leaderboard entries from leaderboard.txt file.
+	 *
+	 * @return An ObservableList containing top scores.
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @author Bhavye
+	 */
     public static ObservableList<LeaderboardEntry> deserializeLeaderboard() throws IOException, ClassNotFoundException
 	{
 		ObjectInputStream in = null;
@@ -113,6 +131,15 @@ public class Main extends Application {
 		return scores;
 	}
 
+	/**
+	 *
+	 * Updates the leaderboard after including the entry provided.
+	 *
+	 * @param entry An entry to be added.
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @author Bhavye
+	 */
 	public static void updateLeaderBoard(LeaderboardEntry entry) throws IOException, ClassNotFoundException
 	{
 		ObservableList<LeaderboardEntry> entries = FXCollections.observableArrayList();
@@ -138,6 +165,13 @@ public class Main extends Application {
 		Main.serializeLeaderboard(updatedEntries);
 	}
 
+	/**
+	 *
+	 * Checks whether there is an entry in leaderboard.txt file or not.
+	 *
+	 * @return true if there is an entry, false otherwise.
+	 * @author Bhavye
+	 */
 	public static boolean areEntriesPresent()
 	{
 		File file = new File("leaderboard.txt");
@@ -146,6 +180,14 @@ public class Main extends Application {
 		return true;
 	}
 
+	/**
+	 *
+	 * Serialises last game state into lastgame.txt file.
+	 *
+	 * @param gameState game state to be serialised
+	 * @throws IOException
+	 * @author Bhavye
+	 */
 	public static void serializeLastGame(GameState gameState) throws IOException
 	{
 		ObjectOutputStream out = null;
@@ -168,6 +210,15 @@ public class Main extends Application {
 		}
 	}
 
+	/**
+	 *
+	 * Deserialises last game state from lastgame.txt file.
+	 *
+	 * @return GameState instance that was deserialised.
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @author Bhavye
+	 */
 	public static GameState deserializeLastGame() throws IOException, ClassNotFoundException
 	{
 		ObjectInputStream in = null;
@@ -188,6 +239,15 @@ public class Main extends Application {
 		return gameState;
 	}
 
+	/**
+	 *
+	 * Checks if there is any saved game data in lastgame.txt file
+	 *
+	 * @return true if found, false otherwise
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @author Bhavye
+	 */
 	public static boolean isGameSaved() throws IOException, ClassNotFoundException
 	{
 		/*File file = new File("lastgame.txt");
@@ -201,6 +261,11 @@ public class Main extends Application {
 		return false;
 	}
 
+	/**
+	 * Closes the application properly.
+	 *
+	 * @author Bhavye
+	 */
 	public static void closeApplication()
 	{
 		boolean ans = ConfirmBox.display("Confirm Exit", "Are you sure you want to exit?");

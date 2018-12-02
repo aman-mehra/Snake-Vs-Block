@@ -31,6 +31,12 @@ import java.util.Date;
 import java.util.Random;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class which controls all events and procedures needed in Gameplay
+ *
+ *
+ * @author Bhavye, Aman M
+ */
 public class GamePageController implements Initializable
 {
 	@FXML public Pane gameArea;
@@ -59,6 +65,13 @@ public class GamePageController implements Initializable
 	
 	private boolean holocaust = false;
 
+	/**
+	 * Initializes the GamePageScene when loaded by FXML loader.
+	 *
+	 * @param location
+	 * @param resources
+	 * @author Bhavye
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
 	{
@@ -66,6 +79,12 @@ public class GamePageController implements Initializable
 		gameLoop();
 	}
 
+	/**
+	 * Initializes game variables and procedures
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @author Aman M,Bhavye
+	 */
 	public void setUpGamePage() throws IOException, ClassNotFoundException
 	{
 		options.getItems().addAll("Restart", "Home");
@@ -186,6 +205,10 @@ public class GamePageController implements Initializable
 		//startTokenGeneration();
 	}
 
+	/**
+	 * Initiates graphics generation and sets up user event handlers
+	 * @author Aman M
+	 */
 	private void setGlobals() {
 		new AnimationTimer()
 		{
@@ -204,6 +227,10 @@ public class GamePageController implements Initializable
 		}.start();
 	}
 
+	/**
+	 * Sets up key events
+	 * @author Aman M
+	 */
 	private void setKeyPressEventHandlers() {
 		Main.gamePageScene.setOnKeyPressed((EventHandler<? super KeyEvent>) new EventHandler<KeyEvent>() {
             @Override
@@ -233,7 +260,11 @@ public class GamePageController implements Initializable
             }
         });
 	}
-	
+
+	/**
+	 * Unsets key event handlers
+	 * @author Aman M
+	 */
 	private void unsetKeyPressEventHandlers() {
 		Main.gamePageScene.setOnKeyPressed((EventHandler<? super KeyEvent>) new EventHandler<KeyEvent>() {
             @Override
@@ -250,6 +281,10 @@ public class GamePageController implements Initializable
         });
 	}
 
+	/**
+	 * The main game loop checks for collisions as well has handles snake motion control
+	 * @author Aman M, Bhavye
+	 */
 	private void gameLoop()	{
 		gameLoopTimer = new AnimationTimer()
 		{
@@ -372,6 +407,11 @@ public class GamePageController implements Initializable
 		};
 	}
 
+	/**
+	 * Animates explosion of blocks
+	 * @param block
+	 * @author Aman M
+	 */
 	private void explode(Block block) {
 		double start_position_x = block.getX()+(block.getSIDE()/2)+(rand.nextDouble()*(block.getSIDE()/4)-(block.getSIDE()/8));
 		double start_position_y = block.getX()+(block.getSIDE()/2)+(rand.nextDouble()*(block.getSIDE()/4)-(block.getSIDE()/8));
@@ -468,24 +508,47 @@ public class GamePageController implements Initializable
 			gameArea.getChildren().add(debris);
 		}
 	}
-	
+
+	/**
+	 * Initiates ball collection animation
+	 * @param pane
+	 * @param ball
+	 * @author Aman M
+	 */
 	private void ballCollection(StackPane pane,Ball ball) {
 		double start_position_x = pane.getTranslateX()+(rand.nextDouble()*(ball.getRadius()/4)-(ball.getRadius()/8));
 		double start_position_y = pane.getTranslateY()+(rand.nextDouble()*(ball.getRadius()/4)-(ball.getRadius()/8));
 		collectAnimation(start_position_x,start_position_y);
 	}
-	
+
+	/**
+	 * Initiates token collection animation
+	 * @param token
+	 * @author Aman M
+	 */
 	private void tokenCollection(Token token) {
 		double start_position_x = token.getX()+(rand.nextDouble()*(15.0/4)-(15.0/8));
 		double start_position_y = token.getY()+(rand.nextDouble()*(15.0/4)-(15.0/8));
 		collectAnimation(start_position_x,start_position_y);
 	}
 
+	/**
+	 * Handles collisions between snake and wall
+	 * @param stackPane
+	 * @param i
+	 * @author Aman M
+	 */
 	private void wallsHandler(StackPane stackPane,int i) {
 		Wall wall=(Wall)stackPane.getChildren().get(0);
 		snake.sideWaysWall(stackPane, wall);
 	}
-	
+
+	/**
+	 * Handles collisions between snake and ball
+	 * @param stackPane
+	 * @param i
+	 * @author Aman M
+	 */
 	private void ballHandler(StackPane stackPane,int i)	{
 		Ball ball = (Ball)stackPane.getChildren().get(0);
 		int value = Integer.parseInt(ball.getValue());
@@ -497,9 +560,15 @@ public class GamePageController implements Initializable
 			gameArea.getChildren().get(i).setVisible(false);
 			gameArea.getChildren().addAll(snake.getBody().subList(snake.getBody().size()-value, snake.getBody().size()));
 		}
-		
+
 	}
-	
+
+	/**
+	 * Handles collisions between snake and block
+	 * @param stackPane
+	 * @param i
+	 * @author Aman M, Bhavye
+	 */
 	private void blocksHandler(StackPane stackPane,int i) {
 		Block block=(Block)stackPane.getChildren().get(0);
 		snake.sideWaysBlock(stackPane, block);
@@ -571,7 +640,13 @@ public class GamePageController implements Initializable
 			}
 		}
 	}
-	
+
+	/**
+	 * Handles collision between snake and destroy block
+	 * @param token
+	 * @param i
+	 * @author Aman M
+	 */
 	private void destroyBlocksHandler(DestroyBlocks token,int i) {
 		holocaust=true;
 		tokenCollection(token);
@@ -591,17 +666,29 @@ public class GamePageController implements Initializable
 			}
 		}
 	}
-	
+
+	/**
+	 * Activates Shield power-up
+	 * @author Aman M
+	 */
 	private void shieldHandler()
 	{
 		snake.setActiveShield(!snake.shieldHasExpired());
 	}
-	
+
+	/**
+	 * Activates Magnet power-up
+	 * @author Aman M
+	 */
 	private void magnetHandler()
 	{
 		snake.setActiveMagnet(!snake.magnetHasExpired());
 	}
-	
+
+	/**
+	 * Pauses block and token animations on screen
+	 * @author Aman M
+	 */
 	public void pauseTransitions() {
     	int i = 0;
     	while (i<transitions.size())
@@ -611,7 +698,11 @@ public class GamePageController implements Initializable
     	}
     	this.isPaused = true;
     }
-    
+
+	/**
+	 * Plays block and token animations on screen
+	 * @author Aman M
+	 */
     public void playTransitions() {
     	int sz = transitions.size();
     	for(int i=0; i<sz; i++)
@@ -621,6 +712,10 @@ public class GamePageController implements Initializable
     	this.isPaused = false;
     }
 
+	/**
+	 * Plays timers on screen
+	 * @author Bhavye
+	 */
     public void playTimers()
 	{
 		blockTimer.start();
@@ -628,6 +723,10 @@ public class GamePageController implements Initializable
 		gameLoopTimer.start();
 	}
 
+	/**
+	 * Puases timers on screen
+	 * @author Bhavye
+	 */
 	public void pauseTimers()
 	{
 		blockTimer.stop();
@@ -635,12 +734,20 @@ public class GamePageController implements Initializable
 		gameLoopTimer.stop();
 	}
 
+	/**
+	 * Alters animation speed to alter game difficulty
+	 * @author Aman M
+	 */
     private void speedModeration()
 	{
 	   animation_speed = Math.max(3-(this.score/250.0),1.8);
 	   offset = (long)(1000*(1+(animation_speed-3)/3));
    }
 
+	/**
+	 * Begins block and wall generation
+	 * @author Aman M,Bhavye
+	 */
 	private void startBlockGeneration()
 	{
 		blockTimer = new AnimationTimer()
@@ -664,6 +771,10 @@ public class GamePageController implements Initializable
 		};
 	}
 
+	/**
+	 * Begins token generation
+	 * @author Aman M,Bhavye
+	 */
 	private void startTokenGeneration()
 	{
 		tokenTimer = new AnimationTimer()
@@ -686,6 +797,10 @@ public class GamePageController implements Initializable
 		};
 	}
 
+	/**
+	 * Implements random block and wall generation
+	 * @author Aman M
+	 */
 	public void generateBlocks()//generates blocks and walls
 	{
 		int[] indices = new int[5];
@@ -743,6 +858,10 @@ public class GamePageController implements Initializable
 		}
 	}
 
+	/**
+	 * Implements random token generation
+	 * @author Aman M,Bhavye
+	 */
 	public void generateToken()
 	{
 		Line path = getTokenPath();
@@ -790,6 +909,10 @@ public class GamePageController implements Initializable
  
 	}
 
+	/**
+	 * Generates block path
+	 * @author Bhavye
+	 */
 	public Line getBlockPath(int index)
 	{
 		Line path = new Line();
@@ -797,7 +920,11 @@ public class GamePageController implements Initializable
 		path.setEndX(50 + index * 100); path.setEndY(1000);
 		return path;
 	}
-	
+
+	/**
+	 * Generates wall path
+	 * @author Aman M
+	 */
 	public Line getWallPath(int index)
 	{
 		Line path = new Line();
@@ -808,6 +935,10 @@ public class GamePageController implements Initializable
 		return path;
 	}
 
+	/**
+	 * Generates token path
+	 * @author Aman M
+	 */
 	public Line getTokenPath()
 	{
 		Line path = new Line();
@@ -826,6 +957,10 @@ public class GamePageController implements Initializable
 		return path;
 	}
 
+	/**
+	 * Generates random colors
+	 * @author Aman M
+	 */
 	public Paint getRandomColour()
 	{
 		String color = "#";
@@ -835,6 +970,10 @@ public class GamePageController implements Initializable
 		return Color.valueOf(color);
 	}
 
+	/**
+	 * Generates block colors
+	 * @author Bhavye
+	 */
 	public Paint getBlockColour(int blockValue)
 	{
 		if(blockValue >= 50)
@@ -842,11 +981,20 @@ public class GamePageController implements Initializable
 		return Color.valueOf(COLOUR[blockValue/5]);
 	}
 
+	/**
+	 * Generates block numbers from an exponentially decaying random PDF
+	 * @author Aman M
+	 */
 	public int getNextBallNumber()
 	{
 	    return  (int)(Math.ceil(Math.log(1-rand.nextDouble())/(-lambda)));
 	}
 
+	/**
+	 * Returns current date
+	 * @author Bhavye
+	 * @return current date and time in HH:mm:ss dd/MM/yyyy format
+	 */
 	public String getCurrentDate()
 	{
 		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
@@ -854,6 +1002,11 @@ public class GamePageController implements Initializable
 		return dateFormat.format(date);
 	}
 
+	/**
+	 * Generates Game State to Save
+	 * @return
+	 * @author Bhavye
+	 */
 	public GameState getCurrentGameState()
 	{
 		GameState gamestate = new GameState(score, getCurrentDate(), offset, animation_speed, snake.getHead_x(), snake.getLength());
@@ -911,12 +1064,21 @@ public class GamePageController implements Initializable
 		return gamestate;
 	}
 
+	/**
+	 * Updates Score
+	 * @param upd
+	 * @author Aman M
+	 */
 	private void updateScore(int upd)
 	{
 		this.score += upd;
 		this.score_box.setText("Score : " + score + " ");
 	}
 
+	/**
+	 * Deletes garbage objects gone out play
+	 * @author Bhavye, Aman M
+	 */
 	public void deleteGarbage()
 	{
 		int i=0;
@@ -962,6 +1124,11 @@ public class GamePageController implements Initializable
 		}
 	}
 
+	/**
+	 * Deletes Snakes body when length decreases
+	 * @param id
+	 * @author Aman M
+	 */
 	public void deleteSnakePart(int id)
 	{
 		for (int i=0;i<gameArea.getChildren().size();i++)
@@ -978,6 +1145,12 @@ public class GamePageController implements Initializable
 		}
 	}
 
+	/**
+	 * Handles Restart and Exit to Home requests
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @author Bhavye
+	 */
 	public void optionSelected() throws IOException, ClassNotFoundException
 	{
 		//pauseTimers();

@@ -40,6 +40,11 @@ public class Shield extends Circle implements Token
 		return false;
 	}*/
 
+	/**
+	 * Returns id
+	 * @return
+	 * @author Bhavye
+	 */
 	public String getID()
 	{
 		return ID;

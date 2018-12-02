@@ -17,7 +17,11 @@ public class ExplosionPart extends Circle{
 		generateColor();
 		this.setFill(COLOUR);
 	}
-	
+
+	/**
+	 * Generates random color
+	 * @author Aman M
+	 */
 	private void generateColor() {
 		String color = "#";
 		for(int i=0; i < 6;i++) {
@@ -25,20 +29,38 @@ public class ExplosionPart extends Circle{
 		}
 		COLOUR = Color.valueOf(color);
 	}
-	
+
+	/**
+	 * Makes object invisible
+	 * @author Aman M
+	 */
 	public void setCollectionColor() {
 		COLOUR = Color.valueOf("#FFFFFF");
 		this.setFill(COLOUR);
 	}
-	
+
+	/**
+	 * Sets radius
+	 * @author Aman M
+	 */
 	public void setCollectionRadius() {
 		this.setRadius(3);
 	}
 
+	/**
+	 * sets x coord
+	 * @param x
+	 * @author Aman M
+	 */
 	public void setX(double x) {
 		this.setCenterX(x);
 	}
-	
+
+	/**
+	 * gets x coord
+	 * @return
+	 * @author Aman M
+	 */
 	public double getX() {
 		return this.getCenterX();
 	}

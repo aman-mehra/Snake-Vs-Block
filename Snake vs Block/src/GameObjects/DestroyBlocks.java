@@ -26,32 +26,47 @@ public class DestroyBlocks extends Circle implements Token
 		this.setFill(new ImagePattern(img));
 
 	}
-	
+
 	@Override
 	public double getX() {
 		return this.getCenterX();
 	}
-	
+
 	@Override
 	public double getY() {
 		return this.getTranslateY()-100;
 	}
 
+	/**
+	 * Id getter
+	 * @return
+	 * @author Bhavye
+	 */
 	public String getID()
 	{
 		return ID;
 	}
 
+	/**
+	 * Score getter
+	 * @return
+	 * @author Bhavye
+	 */
 	public long getScoreCollected()
 	{
 		return scoreCollected;
 	}
 
+	/**
+	 * Updates score
+	 * @param scoreCollected
+	 * @author Aman M
+	 */
 	public void updateScoreCollected(long scoreCollected)
 	{
 		this.scoreCollected += scoreCollected;
 	}
-	
+
 	@Override
 	public boolean isActive() {
 		return isActive;

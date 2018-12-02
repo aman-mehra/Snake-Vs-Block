@@ -24,29 +24,59 @@ public class Block extends Rectangle
 		this.setFill(colour);
 	}
 
+	/**
+	 * Activity getter
+	 * @return
+	 * @author Aman M
+	 */
 	public boolean isActive() {
 		return active;
 	}
 
+	/**
+	 * Activity setter
+	 * @param active
+	 * @author Aman M
+	 */
 	public void setActive(boolean active) {
 		this.active = active;
 	}
 
+	/**
+	 * Value getter
+	 * @return
+	 * @author Bhavye
+	 */
 	public int getValue()
 	{
 		return value;
 	}
 
+	/**
+	 * Value setter
+	 * @param active
+	 * @author Bhavye
+	 */
 	public void setValue(int value)
 	{
 		this.value = value;
 	}
 
+	/**
+	 * Side getter
+	 * @return
+	 * @author Bhavye
+	 */
 	public static int getSIDE()
 	{
 		return SIDE;
 	}
 
+	/**
+	 * ID getter
+	 * @return
+	 * @author Bhavye
+	 */
 	public String getID()
 	{
 		return ID;

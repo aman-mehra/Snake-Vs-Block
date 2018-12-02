@@ -7,10 +7,25 @@ import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-
+/**
+ *
+ * Blueprint for a ConfirmBox
+ *
+ * @author Bhavye
+ */
 public class ConfirmBox
 {
 	private static boolean choice;
+
+	/**
+	 * Creates an instance of ConfirmBox with a message and two buttons
+	 * in a new window and displays it.
+	 *
+	 * @param title title of the window
+	 * @param message message to be displayed/asked
+	 * @return true if yes button is pressed, false otherwise
+	 * @author Bhavye
+	 */
 
 	public static boolean display(String title, String message)
 	{

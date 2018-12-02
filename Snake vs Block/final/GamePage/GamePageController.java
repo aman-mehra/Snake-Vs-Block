@@ -31,8 +31,10 @@ import java.util.Random;
 import java.util.ResourceBundle;
 
 /**
- * Class which controls all events and procedures needed in Gameplay
- * 
+ * Controller class which controls all events and procedures needed in Gameplay
+ *
+ *
+ * @author Bhavye, Aman M
  */
 public class GamePageController
 {
@@ -696,7 +698,7 @@ public class GamePageController
     private void speedModeration()
 	{
 	   animation_speed = Math.max(3-(this.score/250.0),1.8);
-	   offset = (long)(1000*(1+(animation_speed-3)/6));
+	   offset = (long)(1000*(1+(animation_speed-3)/3));
    }
 
     /**
