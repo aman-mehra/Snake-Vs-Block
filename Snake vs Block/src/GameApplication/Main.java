@@ -64,7 +64,7 @@ public class Main extends Application {
 			e.consume();
 			if(mainStage.getScene() == gamePageScene)
 			{
-				//gamePageController.pauseTimers();
+				gamePageController.pauseTimers();
 				gamePageController.pauseTransitions();
 			}
 			closeApplication();

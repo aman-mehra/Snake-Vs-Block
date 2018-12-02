@@ -8,6 +8,7 @@ import javafx.animation.*;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
@@ -30,7 +31,7 @@ import java.util.Date;
 import java.util.Random;
 import java.util.ResourceBundle;
 
-public class GamePageController
+public class GamePageController implements Initializable
 {
 	@FXML public Pane gameArea;
 	@FXML public ComboBox<String> options;
@@ -43,8 +44,8 @@ public class GamePageController
 	private static final Random rand = new Random();
 
 	private long score;
-	private double animation_speed = 3;// 1.8 - 3
-	private long offset = (long)(1000*(1+(animation_speed-3)/3));
+	private double animation_speed;// 1.8 - 3
+	private long offset;
 
 	private static boolean turnLeft, turnRight, isGameOver, isPaused;
 	private static long moveTime;
@@ -52,11 +53,18 @@ public class GamePageController
 	private long blockPrevTime, tokenPrevTime, blockCurrentTime, tokenCurrentTime;
 
 	private ArrayList<PathTransition> transitions;
-	//private AnimationTimer blockTimer, tokenTimer, snakeMovementTimer, gameLoopTimer;
+	private AnimationTimer blockTimer, tokenTimer, snakeMovementTimer, gameLoopTimer;
 
 	private Snake snake;
 	
 	private boolean holocaust = false;
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources)
+	{
+		setGlobals();
+		gameLoop();
+	}
 
 	public void setUpGamePage() throws IOException, ClassNotFoundException
 	{
@@ -70,8 +78,8 @@ public class GamePageController
 		if(!Main.isGameSaved())
 		{
 			score = 0;
-			offset = 1000;
 			animation_speed = 3;
+			offset = (long)(1000*(1+(animation_speed-3)/3));
 			snake = new Snake();
 		}
 		else
@@ -87,8 +95,8 @@ public class GamePageController
 
 			}
 			score = gameState.getScore();
-			offset = gameState.getOffset();
 			animation_speed = gameState.getAnimation_speed();
+			offset = gameState.getOffset();
 			snake = new Snake(gameState.getSnake_length(), gameState.getSnake_head_x());
 
 			/*int sz = gameState.getGameObjects_id().size();
@@ -169,9 +177,10 @@ public class GamePageController
 
 		//System.out.println("Size = " + transitions.size());
 		playTransitions();
+		playTimers();
 
-		setGlobals();
-		gameLoop();
+		//setGlobals();
+		//gameLoop();
 
 		//startBlockGeneration();
 		//startTokenGeneration();
@@ -242,7 +251,7 @@ public class GamePageController
 	}
 
 	private void gameLoop()	{
-		new AnimationTimer()
+		gameLoopTimer = new AnimationTimer()
 		{
 			@Override
 			public void handle(long now)
@@ -360,7 +369,7 @@ public class GamePageController
 					//offset=(long)(8-animation_speed)*150;for speed = 2
 				}
 			}
-		}.start();
+		};
 	}
 
 	private void explode(Block block) {
@@ -469,7 +478,7 @@ public class GamePageController
 	private void tokenCollection(Token token) {
 		double start_position_x = token.getX()+(rand.nextDouble()*(15.0/4)-(15.0/8));
 		double start_position_y = token.getY()+(rand.nextDouble()*(15.0/4)-(15.0/8));
-		//collectAnimation(start_position_x,start_position_y);
+		collectAnimation(start_position_x,start_position_y);
 	}
 
 	private void wallsHandler(StackPane stackPane,int i) {
@@ -528,7 +537,7 @@ public class GamePageController
 					}
 				}
 				else {
-					//pauseTimers();
+					pauseTimers();
 					pauseTransitions();
 					isGameOver = true;
 					LeaderboardEntry entry = new LeaderboardEntry(score, getCurrentDate());
@@ -547,7 +556,7 @@ public class GamePageController
 					catch (IOException e){e.printStackTrace();}
 					catch (ClassNotFoundException e){e.printStackTrace();}
 					try {
-						Thread.sleep(2000);
+						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -612,15 +621,29 @@ public class GamePageController
     	this.isPaused = false;
     }
 
+    public void playTimers()
+	{
+		blockTimer.start();
+		tokenTimer.start();
+		gameLoopTimer.start();
+	}
+
+	public void pauseTimers()
+	{
+		blockTimer.stop();
+		tokenTimer.stop();
+		gameLoopTimer.stop();
+	}
+
     private void speedModeration()
 	{
 	   animation_speed = Math.max(3-(this.score/250.0),1.8);
-	   offset = (long)(1000*(1+(animation_speed-3)/6));
+	   offset = (long)(1000*(1+(animation_speed-3)/3));
    }
 
 	private void startBlockGeneration()
 	{
-		new AnimationTimer()
+		blockTimer = new AnimationTimer()
 		{
 			@Override
 			public void handle(long now)
@@ -638,12 +661,12 @@ public class GamePageController
 				}
 				deleteGarbage();
 			}
-		}.start();
+		};
 	}
 
 	private void startTokenGeneration()
 	{
-		new AnimationTimer()
+		tokenTimer = new AnimationTimer()
 		{
 			@Override
 			public void handle(long now)
@@ -660,7 +683,7 @@ public class GamePageController
 				}
 				deleteGarbage();
 			}
-		}.start();
+		};
 	}
 
 	public void generateBlocks()//generates blocks and walls
@@ -969,6 +992,7 @@ public class GamePageController
 				LeaderboardEntry entry = new LeaderboardEntry(score, getCurrentDate());
 				Main.updateLeaderBoard(entry);
 				Main.gamePageController.setUpGamePage();
+				Main.mainStage.setScene(Main.gamePageScene);
 			}
 			else
 			{
@@ -981,6 +1005,7 @@ public class GamePageController
 			boolean ans = ConfirmBox.display("Confirm Exit", "Are you sure you want to quit?");
 			if(ans)
 			{
+				pauseTimers();
 				GameState gameState = getCurrentGameState();
 				Main.serializeLastGame(gameState);
 				Main.homePageController.setUpHomePage();

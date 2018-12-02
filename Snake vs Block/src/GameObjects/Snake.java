@@ -163,6 +163,7 @@ public class Snake
 		double temp_x;
 
 		head.setTranslateX((prev_x + (dir*vel)));
+		//System.out.println("Velocity = " + vel);
 		//head.setTranslateX((prev_x + (dir*vel)/10));
 
 		prev_x+=radius;
